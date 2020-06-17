@@ -1,0 +1,5 @@
+*.xls
+*.zip
+*.pdf
+git-push.sh
+ONLY-git-push.sh
