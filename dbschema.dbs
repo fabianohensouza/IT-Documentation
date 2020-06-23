@@ -122,12 +122,12 @@
 			<column name="codigo_pa" type="int" jt="4" mandatory="y" />
 			<column name="coop" type="int" jt="4" mandatory="y" />
 			<column name="firewall" type="varchar" length="60" jt="12" />
-			<column name="ip_x0" type="varchar" length="11" jt="12" />
-			<column name="ip_x1" type="varchar" length="11" jt="12" />
-			<column name="ip_x2" type="varchar" length="11" jt="12" />
-			<column name="ip_x3" type="varchar" length="11" jt="12" />
-			<column name="ip_x4" type="varchar" length="11" jt="12" />
-			<column name="ip_x5" type="varchar" length="11" jt="12" />
+			<column name="link_x0" type="varchar" length="80" jt="12" />
+			<column name="link_x1" type="varchar" length="80" jt="12" />
+			<column name="link_x2" type="varchar" length="80" jt="12" />
+			<column name="link_x3" type="varchar" length="80" jt="12" />
+			<column name="link_x4" type="varchar" length="80" jt="12" />
+			<column name="link_x5" type="varchar" length="80" jt="12" />
 			<index name="pk_pa_codigo_pa" unique="PRIMARY_KEY" >
 				<column name="codigo_pa" />
 			</index>
@@ -150,6 +150,8 @@
 			<column name="status_servidor" type="varchar" length="20" jt="12" mandatory="y" />
 			<column name="so_servidor" type="varchar" length="60" jt="12" mandatory="y" />
 			<column name="cadastro_sgpi" type="bool" jt="-7" />
+			<column name="discos" type="varchar" length="100" jt="12" />
+			<column name="volumes" type="varchar" length="100" jt="12" />
 			<column name="memoria" type="int" jt="4" mandatory="y" />
 			<column name="processador" type="varchar" length="40" jt="12" mandatory="y" />
 			<column name="idrad" type="bool" length="11" jt="-7" mandatory="y" />
@@ -208,7 +210,7 @@
 		<entity schema="documentacao" name="pa" color="C1D8EE" x="336" y="368" />
 		<entity schema="documentacao" name="servidores" color="C1D8EE" x="48" y="208" />
 		<entity schema="documentacao" name="usuarios" color="C1D8EE" x="48" y="48" />
-		<callout x="304" y="768" pointer="Round" >
+		<callout x="336" y="720" pointer="Round" >
 			<comment><![CDATA[IC-BD]]></comment>
 		</callout>
 	</layout>
