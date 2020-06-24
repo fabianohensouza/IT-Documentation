@@ -14,11 +14,14 @@ class IndexController extends Action {
 		$this->render('index');
 	}
 
-	public function inscreverse() {
+	public function cadastro() {
 
 		$this->view->usuario = array(
+			'permissao' => '',
 			'nome' => '',
+			'login' => '',
 			'email' => '',
+			'cooperativa' => '',
 			'senha' => ''
 		);
 

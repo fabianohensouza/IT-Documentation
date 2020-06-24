@@ -8,16 +8,18 @@ use MF\Model\Container;
 
 class AuthController extends Action {
 
-	public function autenticar() {
+	public function authenticate() {
 
 		$usuario = Container::getModel('Usuario');
 
-		$usuario->__set('email', $_POST['email']);
+		$usuario->__set('login', $_POST['login']);
 		$usuario->__set('senha', md5($_POST['senha']));
 
-		$usuario->autenticar();
+		$usuario->authenticate();
 
-		if($usuario->__get('id') != '' && $usuario->__get('nome') != '') {
+		print_r($_POST);
+
+		/*if($usuario->__get('id') != '' && $usuario->__get('nome') != '') {
 			
 			session_start();
 
@@ -28,7 +30,7 @@ class AuthController extends Action {
 
 		} else {
 			header('Location: /?login=erro');
-		}
+		}*/
 
 	}
 

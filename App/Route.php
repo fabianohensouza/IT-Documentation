@@ -14,10 +14,10 @@ class Route extends Bootstrap {
 			'action' => 'index'
 		);
 
-		$routes['inscreverse'] = array(
-			'route' => '/inscreverse',
+		$routes['cadastro'] = array(
+			'route' => '/cadastro',
 			'controller' => 'indexController',
-			'action' => 'inscreverse'
+			'action' => 'cadastro'
 		);
 
 		$routes['registrar'] = array(
@@ -26,10 +26,10 @@ class Route extends Bootstrap {
 			'action' => 'registrar'
 		);
 
-		$routes['autenticar'] = array(
-			'route' => '/autenticar',
+		$routes['authenticate'] = array(
+			'route' => '/authenticate',
 			'controller' => 'AuthController',
-			'action' => 'autenticar'
+			'action' => 'authenticate'
 		);
 
 		$routes['sair'] = array(
