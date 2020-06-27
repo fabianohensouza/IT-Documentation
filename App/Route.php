@@ -38,10 +38,10 @@ class Route extends Bootstrap {
 			'action' => 'sair'
 		);
 
-		$routes['timeline'] = array(
-			'route' => '/timeline',
+		$routes['main'] = array(
+			'route' => '/main',
 			'controller' => 'AppController',
-			'action' => 'timeline'
+			'action' => 'main'
 		);
 
 		$routes['tweet'] = array(

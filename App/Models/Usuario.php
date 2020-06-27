@@ -6,7 +6,7 @@ use MF\Model\Model;
 
 class Usuario extends Model {
 
-	private $id;
+	private $id_usuario;
 	private $nome;
 	private $login;
 	private $email;
@@ -67,22 +67,22 @@ class Usuario extends Model {
 
 	//Validar cadastro
 	public function authenticate() {
-		$query = "select id, nome, permissao from usuarios where login = :login and senha = :senha";
+		$query = "select id_usuario, nome, permissao, email from usuarios where login = :login and senha = :senha";
 		$stmt = $this->db->prepare($query);
 		$stmt->bindValue(':login', $this->__get('login'));
 		$stmt->bindValue(':senha', $this->__get('senha'));
-		$stmt->bindValue(':permissao', $this->__get('permissao'));
 		$stmt->execute();
 
 		$usuario = $stmt->fetch(\PDO::FETCH_ASSOC);
 
-		if($usuario['id'] != '' && $usuario['nome'] != '' && $usuario['permissao'] != '') {			
-			$this->__set('id', $usuario['id']);			
+		if($usuario['id_usuario'] != '' && $usuario['nome'] != '' && $usuario['permissao'] != '') {			
+			$this->__set('id_usuario', $usuario['id_usuario']);			
 			$this->__set('nome', $usuario['nome']);	
 			$this->__set('permissao', $usuario['permissao']);
+			$this->__set('email', $usuario['email']);
 		}
 
-		return $this;
+		//return $this;
 
 	}
 

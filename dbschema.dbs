@@ -2,7 +2,7 @@
 <project name="IC" id="Project_22b3" database="MySql" >
 	<schema name="documentacao" >
 		<table name="antivirus" >
-			<column name="coop" type="int" jt="4" mandatory="y" />
+			<column name="coop" type="varchar" length="4" jt="12" mandatory="y" />
 			<column name="servidor" type="varchar" length="40" jt="12" />
 			<column name="url" type="varchar" length="100" jt="12" />
 			<column name="versao" type="varchar" length="60" jt="12" />
@@ -11,12 +11,9 @@
 			<column name="qtd_licencas" type="int" jt="4" />
 			<column name="expiracao" type="date" jt="91" />
 			<column name="usb_liberado" type="text" jt="-1" />
-			<fk name="fk_antivirus_cooperativa" to_schema="documentacao" to_table="cooperativa" >
-				<fk_column name="coop" pk="codigo_coop" />
-			</fk>
 		</table>
 		<table name="aplicacoes" >
-			<column name="coop" type="int" jt="4" mandatory="y" />
+			<column name="coop" type="varchar" length="4" jt="12" mandatory="y" />
 			<column name="servidor" type="varchar" length="40" jt="12" />
 			<column name="nome" type="varchar" length="100" jt="12" />
 			<column name="versao" type="varchar" length="60" jt="12" />
@@ -27,13 +24,10 @@
 			<column name="qtd_licencas" type="int" jt="4" />
 			<column name="expiracao" type="date" jt="91" />
 			<column name="descricao" type="text" jt="-1" />
-			<fk name="fk_antivirus_cooperativa_0" to_schema="documentacao" to_table="cooperativa" >
-				<fk_column name="coop" pk="codigo_coop" />
-			</fk>
 		</table>
 		<table name="backup" >
 			<column name="id_rotina" type="int" jt="4" mandatory="y" autoincrement="y" />
-			<column name="coop" type="int" jt="4" />
+			<column name="coop" type="varchar" length="4" jt="12" />
 			<column name="servidor" type="varchar" length="40" jt="12" />
 			<column name="sistema" type="varchar" length="100" jt="12" />
 			<column name="expiracao" type="date" jt="91" />
@@ -46,22 +40,16 @@
 			<index name="pk_backup_id_rotina" unique="PRIMARY_KEY" >
 				<column name="id_rotina" />
 			</index>
-			<fk name="fk_backup_cooperativa" to_schema="documentacao" to_table="cooperativa" >
-				<fk_column name="coop" pk="codigo_coop" />
-			</fk>
 			<options><![CDATA[engine=InnoDB]]></options>
 		</table>
 		<table name="cfs" >
-			<column name="coop" type="int" jt="4" />
+			<column name="coop" type="varchar" length="4" jt="12" />
 			<column name="qtd_licencas" type="int" jt="4" />
 			<column name="expiracao" type="date" jt="91" />
-			<fk name="fk_cfs_cooperativa" to_schema="documentacao" to_table="cooperativa" >
-				<fk_column name="coop" pk="codigo_coop" />
-			</fk>
 			<options><![CDATA[engine=InnoDB]]></options>
 		</table>
 		<table name="cooperativa" >
-			<column name="codigo_coop" type="int" jt="4" mandatory="y" />
+			<column name="codigo_coop" type="varchar" length="4" jt="12" mandatory="y" />
 			<column name="nome" type="varchar" length="60" jt="12" mandatory="y" />
 			<column name="resp_ti" type="int" length="60" jt="4" />
 			<column name="resp_ic" type="int" length="60" jt="4" />
@@ -70,17 +58,11 @@
 			<index name="pk_cooperativa_codigo" unique="PRIMARY_KEY" >
 				<column name="codigo_coop" />
 			</index>
-			<fk name="fk_cooperativa_respti" to_schema="documentacao" to_table="usuarios" >
-				<fk_column name="resp_ti" pk="id_usuario" />
-			</fk>
-			<fk name="fk_cooperativa_respic" to_schema="documentacao" to_table="usuarios" >
-				<fk_column name="resp_ic" pk="id_usuario" />
-			</fk>
 			<options><![CDATA[engine=InnoDB]]></options>
 		</table>
 		<table name="dhcp" >
-			<column name="coop" type="int" jt="4" mandatory="y" />
-			<column name="pa" type="int" jt="4" mandatory="y" />
+			<column name="coop" type="varchar" length="4" jt="12" mandatory="y" />
+			<column name="pa" type="varchar" length="2" jt="12" mandatory="y" />
 			<column name="provedor" type="varchar" length="40" jt="12" />
 			<column name="range" type="varchar" length="40" jt="12" />
 			<column name="mascara" type="varchar" length="15" jt="12" />
@@ -88,25 +70,16 @@
 			<column name="dns" type="varchar" length="60" jt="12" />
 			<column name="reserva" type="bool" jt="-7" />
 			<column name="filtro" type="bool" jt="-7" />
-			<fk name="fk_dhcp_cooperativa" to_schema="documentacao" to_table="cooperativa" >
-				<fk_column name="coop" pk="codigo_coop" />
-			</fk>
-			<fk name="fk_dhcp_pa" to_schema="documentacao" to_table="pa" >
-				<fk_column name="pa" pk="codigo_pa" />
-			</fk>
 			<options><![CDATA[engine=InnoDB]]></options>
 		</table>
 		<table name="dominio" >
 			<column name="dominio_central" type="bool" jt="-7" mandatory="y" />
 			<column name="nome" type="varchar" length="40" jt="12" mandatory="y" />
-			<column name="coop" type="int" jt="4" mandatory="y" />
+			<column name="coop" type="varchar" length="4" jt="12" mandatory="y" />
 			<column name="dc_primario" type="varchar" length="40" jt="12" />
 			<column name="dc_secundario" type="varchar" length="40" jt="12" />
 			<column name="abrangencia" type="varchar" length="20" jt="12" />
 			<column name="observ" type="mediumtext" jt="-1" />
-			<fk name="fk_ad_cooperativa" to_schema="documentacao" to_table="cooperativa" >
-				<fk_column name="coop" pk="codigo_coop" />
-			</fk>
 			<options><![CDATA[engine=InnoDB]]></options>
 		</table>
 		<table name="modelos_hwsw" >
@@ -119,8 +92,8 @@
 			<options><![CDATA[engine=InnoDB]]></options>
 		</table>
 		<table name="pa" >
-			<column name="codigo_pa" type="int" jt="4" mandatory="y" />
-			<column name="coop" type="int" jt="4" mandatory="y" />
+			<column name="codigo_pa" type="varchar" length="2" jt="12" mandatory="y" />
+			<column name="coop" type="varchar" length="4" jt="12" mandatory="y" />
 			<column name="firewall" type="varchar" length="60" jt="12" />
 			<column name="link_x0" type="varchar" length="80" jt="12" />
 			<column name="link_x1" type="varchar" length="80" jt="12" />
@@ -131,15 +104,12 @@
 			<index name="pk_pa_codigo_pa" unique="PRIMARY_KEY" >
 				<column name="codigo_pa" />
 			</index>
-			<fk name="fk_cooperativa" to_schema="documentacao" to_table="cooperativa" >
-				<fk_column name="coop" pk="codigo_coop" />
-			</fk>
 			<options><![CDATA[engine=InnoDB]]></options>
 		</table>
 		<table name="servidores" >
 			<column name="codigo_servidor" type="int" jt="4" mandatory="y" autoincrement="y" />
-			<column name="coop_servidor" type="int" jt="4" mandatory="y" />
-			<column name="pa_servidor" type="int" jt="4" mandatory="y" />
+			<column name="coop_servidor" type="varchar" length="4" jt="12" mandatory="y" />
+			<column name="pa_servidor" type="varchar" length="2" jt="12" mandatory="y" />
 			<column name="nome" type="varchar" length="40" jt="12" mandatory="y" />
 			<column name="tipo_servidor" type="varchar" length="10" jt="12" />
 			<column name="host_pai" type="varchar" length="40" jt="12" />
@@ -172,27 +142,19 @@
 			<index name="pk_servidores_codigo_servidor" unique="PRIMARY_KEY" >
 				<column name="codigo_servidor" />
 			</index>
-			<fk name="fk_servidores_cooperativa" to_schema="documentacao" to_table="cooperativa" >
-				<fk_column name="coop_servidor" pk="codigo_coop" />
-			</fk>
-			<fk name="fk_servidores_pa" to_schema="documentacao" to_table="pa" >
-				<fk_column name="pa_servidor" pk="codigo_pa" />
-			</fk>
 			<options><![CDATA[engine=InnoDB]]></options>
 		</table>
 		<table name="usuarios" >
 			<column name="id_usuario" type="int" jt="4" mandatory="y" autoincrement="y" />
 			<column name="permissao" type="varchar" length="15" jt="12" mandatory="y" />
 			<column name="nome" type="varchar" length="100" jt="12" mandatory="y" />
+			<column name="login" type="varchar" length="30" jt="12" mandatory="y" />
 			<column name="email" type="varchar" length="60" jt="12" />
-			<column name="cooperativa" type="int" jt="4" mandatory="y" />
-			<column name="senha" type="varchar" length="40" jt="12" mandatory="y" />
+			<column name="cooperativa" type="varchar" length="4" jt="12" mandatory="y" />
+			<column name="senha" type="varchar" length="32" jt="12" mandatory="y" />
 			<index name="pk_usuarios_id_usuario" unique="PRIMARY_KEY" >
 				<column name="id_usuario" />
 			</index>
-			<fk name="fk_usuarios_cooperativa" to_schema="documentacao" to_table="cooperativa" >
-				<fk_column name="cooperativa" pk="codigo_coop" />
-			</fk>
 			<options><![CDATA[engine=InnoDB]]></options>
 		</table>
 	</schema>

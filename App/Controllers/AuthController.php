@@ -17,20 +17,20 @@ class AuthController extends Action {
 
 		$usuario->authenticate();
 
-		print_r($_POST);
+		echo $usuario->__get('id_usuario') . ' / ' . $usuario->__get('nome');
 
-		/*if($usuario->__get('id') != '' && $usuario->__get('nome') != '') {
+		if($usuario->__get('id_usuario') != '' && $usuario->__get('nome') != '') {
 			
 			session_start();
 
-			$_SESSION['id'] = $usuario->__get('id');
+			$_SESSION['id_usuario'] = $usuario->__get('id_usuario');
 			$_SESSION['nome'] = $usuario->__get('nome');
 
-			header('Location: /timeline');
+			header('Location: /main');
 
 		} else {
 			header('Location: /?login=erro');
-		}*/
+		}
 
 	}
 

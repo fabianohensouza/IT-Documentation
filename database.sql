@@ -1,13 +1,7 @@
 CREATE SCHEMA documentacao;
 
-CREATE TABLE documentacao.modelos_hwsw ( 
-	codigo_swhw          int  NOT NULL  AUTO_INCREMENT  PRIMARY KEY,
-	tipo                 varchar(20)  NOT NULL    ,
-	marca_modelo         varchar(60)  NOT NULL    
- ) engine=InnoDB;
-
 CREATE TABLE documentacao.antivirus ( 
-	coop                 int  NOT NULL    ,
+	coop                 varchar(4)  NOT NULL    ,
 	servidor             varchar(40)      ,
 	url                  varchar(100)      ,
 	versao               varchar(60)      ,
@@ -19,7 +13,7 @@ CREATE TABLE documentacao.antivirus (
  );
 
 CREATE TABLE documentacao.aplicacoes ( 
-	coop                 int  NOT NULL    ,
+	coop                 varchar(4)  NOT NULL    ,
 	servidor             varchar(40)      ,
 	nome                 varchar(100)      ,
 	versao               varchar(60)      ,
@@ -34,7 +28,7 @@ CREATE TABLE documentacao.aplicacoes (
 
 CREATE TABLE documentacao.backup ( 
 	id_rotina            int  NOT NULL  AUTO_INCREMENT  PRIMARY KEY,
-	coop                 int      ,
+	coop                 varchar(4)      ,
 	servidor             varchar(40)      ,
 	sistema              varchar(100)      ,
 	expiracao            date      ,
@@ -47,13 +41,13 @@ CREATE TABLE documentacao.backup (
  ) engine=InnoDB;
 
 CREATE TABLE documentacao.cfs ( 
-	coop                 int      ,
+	coop                 varchar(4)      ,
 	qtd_licencas         int      ,
 	expiracao            date      
  ) engine=InnoDB;
 
 CREATE TABLE documentacao.cooperativa ( 
-	codigo_coop          int  NOT NULL    PRIMARY KEY,
+	codigo_coop          varchar(4)  NOT NULL    PRIMARY KEY,
 	nome                 varchar(60)  NOT NULL    ,
 	resp_ti              int      ,
 	resp_ic              int      ,
@@ -62,8 +56,8 @@ CREATE TABLE documentacao.cooperativa (
  ) engine=InnoDB;
 
 CREATE TABLE documentacao.dhcp ( 
-	coop                 int  NOT NULL    ,
-	pa                   int  NOT NULL    ,
+	coop                 varchar(4)  NOT NULL    ,
+	pa                   varchar(2)  NOT NULL    ,
 	provedor             varchar(40)      ,
 	`range`              varchar(40)      ,
 	mascara              varchar(15)      ,
@@ -76,16 +70,22 @@ CREATE TABLE documentacao.dhcp (
 CREATE TABLE documentacao.dominio ( 
 	dominio_central      bool  NOT NULL    ,
 	nome                 varchar(40)  NOT NULL    ,
-	coop                 int  NOT NULL    ,
+	coop                 varchar(4)  NOT NULL    ,
 	dc_primario          varchar(40)      ,
 	dc_secundario        varchar(40)      ,
 	abrangencia          varchar(20)      ,
 	observ               mediumtext      
  ) engine=InnoDB;
 
+CREATE TABLE documentacao.modelos_hwsw ( 
+	codigo_swhw          int  NOT NULL  AUTO_INCREMENT  PRIMARY KEY,
+	tipo                 varchar(20)  NOT NULL    ,
+	marca_modelo         varchar(60)  NOT NULL    
+ ) engine=InnoDB;
+
 CREATE TABLE documentacao.pa ( 
-	codigo_pa            int  NOT NULL    PRIMARY KEY,
-	coop                 int  NOT NULL    ,
+	codigo_pa            varchar(2)  NOT NULL    PRIMARY KEY,
+	coop                 varchar(4)  NOT NULL    ,
 	firewall             varchar(60)      ,
 	link_x0              varchar(80)      ,
 	link_x1              varchar(80)      ,
@@ -97,8 +97,8 @@ CREATE TABLE documentacao.pa (
 
 CREATE TABLE documentacao.servidores ( 
 	codigo_servidor      int  NOT NULL  AUTO_INCREMENT  PRIMARY KEY,
-	coop_servidor        int  NOT NULL    ,
-	pa_servidor          int  NOT NULL    ,
+	coop_servidor        varchar(4)  NOT NULL    ,
+	pa_servidor          varchar(2)  NOT NULL    ,
 	nome                 varchar(40)  NOT NULL    ,
 	tipo_servidor        varchar(10)      ,
 	host_pai             varchar(40)      ,
@@ -134,34 +134,9 @@ CREATE TABLE documentacao.usuarios (
 	id_usuario           int  NOT NULL  AUTO_INCREMENT  PRIMARY KEY,
 	permissao            varchar(15)  NOT NULL    ,
 	nome                 varchar(100)  NOT NULL    ,
+	login                varchar(30)  NOT NULL    ,
 	email                varchar(60)      ,
-	cooperativa          int  NOT NULL    ,
-	senha                varchar(64)  NOT NULL    
+	cooperativa          varchar(4)  NOT NULL    ,
+	senha                varchar(32)  NOT NULL    
  ) engine=InnoDB;
-
-ALTER TABLE documentacao.antivirus ADD CONSTRAINT fk_antivirus_cooperativa FOREIGN KEY ( coop ) REFERENCES documentacao.cooperativa( codigo_coop ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE documentacao.aplicacoes ADD CONSTRAINT fk_antivirus_cooperativa_0 FOREIGN KEY ( coop ) REFERENCES documentacao.cooperativa( codigo_coop ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE documentacao.backup ADD CONSTRAINT fk_backup_cooperativa FOREIGN KEY ( coop ) REFERENCES documentacao.cooperativa( codigo_coop ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE documentacao.cfs ADD CONSTRAINT fk_cfs_cooperativa FOREIGN KEY ( coop ) REFERENCES documentacao.cooperativa( codigo_coop ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE documentacao.cooperativa ADD CONSTRAINT fk_cooperativa_respti FOREIGN KEY ( resp_ti ) REFERENCES documentacao.usuarios( id_usuario ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE documentacao.cooperativa ADD CONSTRAINT fk_cooperativa_respic FOREIGN KEY ( resp_ic ) REFERENCES documentacao.usuarios( id_usuario ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE documentacao.dhcp ADD CONSTRAINT fk_dhcp_cooperativa FOREIGN KEY ( coop ) REFERENCES documentacao.cooperativa( codigo_coop ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE documentacao.dhcp ADD CONSTRAINT fk_dhcp_pa FOREIGN KEY ( pa ) REFERENCES documentacao.pa( codigo_pa ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE documentacao.dominio ADD CONSTRAINT fk_ad_cooperativa FOREIGN KEY ( coop ) REFERENCES documentacao.cooperativa( codigo_coop ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE documentacao.pa ADD CONSTRAINT fk_cooperativa FOREIGN KEY ( coop ) REFERENCES documentacao.cooperativa( codigo_coop ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE documentacao.servidores ADD CONSTRAINT fk_servidores_cooperativa FOREIGN KEY ( coop_servidor ) REFERENCES documentacao.cooperativa( codigo_coop ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE documentacao.servidores ADD CONSTRAINT fk_servidores_pa FOREIGN KEY ( pa_servidor ) REFERENCES documentacao.pa( codigo_pa ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE documentacao.usuarios ADD CONSTRAINT fk_usuarios_cooperativa FOREIGN KEY ( cooperativa ) REFERENCES documentacao.cooperativa( codigo_coop ) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
