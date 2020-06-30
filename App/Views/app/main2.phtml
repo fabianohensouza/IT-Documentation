@@ -1,18 +1,49 @@
-<nav class="navbar navbar-dark sticky-top bg-dark p-0">
-      <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Company name</a>
-      <ul class="navbar-nav mr-auto d-flex flex-row">
-	            <li class="nav-item px-4"><a class="nav-link" href="">Home</a></li>
-	            <li class="nav-item px-4"><a class="nav-link" href="">About</a></li>
-	            <li class="nav-item px-4"><a class="nav-link" href="">Contact</a></li>
+<!--nav class="navbar navbar-expand-lg menu">
+	<div class="container">
+	  <div class="navbar-nav">
+	  	<a class="menuItem" href="/timeline">
+	  		Home
+	  	</a>
+
+	  	<a class="menuItem" href="/sair">
+	  		Sair
+	  	</a>
+			<img src="/img/twitter_logo.png" class="menuIco" />
+	  </div>
+	</div>
+</nav-->
+
+<div class="container">
+  <nav class="navbar navbar-expand-lg navbar-light bg-dark">
+    <a class="navbar-brand" href="#">Navbar</a>
+  </nav>
+</div>
+
+<!-- menu -->
+<div class="nav-side-menu">
+	<div class="brand">SEU LOGO AQUI</div>
+	<i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
+		  
+	<div class="menu-list">
+		
+	    <ul id="menu-content" class="menu-content collapse out">
+	        <li>
+	            <a href="#" id="dashboard"><i class="fa fa-tachometer-alt sidebar-icon"></i> Dashboard</a>
+	        </li>
+		                
+	        <li  data-toggle="collapse" data-target="#ajuda" class="collapsed">
+	            <a href="#"><i class="fa fa-life-ring sidebar-icon"></i> Ajuda <span class="arrow"><i class="fa fa-angle-down"></i></spam></a>
+	        </li>
+	        <ul class="sub-menu collapse" id="ajuda">
+	            <li><a href="#" id="documentacao"><i class="fa fa-angle-right"></i> Documentação</a></li>
+	            <li><a href="#" id="suporte"><i class="fa fa-angle-right"></i> Suporte <small><i class="fa fa-external-link"></i></small></a></li>
+	            <li><a href="#" id="sobrenos"><i class="fa fa-angle-right"></i> Sobre Nós <small><i class="fa fa-external-link"></i></small></a></li>
 	        </ul>
-      <ul class="navbar-nav px-3">
-        <li class="nav-item text-nowrap">
-          <a class="nav-link" href="#">Sign out</a>
-        </li>
-      </ul>
-    </nav>
+	    </ul>
+	</div>
+</div>
 
-
+<!-- paginas -->
 <div class="main" id="pagina">
 		    
     <div class="container">
