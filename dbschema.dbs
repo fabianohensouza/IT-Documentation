@@ -55,6 +55,7 @@
 			<column name="resp_ic" type="int" length="60" jt="4" />
 			<column name="qtd_usuarios" type="int" jt="4" />
 			<column name="qtd_equip" type="int" jt="4" />
+			<column name="adesao" type="date" length="10" decimal="0" jt="91" />
 			<index name="pk_cooperativa_codigo" unique="PRIMARY_KEY" >
 				<column name="codigo_coop" />
 			</index>
@@ -68,8 +69,8 @@
 			<column name="mascara" type="varchar" length="15" jt="12" />
 			<column name="gateway" type="varchar" length="15" jt="12" />
 			<column name="dns" type="varchar" length="60" jt="12" />
-			<column name="reserva" type="bool" jt="-7" />
-			<column name="filtro" type="bool" jt="-7" />
+			<column name="reserva" type="boolean" jt="-7" />
+			<column name="filtro" type="boolean" jt="-7" />
 			<options><![CDATA[engine=InnoDB]]></options>
 		</table>
 		<table name="dominio" >
@@ -105,6 +106,21 @@
 				<column name="codigo_pa" />
 			</index>
 			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="relatorios" >
+			<column name="id_relatorio" type="int" length="10" decimal="0" jt="4" mandatory="y" autoincrement="y" />
+			<column name="cooperativa" type="varchar" length="4" jt="12" mandatory="y" />
+			<column name="status" type="varchar" length="20" jt="12" />
+			<column name="responsavel" type="varchar" length="60" jt="12" />
+			<column name="arquivo" type="varchar" length="256" jt="12" />
+			<column name="tipo" type="varchar" length="20" jt="12" />
+			<column name="data_amissao" type="date" length="10" decimal="0" jt="91" />
+			<column name="visita" type="boolean" length="1" decimal="0" jt="-7" />
+			<column name="id_visita" type="int" length="10" decimal="0" jt="4" />
+			<column name="detalhes" type="mediumtext" jt="-1" />
+			<index name="pk_relatorios" unique="PRIMARY_KEY" >
+				<column name="id_relatorio" />
+			</index>
 		</table>
 		<table name="servidores" >
 			<column name="codigo_servidor" type="int" jt="4" mandatory="y" autoincrement="y" />
@@ -152,8 +168,23 @@
 			<column name="email" type="varchar" length="60" jt="12" />
 			<column name="cooperativa" type="varchar" length="4" jt="12" mandatory="y" />
 			<column name="senha" type="varchar" length="32" jt="12" mandatory="y" />
+			<column name="equipe" type="varchar" length="20" jt="12" />
 			<index name="pk_usuarios_id_usuario" unique="PRIMARY_KEY" >
 				<column name="id_usuario" />
+			</index>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="visita" >
+			<column name="id_visita" type="int" jt="4" mandatory="y" autoincrement="y" />
+			<column name="coop" type="varchar" length="4" jt="12" />
+			<column name="status" type="varchar" length="20" jt="12" />
+			<column name="tipo" type="varchar" length="20" jt="12" />
+			<column name="responsavel" type="varchar" length="60" jt="12" />
+			<column name="data-ida" type="date" jt="91" />
+			<column name="data-retorno" type="date" jt="91" />
+			<column name="detalhes" type="mediumtext" jt="-1" />
+			<index name="pk_visita_id_visita" unique="PRIMARY_KEY" >
+				<column name="id_visita" />
 			</index>
 			<options><![CDATA[engine=InnoDB]]></options>
 		</table>
@@ -161,19 +192,18 @@
 	<connector name="Documentação" database="MySql" driver_class="com.mysql.jdbc.Driver" driver_jar="mysql-connector-java-8.0.19.jar" driver_desc="Standard" host="localhost" port="3306" instance="documentacao" user="root" />
 	<layout name="Default Layout" id="Layout_19de" show_column_type="y" show_relation="columns" >
 		<comment><![CDATA[IC]]></comment>
-		<entity schema="documentacao" name="antivirus" color="3986C1" x="576" y="272" />
-		<entity schema="documentacao" name="aplicacoes" color="3986C1" x="864" y="448" />
-		<entity schema="documentacao" name="backup" color="C1D8EE" x="848" y="48" />
-		<entity schema="documentacao" name="cfs" color="C1D8EE" x="864" y="304" />
-		<entity schema="documentacao" name="cooperativa" color="C1D8EE" x="320" y="96" />
-		<entity schema="documentacao" name="dhcp" color="C1D8EE" x="608" y="496" />
-		<entity schema="documentacao" name="dominio" color="C1D8EE" x="576" y="48" />
-		<entity schema="documentacao" name="modelos_hwsw" color="C1D8EE" x="320" y="592" />
-		<entity schema="documentacao" name="pa" color="C1D8EE" x="336" y="368" />
-		<entity schema="documentacao" name="servidores" color="C1D8EE" x="48" y="208" />
+		<entity schema="documentacao" name="antivirus" color="3986C1" x="304" y="528" />
+		<entity schema="documentacao" name="aplicacoes" color="3986C1" x="544" y="432" />
+		<entity schema="documentacao" name="backup" color="C1D8EE" x="784" y="48" />
+		<entity schema="documentacao" name="cfs" color="C1D8EE" x="544" y="672" />
+		<entity schema="documentacao" name="cooperativa" color="C1D8EE" x="304" y="48" />
+		<entity schema="documentacao" name="dhcp" color="C1D8EE" x="544" y="224" />
+		<entity schema="documentacao" name="dominio" color="C1D8EE" x="544" y="48" />
+		<entity schema="documentacao" name="modelos_hwsw" color="C1D8EE" x="304" y="416" />
+		<entity schema="documentacao" name="pa" color="C1D8EE" x="304" y="208" />
+		<entity schema="documentacao" name="relatorios" color="3986C1" x="784" y="288" />
+		<entity schema="documentacao" name="servidores" color="C1D8EE" x="48" y="240" />
 		<entity schema="documentacao" name="usuarios" color="C1D8EE" x="48" y="48" />
-		<callout x="336" y="720" pointer="Round" >
-			<comment><![CDATA[IC-BD]]></comment>
-		</callout>
+		<entity schema="documentacao" name="visita" color="C1D8EE" x="784" y="528" />
 	</layout>
 </project>

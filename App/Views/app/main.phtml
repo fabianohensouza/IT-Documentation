@@ -18,27 +18,27 @@
     <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
       <div class="sidebar-sticky pt-3">
         <ul class="nav flex-column">
-          <li class="nav-item">
+          <li class="nav-item side-item">
             <a class="nav-link active" href="#">
-              <i class="fas fa-tachometer-alt px-2"></i>
+              <img class="side-icon" src="icons/dashboard-icon.svg">
               Dashboard <span class="sr-only">(current)</span>
             </a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item side-item">
             <a class="nav-link" href="#">
-              <i class="fas fa-users-cog px-2"></i>
+              <img class="side-icon" src="icons/users-icon.svg">
               Gestão de Usuários <span class="sr-only"></span>
             </a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item side-item">
             <a class="nav-link" href="#">
-              <i class="fas fa-list px-2"></i>
+              <img class="side-icon" src="icons/list-icon.svg">
               Consultar Itens <span class="sr-only"></span>
             </a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item side-item">
             <a class="nav-link" href="#">
-              <i class="fas fa-file-invoice px-2"></i>
+              <img class="side-icon" src="icons/doc-icon.svg">
               Documentação <span class="sr-only"></span>
             </a>
           </li>
@@ -49,51 +49,51 @@
         </h6>
 
         <ul class="nav flex-column">
-          <li class="nav-item">
+          <li class="nav-item side-item">
             <a class="nav-link" href="#">
-              <i class="far fa-building px-2"></i>
+              <img class="side-icon" src="icons/coop-icon.svg">
               Cooperativa <span class="sr-only"></span>
             </a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item side-item">
             <a class="nav-link" href="#">
-              <i class="fas fa-map-marker-alt px-2"></i>
+              <img class="side-icon" src="icons/pa-icon.svg">
               Ponto de Atendimento <span class="sr-only"></span>
             </a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item side-item">
             <a class="nav-link" href="#">
-              <i class="fas fa-server px-2"></i>
+              <img class="side-icon" src="icons/server-icon.svg">
               Servidores <span class="sr-only"></span>
             </a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item side-item">
             <a class="nav-link" href="#">
-              <i class="fas fa-network-wired px-2"></i>
+              <img class="side-icon" src="icons/network-icon.svg">
               Serviços de Rede <span class="sr-only"></span>
             </a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item side-item">
             <a class="nav-link" href="#">
-              <i class="fas fa-shield-alt px-2"></i>
+              <img class="side-icon" src="icons/security-icon.svg">
               Sistemas de Segurança <span class="sr-only"></span>
             </a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item side-item">
             <a class="nav-link" href="#">
-              <i class="fas fa-undo-alt px-2"></i>
+              <img class="side-icon" src="icons/backup-icon.svg">
               Rotinas de Backup <span class="sr-only"></span>
             </a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item side-item">
             <a class="nav-link" href="#">
-              <i class="fas fa-cogs px-2"></i>
+              <img class="side-icon" src="icons/apps-icon.svg">
               Outras Aplicações <span class="sr-only"></span>
             </a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item side-item">
             <a class="nav-link" href="#">
-              <i class="fas fa-cogs px-2"></i>
+              <img class="side-icon" src="icons/report-icon.svg">
               Relatório de Avaliação <span class="sr-only"></span>
             </a>
           </li>
@@ -103,117 +103,10 @@
 
     <div class="main" id="pagina">
 		    
-		    <div class="container">
+		    <?php 
           
-          <div class="row mb-3">
-            <div class="col-md-4">
-              <div class="card">
-                <div class="card-header">
-                  Cooperativas Administradas
-                </div>
-                <div class="card-body">
-                  <h5 class="card-title" id="numerovendas">?</h5>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-md-4">
-              <div class="card">
-                <div class="card-header">
-                  Número de PAs
-                </div>
-                <div class="card-body">
-                  <h5 class="card-title" id="totalvendas">?</h5>
-                </div>
-              </div>
-            </div>
-          
-            <div class="col-md-4">
-              <div class="card">
-                <div class="card-header">
-                  Usuários Cooperativas
-                </div>
-                <div class="card-body">
-                  <h5 class="card-title">?</h5>
-                </div>
-              </div>
-            </div>
-
-          </div>
-          
-          <div class="row mb-3">
-            <div class="col-md-4">
-              <div class="card">
-                <div class="card-header">
-                  Computadores gerenciados
-                </div>
-                <div class="card-body">
-                  <h5 class="card-title" id="numerovendas">?</h5>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-md-4">
-              <div class="card">
-                <div class="card-header">
-                  Servidores gerenciados
-                </div>
-                <div class="card-body">
-                  <h5 class="card-title" id="totalvendas">?</h5>
-                </div>
-              </div>
-            </div>
-          
-            <div class="col-md-4">
-              <div class="card">
-                <div class="card-header">
-                  Firewalls gerenciados
-                </div>
-                <div class="card-body">
-                  <h5 class="card-title">?</h5>
-                </div>
-              </div>
-            </div>
-
-          </div>
-          
-          <div class="row mb-3">
-            <div class="col-md-4">
-              <div class="card">
-                <div class="card-header">
-                  Equipe Infra-Credis
-                </div>
-                <div class="card-body">
-                  <h5 class="card-title" id="numerovendas">?</h5>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-md-4">
-              <div class="card">
-                <div class="card-header">
-                  Visitas realizadas
-                </div>
-                <div class="card-body">
-                  <h5 class="card-title" id="totalvendas">?</h5>
-                </div>
-              </div>
-            </div>
-          
-            <div class="col-md-4">
-              <div class="card">
-                <div class="card-header">
-                  Relatórios Emitidos
-                </div>
-                <div class="card-body">
-                  <h5 class="card-title">?</h5>
-                </div>
-              </div>
-            </div>
-
-          </div>
-
-				
-		    </div>
+          include 'screens/dashboard.phtml';
+        
+        ?>
 
 		</div>

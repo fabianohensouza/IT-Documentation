@@ -52,7 +52,8 @@ CREATE TABLE documentacao.cooperativa (
 	resp_ti              int      ,
 	resp_ic              int      ,
 	qtd_usuarios         int      ,
-	qtd_equip            int      
+	qtd_equip            int      ,
+	adesao               date      
  ) engine=InnoDB;
 
 CREATE TABLE documentacao.dhcp ( 
@@ -94,6 +95,19 @@ CREATE TABLE documentacao.pa (
 	link_x4              varchar(80)      ,
 	link_x5              varchar(80)      
  ) engine=InnoDB;
+
+CREATE TABLE documentacao.relatorios ( 
+	id_relatorio         int  NOT NULL  AUTO_INCREMENT  PRIMARY KEY,
+	cooperativa          varchar(4)  NOT NULL    ,
+	status               varchar(20)      ,
+	responsavel          varchar(60)      ,
+	arquivo              varchar(256)      ,
+	tipo                 varchar(20)      ,
+	data_amissao         date      ,
+	visita               boolean      ,
+	id_visita            int      ,
+	detalhes             mediumtext      
+ );
 
 CREATE TABLE documentacao.servidores ( 
 	codigo_servidor      int  NOT NULL  AUTO_INCREMENT  PRIMARY KEY,
@@ -137,6 +151,18 @@ CREATE TABLE documentacao.usuarios (
 	login                varchar(30)  NOT NULL    ,
 	email                varchar(60)      ,
 	cooperativa          varchar(4)  NOT NULL    ,
-	senha                varchar(32)  NOT NULL    
+	senha                varchar(32)  NOT NULL    ,
+	equipe               varchar(20)      
+ ) engine=InnoDB;
+
+CREATE TABLE documentacao.visita ( 
+	id_visita            int  NOT NULL  AUTO_INCREMENT  PRIMARY KEY,
+	coop                 varchar(4)      ,
+	status               varchar(20)      ,
+	tipo                 varchar(20)      ,
+	responsavel          varchar(60)      ,
+	`data-ida`           date      ,
+	`data-retorno`       date      ,
+	detalhes             mediumtext      
  ) engine=InnoDB;
 

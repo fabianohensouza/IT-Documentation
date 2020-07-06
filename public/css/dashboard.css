@@ -46,6 +46,11 @@ body {
 
 .sidebar .nav-link {
   font-weight: 500;
+  color: #737373;
+}
+
+.sidebar:hover, .nav-link:hover {
+  font-weight: 550;
   color: #333;
 }
 
@@ -102,6 +107,16 @@ body {
   box-shadow: 0 0 0 3px rgba(255, 255, 255, .25);
 }
 
-/*div.card {
-  width: 900px;
-}*/
+.side-icon {
+  width: 33.5px;
+  height: 13.5px;
+  padding: 0px 8px;
+}
+
+.side-item:hover {
+  background-color: #d9d9d9;
+}
+
+div.col-md-4 {
+  width: 300px;
+}
