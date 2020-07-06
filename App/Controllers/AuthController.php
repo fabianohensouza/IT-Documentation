@@ -25,6 +25,7 @@ class AuthController extends Action {
 
 			$_SESSION['id_usuario'] = $usuario->__get('id_usuario');
 			$_SESSION['nome'] = $usuario->__get('nome');
+			$_SESSION['permissao'] = $usuario->__get('permissao');
 
 			header('Location: /main');
 
@@ -34,7 +35,7 @@ class AuthController extends Action {
 
 	}
 
-	public function sair() {
+	public function logout() {
 
 		session_start();
 		session_destroy();

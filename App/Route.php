@@ -32,10 +32,10 @@ class Route extends Bootstrap {
 			'action' => 'authenticate'
 		);
 
-		$routes['sair'] = array(
-			'route' => '/sair',
+		$routes['logout'] = array(
+			'route' => '/logout',
 			'controller' => 'AuthController',
-			'action' => 'sair'
+			'action' => 'logout'
 		);
 
 		$routes['main'] = array(

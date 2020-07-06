@@ -56,6 +56,7 @@
 			<column name="qtd_usuarios" type="int" jt="4" />
 			<column name="qtd_equip" type="int" jt="4" />
 			<column name="adesao" type="date" length="10" decimal="0" jt="91" />
+			<column name="site_unificado" type="boolean" jt="-7" />
 			<index name="pk_cooperativa_codigo" unique="PRIMARY_KEY" >
 				<column name="codigo_coop" />
 			</index>
@@ -135,7 +136,7 @@
 			<column name="data_garantia" type="date" jt="91" />
 			<column name="status_servidor" type="varchar" length="20" jt="12" mandatory="y" />
 			<column name="so_servidor" type="varchar" length="60" jt="12" mandatory="y" />
-			<column name="cadastro_sgpi" type="bool" jt="-7" />
+			<column name="cadastro_sgpi" type="boolean" jt="-7" />
 			<column name="discos" type="varchar" length="100" jt="12" />
 			<column name="volumes" type="varchar" length="100" jt="12" />
 			<column name="memoria" type="int" jt="4" mandatory="y" />
@@ -143,16 +144,16 @@
 			<column name="idrad" type="bool" length="11" jt="-7" mandatory="y" />
 			<column name="ip_idrac" type="varchar" length="15" jt="12" />
 			<column name="ip_lan" type="varchar" length="15" jt="12" />
-			<column name="monitorado_zbx" type="bool" jt="-7" />
+			<column name="monitorado_zbx" type="boolean" jt="-7" />
 			<column name="ip_mult" type="varchar" length="15" jt="12" />
-			<column name="fnc_dc" type="bool" jt="-7" />
-			<column name="fnc_dns" type="bool" jt="-7" />
-			<column name="fnc_dhcp" type="bool" jt="-7" />
-			<column name="fnc_wsus" type="bool" jt="-7" />
-			<column name="fnc_web" type="bool" jt="-7" />
-			<column name="fnc_av" type="bool" jt="-7" />
-			<column name="fnc_fs" type="bool" jt="-7" />
-			<column name="fnc_bkp" type="bool" jt="-7" />
+			<column name="fnc_dc" type="boolean" jt="-7" />
+			<column name="fnc_dns" type="boolean" jt="-7" />
+			<column name="fnc_dhcp" type="boolean" jt="-7" />
+			<column name="fnc_wsus" type="boolean" jt="-7" />
+			<column name="fnc_web" type="boolean" jt="-7" />
+			<column name="fnc_av" type="boolean" jt="-7" />
+			<column name="fnc_fs" type="boolean" jt="-7" />
+			<column name="fnc_bkp" type="boolean" jt="-7" />
 			<column name="dominio_servidor" type="varchar" length="40" jt="12" />
 			<column name="observ" type="mediumtext" jt="-1" />
 			<index name="pk_servidores_codigo_servidor" unique="PRIMARY_KEY" >
@@ -192,15 +193,15 @@
 	<connector name="Documentação" database="MySql" driver_class="com.mysql.jdbc.Driver" driver_jar="mysql-connector-java-8.0.19.jar" driver_desc="Standard" host="localhost" port="3306" instance="documentacao" user="root" />
 	<layout name="Default Layout" id="Layout_19de" show_column_type="y" show_relation="columns" >
 		<comment><![CDATA[IC]]></comment>
-		<entity schema="documentacao" name="antivirus" color="3986C1" x="304" y="528" />
+		<entity schema="documentacao" name="antivirus" color="3986C1" x="304" y="560" />
 		<entity schema="documentacao" name="aplicacoes" color="3986C1" x="544" y="432" />
 		<entity schema="documentacao" name="backup" color="C1D8EE" x="784" y="48" />
 		<entity schema="documentacao" name="cfs" color="C1D8EE" x="544" y="672" />
 		<entity schema="documentacao" name="cooperativa" color="C1D8EE" x="304" y="48" />
 		<entity schema="documentacao" name="dhcp" color="C1D8EE" x="544" y="224" />
 		<entity schema="documentacao" name="dominio" color="C1D8EE" x="544" y="48" />
-		<entity schema="documentacao" name="modelos_hwsw" color="C1D8EE" x="304" y="416" />
-		<entity schema="documentacao" name="pa" color="C1D8EE" x="304" y="208" />
+		<entity schema="documentacao" name="modelos_hwsw" color="C1D8EE" x="304" y="448" />
+		<entity schema="documentacao" name="pa" color="C1D8EE" x="304" y="240" />
 		<entity schema="documentacao" name="relatorios" color="3986C1" x="784" y="288" />
 		<entity schema="documentacao" name="servidores" color="C1D8EE" x="48" y="240" />
 		<entity schema="documentacao" name="usuarios" color="C1D8EE" x="48" y="48" />
