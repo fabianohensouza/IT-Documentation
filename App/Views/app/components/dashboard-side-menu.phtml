@@ -1,7 +1,7 @@
 <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
       <div class="sidebar-sticky pt-3">
         <ul class="nav flex-column">
-          <li class="nav-item side-item">
+          <li class="nav-item side-item" id="dashboard">
             <a class="nav-link active" href="#">
               <img class="side-icon" src="icons/dashboard-icon.svg">
               Dashboard <span class="sr-only">(current)</span>
@@ -10,7 +10,7 @@
 
           <?php if($_SESSION['permissao'] == 'admin') { ?>
           
-          <li class="nav-item side-item">
+          <li class="nav-item side-item" id="usuarios">
             <a class="nav-link" href="#">
               <img class="side-icon" src="icons/users-icon.svg">
               Gestão de Usuários <span class="sr-only"></span>
@@ -19,13 +19,13 @@
 
           <?php } ?>
 
-          <li class="nav-item side-item">
+          <li class="nav-item side-item" id="consulta">
             <a class="nav-link" href="#">
               <img class="side-icon" src="icons/list-icon.svg">
               Consultar Itens <span class="sr-only"></span>
             </a>
           </li>
-          <li class="nav-item side-item">
+          <li class="nav-item side-item" id="documentacao">
             <a class="nav-link" href="#">
               <img class="side-icon" src="icons/doc-icon.svg">
               Documentação <span class="sr-only"></span>
@@ -40,49 +40,55 @@
         </h6>
 
         <ul class="nav flex-column">
-          <li class="nav-item side-item">
+          <li class="nav-item side-item" id="cooperativa">
             <a class="nav-link" href="#">
               <img class="side-icon" src="icons/coop-icon.svg">
               Cooperativa <span class="sr-only"></span>
             </a>
           </li>
-          <li class="nav-item side-item">
+          <li class="nav-item side-item" id="pa">
             <a class="nav-link" href="#">
               <img class="side-icon" src="icons/pa-icon.svg">
               Ponto de Atendimento <span class="sr-only"></span>
             </a>
           </li>
-          <li class="nav-item side-item">
+          <li class="nav-item side-item" id="servidores">
             <a class="nav-link" href="#">
               <img class="side-icon" src="icons/server-icon.svg">
               Servidores <span class="sr-only"></span>
             </a>
           </li>
-          <li class="nav-item side-item">
+          <li class="nav-item side-item" id="servicos">
             <a class="nav-link" href="#">
               <img class="side-icon" src="icons/network-icon.svg">
               Serviços de Rede <span class="sr-only"></span>
             </a>
           </li>
-          <li class="nav-item side-item">
+          <li class="nav-item side-item" id="seguranca">
             <a class="nav-link" href="#">
               <img class="side-icon" src="icons/security-icon.svg">
               Sistemas de Segurança <span class="sr-only"></span>
             </a>
           </li>
-          <li class="nav-item side-item">
+          <li class="nav-item side-item" id="backup">
             <a class="nav-link" href="#">
               <img class="side-icon" src="icons/backup-icon.svg">
               Rotinas de Backup <span class="sr-only"></span>
             </a>
           </li>
-          <li class="nav-item side-item">
+          <li class="nav-item side-item" id="aplicacoes">
             <a class="nav-link" href="#">
               <img class="side-icon" src="icons/apps-icon.svg">
               Outras Aplicações <span class="sr-only"></span>
             </a>
           </li>
-          <li class="nav-item side-item">
+          <li class="nav-item side-item" id="visitas">
+            <a class="nav-link" href="#">
+              <img class="side-icon" src="icons/travel-icon.svg">
+              Visitas Infra-Credis <span class="sr-only"></span>
+            </a>
+          </li>
+          <li class="nav-item side-item" id="relatorios">
             <a class="nav-link" href="#">
               <img class="side-icon" src="icons/report-icon.svg">
               Relatório de Avaliação <span class="sr-only"></span>

@@ -120,3 +120,11 @@ body {
 div.col-md-4 {
   width: 300px;
 }
+
+a.nav-link {
+  color: #545b62;
+}
+
+a.nav-link:hover {
+  color: #1d2124;
+}

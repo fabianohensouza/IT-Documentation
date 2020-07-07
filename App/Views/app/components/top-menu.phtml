@@ -4,7 +4,11 @@
     <li class="nav-item px-4"><a class="nav-link" href="/main">Documentação</a></li>
     <li class="nav-item px-4"><a class="nav-link" href="/implantacao">Implantação</a></li>
     <li class="nav-item px-4"><a class="nav-link" href="/monitoramento">Monitoramento</a></li>
+
+    <?php if($_SESSION['permissao'] == 'edit' || $_SESSION['permissao'] == 'admin') { ?>
     <li class="nav-item px-4"><a class="nav-link" href="/rateio">Rateio</a></li>
+    <?php } ?>
+    
   </ul>
   <ul class="navbar-nav px-3">
     <li class="nav-item text-nowrap">

@@ -12,30 +12,32 @@ class AppController extends Action {
 
 		$this->validaAutenticacao();
 
-		/*$tweet = Container::getModel('Tweet');
-		$tweet->__set('id_usuarios', $_SESSION['id_usuario']);
+		$this->render('main.phtml');
+	}
 
-		$usuario = Container::getModel('Usuario');
-		$usuario->__set('id', $_SESSION['id_usuario']);
+	public function rateio() {
 
-		//Variaveis de páginação
-		$total_tweets_pagina = 10;
+		$this->validaAutenticacao();
 
-		//if ($_GET['pagina']) ? $this->view->deslocamento = $_GET['pagina'] : $this->view->deslocamento = 0;
-		$this->view->pagina = (isset($_GET['pagina'])) ? $_GET['pagina'] : 1;
-		$deslocamento = ($this->view->pagina - 1) * $total_tweets_pagina;
+		$this->render('rateio.phtml');
+	}
 
-		//$this->view->tweets = $tweet->getAll();
-		$this->view->tweets = $tweet->getPorPagina($total_tweets_pagina, $deslocamento);
-		$total_tweets = $tweet->getTotalTweets();
-		$this->view->total_paginas = ceil($total_tweets['getTotalTweets'] / $total_tweets_pagina);
+	public function validaAutenticacao() {
 
-		$this->view->nome = $usuario->getInfoUsuario();
-		$this->view->total_tweets = $usuario->getTotaltweets();
-		$this->view->seguindo = $usuario->getTotalSeguindo();
-		$this->view->seguidores = $usuario->getTotalSeguidores();*/
+		session_start();
 
-		$this->render('main');
+		if(!isset($_SESSION['id_usuario']) || $_SESSION['id_usuario'] == '' || !isset($_SESSION['nome']) || $_SESSION['nome'] == '') {
+			
+			header('Location: /?login=erro');
+		}
+		
+	}
+
+	public function components() {
+
+		$this->validaAutenticacao();
+
+		include "components";
 	}
 
 	public function tweet() {
@@ -50,18 +52,6 @@ class AppController extends Action {
 		$tweet->salvar();
 
 		header('Location: /timeline');
-
-		
-	}
-
-	public function validaAutenticacao() {
-
-		session_start();
-
-		if(!isset($_SESSION['id_usuario']) || $_SESSION['id_usuario'] == '' || !isset($_SESSION['nome']) || $_SESSION['nome'] == '') {
-			header('Location: https://uol.com.br');
-			//header('Location: /?login=erro');
-		}
 
 		
 	}

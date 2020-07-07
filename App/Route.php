@@ -14,6 +14,24 @@ class Route extends Bootstrap {
 			'action' => 'index'
 		);
 
+		$routes['logout'] = array(
+			'route' => '/logout',
+			'controller' => 'AuthController',
+			'action' => 'logout'
+		);
+
+		$routes['main'] = array(
+			'route' => '/main',
+			'controller' => 'AppController',
+			'action' => 'main'
+		);
+
+		$routes['rateio'] = array(
+			'route' => '/rateio',
+			'controller' => 'AppController',
+			'action' => 'rateio'
+		);
+
 		$routes['cadastro'] = array(
 			'route' => '/cadastro',
 			'controller' => 'indexController',
@@ -30,18 +48,6 @@ class Route extends Bootstrap {
 			'route' => '/authenticate',
 			'controller' => 'AuthController',
 			'action' => 'authenticate'
-		);
-
-		$routes['logout'] = array(
-			'route' => '/logout',
-			'controller' => 'AuthController',
-			'action' => 'logout'
-		);
-
-		$routes['main'] = array(
-			'route' => '/main',
-			'controller' => 'AppController',
-			'action' => 'main'
 		);
 
 		$routes['tweet'] = array(
