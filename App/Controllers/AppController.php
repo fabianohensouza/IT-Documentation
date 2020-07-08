@@ -37,7 +37,9 @@ class AppController extends Action {
 
 		$this->validaAutenticacao();
 
-		include "components";
+		$p = "echo 'Path: '";
+		
+		$this->render($p);
 	}
 
 	public function tweet() {
