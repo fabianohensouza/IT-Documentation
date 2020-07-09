@@ -3,23 +3,22 @@ $(document).ready(() => {
 	$(document).ready(function() {
     	$("a.coleta-id").click(function(event) {
         	//alert(event.target.id);
+
         	id = event.target.id
+        	component = '/components/dashboard/' + id + '.phtml'
 
         	if (id == 'dashboard') {
-        		console.log('Reload')
-        		//location.reload();
+        		location.reload();
         	} else {
-        		console.log(id+".phtml")
+        		$('#pagina').load(component)
+
+        		$("a").removeClass("active")
+        		$('.sr-only').remove()
+
+        		$('#'+id+'').addClass("active")
         	}
-
-        	component = 'https://google.com'
-
-        	//$('#pagina').load(component)
-        	$.get(component, data => {
-			$('#pagina').html(data)
 		})
-    	});
-	});
+    })
 
 	//Ajax Method
 	$('#competencia').on('change', e => {
