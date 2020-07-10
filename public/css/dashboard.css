@@ -107,10 +107,19 @@ body {
   box-shadow: 0 0 0 3px rgba(255, 255, 255, .25);
 }
 
-.side-icon {
+.side-icon, svg {
   width: 33.5px;
   height: 13.5px;
+}
+
+.side-icon {
   padding: 0px 8px;
+}
+
+.table-icon {
+  width: 40px;
+  height: 25px;
+  padding: 3px 3px;
 }
 
 .side-item:hover {
@@ -127,4 +136,16 @@ a.nav-link {
 
 a.nav-link:hover {
   color: #1d2124;
+}
+
+.card-header {
+    color: #737373;
+    padding: .75rem 1.25rem;
+    margin-bottom: 0;
+    background-color: rgba(0,0,0,.03);
+    border-bottom: 1px solid rgba(0,0,0,.125);
+}
+
+.card-header:hover {
+    color: #1d2124;
 }
