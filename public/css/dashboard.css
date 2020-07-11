@@ -149,3 +149,16 @@ a.nav-link:hover {
 .card-header:hover {
     color: #1d2124;
 }
+
+/*Formating the SideBar*/
+.sidenav {
+  height: 100%;
+  width: 220px;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #F8F9FA;
+  overflow-x: hidden;
+  padding-top: 20px;
+}

@@ -1,11 +1,11 @@
-<nav class="navbar navbar-dark sticky-top bg-dark p-0">
+<!--nav class="navbar navbar-dark sticky-top bg-dark p-0">
         <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">IC-DOC</a>
   <ul class="navbar-nav mr-auto d-flex flex-row">
     <li class="nav-item px-4"><a class="nav-link" href="/main">Documentação</a></li>
     <li class="nav-item px-4"><a class="nav-link" href="/implantacao">Implantação</a></li>
     <li class="nav-item px-4"><a class="nav-link" href="/monitoramento">Monitoramento</a></li>
 
-    <?php if($_SESSION['permissao'] == 'edit' || $_SESSION['permissao'] == 'admin') { ?>
+    <?php //if($_SESSION['permissao'] == 'edit' || $_SESSION['permissao'] == 'admin') { ?>
     <li class="nav-item px-4"><a class="nav-link" href="/rateio">Rateio</a></li>
     <?php } ?>
     
@@ -15,4 +15,31 @@
       <a class="nav-link" href="/logout">Logout</a>
     </li>
   </ul>
-</nav>
+</nav-->
+       <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+            <a class="navbar-brand" href="index.html">IC-DOC</a>
+            <button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars"></i></button>
+            <ul class="navbar-nav mr-auto d-flex flex-row">
+                <li class="nav-item px-3"><a class="nav-link" href="/main">Documentação</a></li>
+                <li class="nav-item px-3"><a class="nav-link" href="/implantacao">Implantação</a></li>
+                <li class="nav-item px-3"><a class="nav-link" href="/monitoramento">Monitoramento</a></li>
+            
+                <!--?php if($_SESSION['permissao'] == 'edit' || $_SESSION['permissao'] == 'admin') { ?-->
+                <li class="nav-item px-3"><a class="nav-link" href="/rateio">Rateio</a></li>
+                <!--?php } ?-->
+                
+            </ul>
+            <!-- Navbar Search-->
+            <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0"></form>
+            <!-- Navbar-->
+            <ul class="navbar-nav ml-auto ml-md-0">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="userDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+                        <span class="dropdown-item" href="#">Nome<!--?php echo $_SESSION['nome']?--></span>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="/logout">Logout<</a>
+                    </div>
+                </li>
+            </ul>
+        </nav>
