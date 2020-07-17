@@ -3,7 +3,7 @@
       <div class="sidenav">
         <ul class="nav flex-column" style="margin-top: 40px">
           <li class="nav-item side-item">
-            <a class="nav-link coleta-id active" href="#" id="dashboard">
+            <a class="nav-link coleta-id active" href="#" id="lateral-dashboard">
               <img class="side-icon" src="icons/dashboard-icon.svg">
               Dashboard <span class="sr-only">(current)</span>
             </a>
@@ -20,30 +20,38 @@
 
           <//?php } ?>
 
+<<<<<<< HEAD
           <//?php //if($_SESSION['permissao'] == 'edit' || $_SESSION['permissao'] == 'admin') { ?>
 
+=======
+>>>>>>> parent of c7359b0... Finishing the Menu animation and completing the jquery load function realized at: Wed Jul
           <li class="nav-item side-item">
             <a class="nav-link coleta-id" href="#" id="lateral-consulta">
-              <img class="side-icon" src="icons/edit-icon.svg">
-              Cadastrar Itens <span class="sr-only"></span>
+              <img class="side-icon" src="icons/list-icon.svg">
+              Consultar Itens <span class="sr-only"></span>
             </a>
           </li>
-
-          <//?php } ?>
-          
-        </ul>
-
-        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-          <span>Consultar Itens</span>
-        </h6>
-
-        <ul class="nav flex-column">
           <li class="nav-item side-item">
             <a class="nav-link coleta-id" href="#" id="lateral-documentacao">
-              <img class="side-icon" src="icons/list-icon.svg">
+              <img class="side-icon" src="icons/doc-icon.svg">
               Documentação <span class="sr-only"></span>
             </a>
           </li>
+<<<<<<< HEAD
+
+          <//?php } ?>
+          
+=======
+>>>>>>> parent of c7359b0... Finishing the Menu animation and completing the jquery load function realized at: Wed Jul
+        </ul>
+
+        <?php if($_SESSION['permissao'] == 'edit' || $_SESSION['permissao'] == 'admin') { ?>
+
+        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+          <span>Cadastrar Itens</span>
+        </h6>
+
+        <ul class="nav flex-column">
           <li class="nav-item side-item">
             <a class="nav-link coleta-id" href="#" id="lateral-cooperativa">
               <img class="side-icon" src="icons/coop-icon.svg">
@@ -99,6 +107,8 @@
             </a>
           </li>
         </ul>
+
+      <?php } ?>
 
       </div>
     </nav-->
