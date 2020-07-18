@@ -26,6 +26,7 @@ class AuthController extends Action {
 			$_SESSION['id_usuario'] = $usuario->__get('id_usuario');
 			$_SESSION['nome'] = $usuario->__get('nome');
 			$_SESSION['permissao'] = $usuario->__get('permissao');
+			$_SESSION['cooperativa'] = $usuario->__get('cooperativa');
 
 			header('Location: /main');
 

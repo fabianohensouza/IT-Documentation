@@ -67,7 +67,7 @@ class Usuario extends Model {
 
 	//Validar cadastro
 	public function authenticate() {
-		$query = "select id_usuario, nome, permissao, email from usuarios where login = :login and senha = :senha";
+		$query = "select id_usuario, nome, permissao, email, cooperativa from usuarios where login = :login and senha = :senha";
 		$stmt = $this->db->prepare($query);
 		$stmt->bindValue(':login', $this->__get('login'));
 		$stmt->bindValue(':senha', $this->__get('senha'));
@@ -80,6 +80,7 @@ class Usuario extends Model {
 			$this->__set('nome', $usuario['nome']);	
 			$this->__set('permissao', $usuario['permissao']);
 			$this->__set('email', $usuario['email']);
+			$this->__set('cooperativa', $usuario['cooperativa']);
 		}
 
 		//return $this;
