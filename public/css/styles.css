@@ -10271,3 +10271,10 @@ body {
 .panel-title {
   text-align: center;
 }
+
+.seleciona-coop {
+  height: 51px;
+  background-color: #F7F7F7;
+  color: #6c757d;
+  padding: 8px 4px;  
+}
