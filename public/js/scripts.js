@@ -25,19 +25,21 @@ $(document).ready(() => {
 	
 	$(document).ready(function() {
     	$("a.coleta-id").click(function(event) {
-        	//alert(event.target.id);
+        	
         	id = event.target.id
 
-        	if (id == 'dashboard') {
+			if (id == 'dashboard') {
         		location.reload();
         	} else {
                 component = "components/dashboard/" + id + ".phtml"
                 console.log(component)
 
-                //$('#pagina').load(component)
                 $.get(component, data => {
                     $('#layoutSidenav_content').html(data)
-                })
+				})
+				
+				$('.active').removeClass('active')
+				$('#'+id).addClass('active')
         	}
         	
     	});
