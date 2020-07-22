@@ -23,8 +23,9 @@
 
 $(document).ready(() => {
 	
-	$(document).ready(function() {
-    	$("a.coleta-id").click(function(event) {
+	//Carregando páginas complementares dentro do elemento #layoutSidenav_content
+		
+    	$("a.lateral-captura-id").click(function(event) {
         	
         	id = event.target.id
 
@@ -42,7 +43,36 @@ $(document).ready(() => {
 				$('#'+id).addClass('active')
         	}
         	
-    	});
+		});
+
+		$(document).ready(function() {
+			
+			$("a.painel-captura-id").live('click', function(event) {
+				
+				id = event.target.id
+				console.log(id)
+				component = "components/dashboard/" + id + ".phtml"
+				console.log(component)
+	
+				$.get(component, data => {
+					$('#layoutSidenav_content').html(data)
+				})
+				
+			});
+
+		$(document).on('click','a.painel-captura-id',function(event){
+
+			id = event.target.id
+			console.log(id)
+			component = "components/dashboard/" + id + ".phtml"
+			console.log(component)
+	
+			$.get(component, data => {
+				$('#layoutSidenav_content').html(data)
+			})
+		  
+		});
+
 	});
 
 	//Ajax Method
