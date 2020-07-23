@@ -1,3 +1,4 @@
+<?php if($_SESSION['permissao'] == 'admin' || $_SESSION['permissao'] == 'edit') { ?>
                 <main>
                     <div class="container-fluid">
                         <h1 class="my-1 panel-title">Dashboard SAIC</h1>
@@ -23,24 +24,24 @@
                             <div class="col">
                                 <div class="card text-white mb-4">
                                     <div class="card-body bg-info">Cooperativas Administradas</div>
-                                    <div class="card-footer d-flex align-items-center justify-content-between text-secondary">
-                                        ??????
+                                    <div class="card-footer d-flex text-secondary">
+                                        <span class="dashboard-">42</span>&nbsp;Cooperativas
                                     </div>
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="card text-white mb-4">
                                     <div class="card-body bg-info">Número de PAs</div>
-                                    <div class="card-footer d-flex align-items-center justify-content-between text-secondary">
-                                        ??????
+                                    <div class="card-footer d-flex text-secondary">
+                                        <span class="dashboard-">250</span>&nbsp;PAs
                                     </div>
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="card text-white mb-4">
                                     <div class="card-body bg-info">Responsáveis TI - Cooperativas</div>
-                                    <div class="card-footer d-flex align-items-center justify-content-between text-secondary">
-                                        ??????
+                                    <div class="card-footer d-flex text-secondary">
+                                        <span class="dashboard-">45</span>&nbsp;Profissionais de TI
                                     </div>
                                 </div>
                             </div>
@@ -49,24 +50,24 @@
                             <div class="col">
                                 <div class="card text-white mb-4">
                                     <div class="card-body bg-info">Computadores Gerenciados</div>
-                                    <div class="card-footer d-flex align-items-center justify-content-between text-secondary">
-                                        ??????
+                                    <div class="card-footer d-flex text-secondary">
+                                        <span class="dashboard-">3200</span>&nbsp;Computadores Gerenciados
                                     </div>
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="card text-white mb-4">
                                     <div class="card-body bg-info">Servidores Gerenciados</div>
-                                    <div class="card-footer d-flex align-items-center justify-content-between text-secondary">
-                                        ??????
+                                    <div class="card-footer d-flex text-secondary">
+                                        <span class="dashboard-">92</span>&nbsp;Servidores Gerenciados
                                     </div>
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="card text-white mb-4">
                                     <div class="card-body bg-info">Firewalls Gerenciados</div>
-                                    <div class="card-footer d-flex align-items-center justify-content-between text-secondary">
-                                        ??????
+                                    <div class="card-footer d-flex text-secondary">
+                                        <span class="dashboard-">300</span>&nbsp;Firewalls Gerenciados
                                     </div>
                                 </div>
                             </div>
@@ -75,27 +76,37 @@
                             <div class="col">
                                 <div class="card text-white mb-4">
                                     <div class="card-body bg-info">Equipe Infra-Credis</div>
-                                    <div class="card-footer d-flex align-items-center justify-content-between text-secondary">
-                                        ??????
+                                    <div class="card-footer d-flex text-secondary">
+                                        <span class="dashboard-">8</span>&nbsp;Profissionais Infra-Credis
                                     </div>
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="card text-white mb-4">
-                                    <div class="card-body bg-info">Relatório Emitidos</div>
-                                    <div class="card-footer d-flex align-items-center justify-content-between text-secondary">
-                                        ??????
+                                    <div class="card-body bg-info">Relatórios Emitidos</div>
+                                    <div class="card-footer d-flex text-secondary">
+                                        <span class="dashboard-">79</span>&nbsp;Relatórios Emitidos
                                     </div>
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="card text-white mb-4">
                                     <div class="card-body bg-info">Visitas Realizadas</div>
-                                    <div class="card-footer d-flex align-items-center justify-content-between text-secondary">
-                                        ??????
+                                    <div class="card-footer d-flex text-secondary">
+                                        <span class="dashboard-">52</span>&nbsp;Visitas Realizadas
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </main>
+<?php } ?>
+
+<?php if($_SESSION['permissao'] == 'view') { ?>
+    <main>
+        <div class="container-fluid">
+            <h1 class="my-1 panel-title">SAIC</h1>
+            <hr><br>
+        </div>
+    </main>
+<?php } ?>

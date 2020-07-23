@@ -47,12 +47,10 @@ $(document).ready(() => {
 
 		$(document).ready(function() {
 			
-			$("a.painel-captura-id").live('click', function(event) {
+			$("a.painel-captura-id").on('click', function(event) {
 				
 				id = event.target.id
-				console.log(id)
-				component = "components/dashboard/" + id + ".phtml"
-				console.log(component)
+				component = "components/dashboard/" + id + ".phtml?user=null"
 	
 				$.get(component, data => {
 					$('#layoutSidenav_content').html(data)

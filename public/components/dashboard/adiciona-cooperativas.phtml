@@ -1,0 +1,54 @@
+<?php if($_SESSION['permissao'] == 'admin') { ?>
+                <main>
+                    <div class="container-fluid">
+                        <h1 class="my-1 panel-title">Gerenciar Usuario</h1>
+                        <?php print_r($_GET)?>
+                        <hr><br>
+                        <form>
+                            <div class="form-row">
+                                <div class="form-group col-md-2">
+                                    <label for="inputCodigo">Código</label>
+                                    <input type="text" class="form-control" id="inputCodigo" placeholder="Codigo Credi">
+                                </div>
+                                <div class="form-group col-md-8">
+                                    <label for="inputNome">Nome</label>
+                                    <input type="text" class="form-control" id="inputNome">
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <label for="inputPermissao">IC</label>
+                                    <select id="inputPermissao" class="form-control">
+                                        <option selected>Selecione...</option>
+                                        <option value="true">Sim</option>
+                                        <option value="false">Não</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="inputRespTI">Responsável de TI</label>
+                                    <input type="text" class="form-control" id="inputRespTI">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="inputRespIC">Responsável de Infra-Credis</label>
+                                    <input type="text" class="form-control" id="inputRespIC">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <label for="inputRespTI">Número de Usuários</label>
+                                    <input type="number" class="form-control" id="inputRespTI">
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="inputRespIC">Número de Equipamentos</label>
+                                    <input type="number" class="form-control" id="inputRespIC">
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="inputRespIC">Data de Adesão</label>
+                                    <input type="date" class="form-control" id="inputRespIC" placeholder="DD/MM/AAAA">
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Enviar</button>
+                        </form>
+                    </div>
+                </main>
+<?php } ?>

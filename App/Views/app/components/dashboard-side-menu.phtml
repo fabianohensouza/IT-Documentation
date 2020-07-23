@@ -3,7 +3,10 @@
                 <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                     <div class="sb-sidenav-menu">
                         <div class="nav">
-                            <ul class="nav flex-column" style="margin-top: 40px">
+                            <ul class="nav flex-column" style="margin-top: 40px">                      
+                      
+                            <?php if($_SESSION['permissao'] == 'admin' || $_SESSION['permissao'] == 'edit') { ?>  
+
                                 <li class="nav-item side-item">
                                   <a class="nav-link lateral-captura-id active" href="#" id="dashboard">
                                     <i class="side-icon">
@@ -26,25 +29,20 @@
                       
                                 <?php } ?>
                                 
+                                <li class="nav-item side-item">
+                                    <a class="nav-link lateral-captura-id" href="#" id="lateral-cooperativa">
+                                        <i class="side-icon">
+                                            <div class="sb-nav-link-icon"><svg aria-hidden="true" focusable="false" data-prefix="far" data-icon="building" class="svg-inline--fa fa-building fa-w-14" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M128 148v-40c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6 0-12-5.4-12-12zm140 12h40c6.6 0 12-5.4 12-12v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12zm-128 96h40c6.6 0 12-5.4 12-12v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12zm128 0h40c6.6 0 12-5.4 12-12v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12zm-76 84v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm76 12h40c6.6 0 12-5.4 12-12v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12zm180 124v36H0v-36c0-6.6 5.4-12 12-12h19.5V24c0-13.3 10.7-24 24-24h337c13.3 0 24 10.7 24 24v440H436c6.6 0 12 5.4 12 12zM79.5 463H192v-67c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v67h112.5V49L80 48l-.5 415z"></path></svg></div>
+                                        </i>
+                                        Gerenciar Cooperativas <span class="sr-only"></span>
+                                    </a>
+                                </li>
+                                
                             </ul>
                             <div class="sb-sidenav-menu-heading">Funcionalidades</div>
-                            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseCooperativa" aria-expanded="false" aria-controls="collapseCooperativa">
-                                <i class="side-icon">
-                                    <div class="sb-nav-link-icon"><svg aria-hidden="true" focusable="false" data-prefix="far" data-icon="building" class="svg-inline--fa fa-building fa-w-14" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M128 148v-40c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6 0-12-5.4-12-12zm140 12h40c6.6 0 12-5.4 12-12v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12zm-128 96h40c6.6 0 12-5.4 12-12v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12zm128 0h40c6.6 0 12-5.4 12-12v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12zm-76 84v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm76 12h40c6.6 0 12-5.4 12-12v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12zm180 124v36H0v-36c0-6.6 5.4-12 12-12h19.5V24c0-13.3 10.7-24 24-24h337c13.3 0 24 10.7 24 24v440H436c6.6 0 12 5.4 12 12zM79.5 463H192v-67c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v67h112.5V49L80 48l-.5 415z"></path></svg></div>
-                                </i>
-                                
-                                Cooperativa
-                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                            </a>
-                            <div class="collapse" id="collapseCooperativa" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
-                                <nav class="sb-sidenav-menu-nested nav">
-
-                                  <?php if($_SESSION['permissao'] == 'admin' || $_SESSION['permissao'] == 'edit') { ?>
-                                    <a class="nav-link" href="#">Gerenciar Cooperativa</a>
-                                  <?php } ?>
-                                    <a class="nav-link" href="#">Consultar Cooperativa</a>
-                                </nav>
-                            </div>
+                        
+                            <?php } ?>
+                            
                             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseDocumentation" aria-expanded="false" aria-controls="collapseDocumentation">
                                 <i class="side-icon">
                                     <div class="sb-nav-link-icon"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="network-wired" class="svg-inline--fa fa-network-wired fa-w-20" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><path fill="currentColor" d="M640 264v-16c0-8.84-7.16-16-16-16H344v-40h72c17.67 0 32-14.33 32-32V32c0-17.67-14.33-32-32-32H224c-17.67 0-32 14.33-32 32v128c0 17.67 14.33 32 32 32h72v40H16c-8.84 0-16 7.16-16 16v16c0 8.84 7.16 16 16 16h104v40H64c-17.67 0-32 14.33-32 32v128c0 17.67 14.33 32 32 32h160c17.67 0 32-14.33 32-32V352c0-17.67-14.33-32-32-32h-56v-40h304v40h-56c-17.67 0-32 14.33-32 32v128c0 17.67 14.33 32 32 32h160c17.67 0 32-14.33 32-32V352c0-17.67-14.33-32-32-32h-56v-40h104c8.84 0 16-7.16 16-16zM256 128V64h128v64H256zm-64 320H96v-64h96v64zm352 0h-96v-64h96v64z"></path></svg></div>
@@ -57,7 +55,7 @@
                                 <nav class="sb-sidenav-menu-nested nav">
 
                                   <?php if($_SESSION['permissao'] == 'admin' || $_SESSION['permissao'] == 'edit') { ?>
-                                    <a class="nav-link" href="#">Cadastrar Item</a>
+                                    <a class="nav-link lateral-captura-id" href="#" id="lateral-hwsw">Cadastrar Item</a>
                                   <?php } ?>
                                     <a class="nav-link" href="#">Consultar Item</a>
                                     <a class="nav-link" href="#">Consultar Documentação</a>
@@ -80,7 +78,10 @@
                                   <?php } ?>
                                     <a class="nav-link" href="#">Consultar Cooperativas</a>
                                 </nav>
-                            </div>
+                            </div>                                                
+                      
+                            <?php if($_SESSION['permissao'] == 'admin' || $_SESSION['permissao'] == 'edit') { ?>
+
                             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseMonitoring" aria-expanded="false" aria-controls="collapseMonitoring">
                                 <i class="side-icon">
                                     <div class="sb-nav-link-icon"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="heartbeat" class="svg-inline--fa fa-heartbeat fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M320.2 243.8l-49.7 99.4c-6 12.1-23.4 11.7-28.9-.6l-56.9-126.3-30 71.7H60.6l182.5 186.5c7.1 7.3 18.6 7.3 25.7 0L451.4 288H342.3l-22.1-44.2zM473.7 73.9l-2.4-2.5c-51.5-52.6-135.8-52.6-187.4 0L256 100l-27.9-28.5c-51.5-52.7-135.9-52.7-187.4 0l-2.4 2.4C-10.4 123.7-12.5 203 31 256h102.4l35.9-86.2c5.4-12.9 23.6-13.2 29.4-.4l58.2 129.3 49-97.9c5.9-11.8 22.7-11.8 28.6 0l27.6 55.2H481c43.5-53 41.4-132.3-7.3-182.1z"></path></svg></div>
@@ -95,6 +96,9 @@
                                     <a class="nav-link" href="#">Menu 2</a>
                                 </nav>
                             </div>
+
+                            <?php } ?> 
+
                             <?php if($_SESSION['permissao'] == 'admin' || $_SESSION['permissao'] == 'edit') { ?>
                             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseApportionment" aria-expanded="false" aria-controls="collapseApportionment">
                                 <i class="side-icon">
