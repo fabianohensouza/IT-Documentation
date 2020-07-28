@@ -10278,3 +10278,16 @@ body {
   color: #6c757d;
   padding: 8px 4px;  
 }
+
+.dropdown:hover>.dropdown-menu {
+  display: block;
+}
+
+.dropdown>.dropdown-toggle:active {
+  /*Without this, clicking will make it sticky*/
+    pointer-events: none;
+}
+
+.dropdown-toggle::after {
+  display: none;
+}
