@@ -10286,33 +10286,6 @@ body {
   padding: 8px 4px;  
 }
 
-/*.dropdown:hover>.dropdown-menu {
-  display: block;
-}
-
-.dropdown>.dropdown-toggle:active {
-    pointer-events: none;
-}
-
-.dropdown-toggle::after {
-  display: none;
-}
-
-.alinha-menu {
-  text-align: left;
-  padding-left: 8px;
-}
-
-button.dropdown-toggle {
-  font-size: 15px;
-  color: #E6E6E6;
-}
-
-button.dropdown-toggle:hover {
-  font-size: 16px;
-  color: #FAFAFA;
-}*/
-
 /* Dropdown Button */
 .dropbtn {
   background-color: #343A40;

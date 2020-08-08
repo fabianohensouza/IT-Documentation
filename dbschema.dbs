@@ -1,39 +1,39 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <project name="IC" id="Project_22b3" database="MySql" >
-	<schema name="documentacao" >
+	<schema name="saic" >
 		<table name="antivirus" >
-			<column name="coop" type="varchar" length="4" jt="12" mandatory="y" />
-			<column name="servidor" type="varchar" length="40" jt="12" />
-			<column name="url" type="varchar" length="100" jt="12" />
-			<column name="versao" type="varchar" length="60" jt="12" />
-			<column name="abrangencia" type="varchar" length="20" jt="12" />
-			<column name="versao_console" type="varchar" length="20" jt="12" />
+			<column name="coop" type="varchar" length="1" decimal="0" jt="12" mandatory="y" />
+			<column name="servidor" type="varchar" length="10" decimal="0" jt="12" />
+			<column name="url" type="varchar" length="25" decimal="0" jt="12" />
+			<column name="versao" type="varchar" length="15" decimal="0" jt="12" />
+			<column name="abrangencia" type="varchar" length="5" decimal="0" jt="12" />
+			<column name="versao_console" type="varchar" length="5" decimal="0" jt="12" />
 			<column name="qtd_licencas" type="int" jt="4" />
 			<column name="expiracao" type="date" jt="91" />
 			<column name="usb_liberado" type="text" jt="-1" />
 		</table>
 		<table name="aplicacoes" >
-			<column name="coop" type="varchar" length="4" jt="12" mandatory="y" />
-			<column name="servidor" type="varchar" length="40" jt="12" />
-			<column name="nome" type="varchar" length="100" jt="12" />
-			<column name="versao" type="varchar" length="60" jt="12" />
-			<column name="desenvolvedor" type="varchar" length="100" jt="12" />
-			<column name="tipo" type="varchar" length="100" jt="12" />
-			<column name="endereco" type="varchar" length="200" jt="12" />
-			<column name="abrangencia" type="varchar" length="20" jt="12" />
+			<column name="coop" type="varchar" length="1" decimal="0" jt="12" mandatory="y" />
+			<column name="servidor" type="varchar" length="10" decimal="0" jt="12" />
+			<column name="nome" type="varchar" length="25" decimal="0" jt="12" />
+			<column name="versao" type="varchar" length="15" decimal="0" jt="12" />
+			<column name="desenvolvedor" type="varchar" length="25" decimal="0" jt="12" />
+			<column name="tipo" type="varchar" length="25" decimal="0" jt="12" />
+			<column name="endereco" type="varchar" length="50" decimal="0" jt="12" />
+			<column name="abrangencia" type="varchar" length="5" decimal="0" jt="12" />
 			<column name="qtd_licencas" type="int" jt="4" />
 			<column name="expiracao" type="date" jt="91" />
 			<column name="descricao" type="text" jt="-1" />
 		</table>
 		<table name="backup" >
 			<column name="id_rotina" type="int" jt="4" mandatory="y" autoincrement="y" />
-			<column name="coop" type="varchar" length="4" jt="12" />
-			<column name="servidor" type="varchar" length="40" jt="12" />
-			<column name="sistema" type="varchar" length="100" jt="12" />
+			<column name="coop" type="varchar" length="1" decimal="0" jt="12" />
+			<column name="servidor" type="varchar" length="10" decimal="0" jt="12" />
+			<column name="sistema" type="varchar" length="25" decimal="0" jt="12" />
 			<column name="expiracao" type="date" jt="91" />
-			<column name="midia" type="varchar" length="60" jt="12" />
-			<column name="guarda_interna" type="varchar" length="100" jt="12" />
-			<column name="guarda_externa" type="varchar" length="100" jt="12" />
+			<column name="midia" type="varchar" length="15" decimal="0" jt="12" />
+			<column name="guarda_interna" type="varchar" length="25" decimal="0" jt="12" />
+			<column name="guarda_externa" type="varchar" length="25" decimal="0" jt="12" />
 			<column name="rotina_diaria" type="text" jt="-1" />
 			<column name="rotina_semanal" type="text" jt="-1" />
 			<column name="rotina_mensal" type="text" jt="-1" />
@@ -43,14 +43,14 @@
 			<options><![CDATA[engine=InnoDB]]></options>
 		</table>
 		<table name="cfs" >
-			<column name="coop" type="varchar" length="4" jt="12" />
+			<column name="coop" type="varchar" length="1" decimal="0" jt="12" />
 			<column name="qtd_licencas" type="int" jt="4" />
 			<column name="expiracao" type="date" jt="91" />
 			<options><![CDATA[engine=InnoDB]]></options>
 		</table>
 		<table name="cooperativa" >
-			<column name="codigo_coop" type="varchar" length="4" jt="12" mandatory="y" />
-			<column name="nome" type="varchar" length="60" jt="12" mandatory="y" />
+			<column name="codigo_coop" type="varchar" length="1" decimal="0" jt="12" mandatory="y" />
+			<column name="nome" type="varchar" length="15" decimal="0" jt="12" mandatory="y" />
 			<column name="resp_ti" type="int" length="60" jt="4" />
 			<column name="resp_ic" type="int" length="60" jt="4" />
 			<column name="qtd_usuarios" type="int" jt="4" />
@@ -63,46 +63,46 @@
 			<options><![CDATA[engine=InnoDB]]></options>
 		</table>
 		<table name="dhcp" >
-			<column name="coop" type="varchar" length="4" jt="12" mandatory="y" />
-			<column name="pa" type="varchar" length="2" jt="12" mandatory="y" />
-			<column name="provedor" type="varchar" length="40" jt="12" />
-			<column name="range" type="varchar" length="40" jt="12" />
-			<column name="mascara" type="varchar" length="15" jt="12" />
-			<column name="gateway" type="varchar" length="15" jt="12" />
-			<column name="dns" type="varchar" length="60" jt="12" />
+			<column name="coop" type="varchar" length="1" decimal="0" jt="12" mandatory="y" />
+			<column name="pa" type="varchar" length="0" decimal="0" jt="12" mandatory="y" />
+			<column name="provedor" type="varchar" length="10" decimal="0" jt="12" />
+			<column name="range" type="varchar" length="10" decimal="0" jt="12" />
+			<column name="mascara" type="varchar" length="3" decimal="0" jt="12" />
+			<column name="gateway" type="varchar" length="3" decimal="0" jt="12" />
+			<column name="dns" type="varchar" length="15" decimal="0" jt="12" />
 			<column name="reserva" type="boolean" jt="-7" />
 			<column name="filtro" type="boolean" jt="-7" />
 			<options><![CDATA[engine=InnoDB]]></options>
 		</table>
 		<table name="dominio" >
-			<column name="dominio_central" type="bool" jt="-7" mandatory="y" />
-			<column name="nome" type="varchar" length="40" jt="12" mandatory="y" />
-			<column name="coop" type="varchar" length="4" jt="12" mandatory="y" />
-			<column name="dc_primario" type="varchar" length="40" jt="12" />
-			<column name="dc_secundario" type="varchar" length="40" jt="12" />
-			<column name="abrangencia" type="varchar" length="20" jt="12" />
+			<column name="dominio_central" type="boolean" length="1" decimal="0" jt="-7" mandatory="y" />
+			<column name="nome" type="varchar" length="10" decimal="0" jt="12" mandatory="y" />
+			<column name="coop" type="varchar" length="1" decimal="0" jt="12" mandatory="y" />
+			<column name="dc_primario" type="varchar" length="10" decimal="0" jt="12" />
+			<column name="dc_secundario" type="varchar" length="10" decimal="0" jt="12" />
+			<column name="abrangencia" type="varchar" length="5" decimal="0" jt="12" />
 			<column name="observ" type="mediumtext" jt="-1" />
 			<options><![CDATA[engine=InnoDB]]></options>
 		</table>
 		<table name="modelos_hwsw" >
 			<column name="codigo_swhw" type="int" jt="4" mandatory="y" autoincrement="y" />
-			<column name="tipo" type="varchar" length="20" jt="12" mandatory="y" />
-			<column name="marca_modelo" type="varchar" length="60" jt="12" mandatory="y" />
+			<column name="tipo" type="varchar" length="5" decimal="0" jt="12" mandatory="y" />
+			<column name="marca_modelo" type="varchar" length="15" decimal="0" jt="12" mandatory="y" />
 			<index name="pk_modelos_hwsw_codigo_swhw" unique="PRIMARY_KEY" >
 				<column name="codigo_swhw" />
 			</index>
 			<options><![CDATA[engine=InnoDB]]></options>
 		</table>
 		<table name="pa" >
-			<column name="codigo_pa" type="varchar" length="2" jt="12" mandatory="y" />
-			<column name="coop" type="varchar" length="4" jt="12" mandatory="y" />
-			<column name="firewall" type="varchar" length="60" jt="12" />
-			<column name="link_x0" type="varchar" length="80" jt="12" />
-			<column name="link_x1" type="varchar" length="80" jt="12" />
-			<column name="link_x2" type="varchar" length="80" jt="12" />
-			<column name="link_x3" type="varchar" length="80" jt="12" />
-			<column name="link_x4" type="varchar" length="80" jt="12" />
-			<column name="link_x5" type="varchar" length="80" jt="12" />
+			<column name="codigo_pa" type="varchar" length="0" decimal="0" jt="12" mandatory="y" />
+			<column name="coop" type="varchar" length="1" decimal="0" jt="12" mandatory="y" />
+			<column name="firewall" type="varchar" length="15" decimal="0" jt="12" />
+			<column name="link_x0" type="varchar" length="20" decimal="0" jt="12" />
+			<column name="link_x1" type="varchar" length="20" decimal="0" jt="12" />
+			<column name="link_x2" type="varchar" length="20" decimal="0" jt="12" />
+			<column name="link_x3" type="varchar" length="20" decimal="0" jt="12" />
+			<column name="link_x4" type="varchar" length="20" decimal="0" jt="12" />
+			<column name="link_x5" type="varchar" length="20" decimal="0" jt="12" />
 			<index name="pk_pa_codigo_pa" unique="PRIMARY_KEY" >
 				<column name="codigo_pa" />
 			</index>
@@ -110,11 +110,11 @@
 		</table>
 		<table name="relatorios" >
 			<column name="id_relatorio" type="int" length="10" decimal="0" jt="4" mandatory="y" autoincrement="y" />
-			<column name="cooperativa" type="varchar" length="4" jt="12" mandatory="y" />
-			<column name="status" type="varchar" length="20" jt="12" />
-			<column name="responsavel" type="varchar" length="60" jt="12" />
-			<column name="arquivo" type="varchar" length="256" jt="12" />
-			<column name="tipo" type="varchar" length="20" jt="12" />
+			<column name="cooperativa" type="varchar" length="1" decimal="0" jt="12" mandatory="y" />
+			<column name="status" type="varchar" length="5" decimal="0" jt="12" />
+			<column name="responsavel" type="varchar" length="15" decimal="0" jt="12" />
+			<column name="arquivo" type="varchar" length="64" decimal="0" jt="12" />
+			<column name="tipo" type="varchar" length="5" decimal="0" jt="12" />
 			<column name="data_amissao" type="date" length="10" decimal="0" jt="91" />
 			<column name="visita" type="boolean" length="1" decimal="0" jt="-7" />
 			<column name="id_visita" type="int" length="10" decimal="0" jt="4" />
@@ -125,27 +125,27 @@
 		</table>
 		<table name="servidores" >
 			<column name="codigo_servidor" type="int" jt="4" mandatory="y" autoincrement="y" />
-			<column name="coop_servidor" type="varchar" length="4" jt="12" mandatory="y" />
-			<column name="pa_servidor" type="varchar" length="2" jt="12" mandatory="y" />
-			<column name="nome" type="varchar" length="40" jt="12" mandatory="y" />
-			<column name="tipo_servidor" type="varchar" length="10" jt="12" />
-			<column name="host_pai" type="varchar" length="40" jt="12" />
-			<column name="modelo_servidor" type="varchar" length="60" jt="12" mandatory="y" />
-			<column name="st_ns" type="varchar" length="40" jt="12" />
-			<column name="tipo_garantia" type="varchar" length="40" jt="12" />
+			<column name="coop_servidor" type="varchar" length="1" decimal="0" jt="12" mandatory="y" />
+			<column name="pa_servidor" type="varchar" length="0" decimal="0" jt="12" mandatory="y" />
+			<column name="nome" type="varchar" length="10" decimal="0" jt="12" mandatory="y" />
+			<column name="tipo_servidor" type="varchar" length="2" decimal="0" jt="12" />
+			<column name="host_pai" type="varchar" length="10" decimal="0" jt="12" />
+			<column name="modelo_servidor" type="varchar" length="15" decimal="0" jt="12" mandatory="y" />
+			<column name="st_ns" type="varchar" length="10" decimal="0" jt="12" />
+			<column name="tipo_garantia" type="varchar" length="10" decimal="0" jt="12" />
 			<column name="data_garantia" type="date" jt="91" />
-			<column name="status_servidor" type="varchar" length="20" jt="12" mandatory="y" />
-			<column name="so_servidor" type="varchar" length="60" jt="12" mandatory="y" />
+			<column name="status_servidor" type="varchar" length="5" decimal="0" jt="12" mandatory="y" />
+			<column name="so_servidor" type="varchar" length="15" decimal="0" jt="12" mandatory="y" />
 			<column name="cadastro_sgpi" type="boolean" jt="-7" />
-			<column name="discos" type="varchar" length="100" jt="12" />
-			<column name="volumes" type="varchar" length="100" jt="12" />
+			<column name="discos" type="varchar" length="25" decimal="0" jt="12" />
+			<column name="volumes" type="varchar" length="25" decimal="0" jt="12" />
 			<column name="memoria" type="int" jt="4" mandatory="y" />
-			<column name="processador" type="varchar" length="40" jt="12" mandatory="y" />
-			<column name="idrad" type="bool" length="11" jt="-7" mandatory="y" />
-			<column name="ip_idrac" type="varchar" length="15" jt="12" />
-			<column name="ip_lan" type="varchar" length="15" jt="12" />
+			<column name="processador" type="varchar" length="10" decimal="0" jt="12" mandatory="y" />
+			<column name="idrad" type="boolean" length="1" decimal="0" jt="-7" mandatory="y" />
+			<column name="ip_idrac" type="varchar" length="3" decimal="0" jt="12" />
+			<column name="ip_lan" type="varchar" length="3" decimal="0" jt="12" />
 			<column name="monitorado_zbx" type="boolean" jt="-7" />
-			<column name="ip_mult" type="varchar" length="15" jt="12" />
+			<column name="ip_mult" type="varchar" length="3" decimal="0" jt="12" />
 			<column name="fnc_dc" type="boolean" jt="-7" />
 			<column name="fnc_dns" type="boolean" jt="-7" />
 			<column name="fnc_dhcp" type="boolean" jt="-7" />
@@ -154,7 +154,7 @@
 			<column name="fnc_av" type="boolean" jt="-7" />
 			<column name="fnc_fs" type="boolean" jt="-7" />
 			<column name="fnc_bkp" type="boolean" jt="-7" />
-			<column name="dominio_servidor" type="varchar" length="40" jt="12" />
+			<column name="dominio_servidor" type="varchar" length="10" decimal="0" jt="12" />
 			<column name="observ" type="mediumtext" jt="-1" />
 			<index name="pk_servidores_codigo_servidor" unique="PRIMARY_KEY" >
 				<column name="codigo_servidor" />
@@ -163,13 +163,13 @@
 		</table>
 		<table name="usuarios" >
 			<column name="id_usuario" type="int" jt="4" mandatory="y" autoincrement="y" />
-			<column name="permissao" type="varchar" length="15" jt="12" mandatory="y" />
-			<column name="nome" type="varchar" length="100" jt="12" mandatory="y" />
-			<column name="login" type="varchar" length="30" jt="12" mandatory="y" />
-			<column name="email" type="varchar" length="60" jt="12" />
-			<column name="cooperativa" type="varchar" length="4" jt="12" mandatory="y" />
-			<column name="senha" type="varchar" length="32" jt="12" mandatory="y" />
-			<column name="equipe" type="varchar" length="20" jt="12" />
+			<column name="permissao" type="varchar" length="3" decimal="0" jt="12" mandatory="y" />
+			<column name="nome" type="varchar" length="25" decimal="0" jt="12" mandatory="y" />
+			<column name="login" type="varchar" length="7" decimal="0" jt="12" mandatory="y" />
+			<column name="email" type="varchar" length="15" decimal="0" jt="12" />
+			<column name="cooperativa" type="varchar" length="1" decimal="0" jt="12" mandatory="y" />
+			<column name="senha" type="varchar" length="8" decimal="0" jt="12" mandatory="y" />
+			<column name="equipe" type="varchar" length="5" decimal="0" jt="12" />
 			<index name="pk_usuarios_id_usuario" unique="PRIMARY_KEY" >
 				<column name="id_usuario" />
 			</index>
@@ -177,10 +177,10 @@
 		</table>
 		<table name="visita" >
 			<column name="id_visita" type="int" jt="4" mandatory="y" autoincrement="y" />
-			<column name="coop" type="varchar" length="4" jt="12" />
-			<column name="status" type="varchar" length="20" jt="12" />
-			<column name="tipo" type="varchar" length="20" jt="12" />
-			<column name="responsavel" type="varchar" length="60" jt="12" />
+			<column name="coop" type="varchar" length="1" decimal="0" jt="12" />
+			<column name="status" type="varchar" length="5" decimal="0" jt="12" />
+			<column name="tipo" type="varchar" length="5" decimal="0" jt="12" />
+			<column name="responsavel" type="varchar" length="15" decimal="0" jt="12" />
 			<column name="data-ida" type="date" jt="91" />
 			<column name="data-retorno" type="date" jt="91" />
 			<column name="detalhes" type="mediumtext" jt="-1" />
@@ -190,21 +190,5 @@
 			<options><![CDATA[engine=InnoDB]]></options>
 		</table>
 	</schema>
-	<connector name="Documentação" database="MySql" driver_class="com.mysql.jdbc.Driver" driver_jar="mysql-connector-java-8.0.19.jar" driver_desc="Standard" host="localhost" port="3306" instance="documentacao" user="root" />
-	<layout name="Default Layout" id="Layout_19de" show_column_type="y" show_relation="columns" >
-		<comment><![CDATA[IC]]></comment>
-		<entity schema="documentacao" name="antivirus" color="3986C1" x="304" y="560" />
-		<entity schema="documentacao" name="aplicacoes" color="3986C1" x="544" y="432" />
-		<entity schema="documentacao" name="backup" color="C1D8EE" x="784" y="48" />
-		<entity schema="documentacao" name="cfs" color="C1D8EE" x="544" y="672" />
-		<entity schema="documentacao" name="cooperativa" color="C1D8EE" x="304" y="48" />
-		<entity schema="documentacao" name="dhcp" color="C1D8EE" x="544" y="224" />
-		<entity schema="documentacao" name="dominio" color="C1D8EE" x="544" y="48" />
-		<entity schema="documentacao" name="modelos_hwsw" color="C1D8EE" x="304" y="448" />
-		<entity schema="documentacao" name="pa" color="C1D8EE" x="304" y="240" />
-		<entity schema="documentacao" name="relatorios" color="3986C1" x="784" y="288" />
-		<entity schema="documentacao" name="servidores" color="C1D8EE" x="48" y="240" />
-		<entity schema="documentacao" name="usuarios" color="C1D8EE" x="48" y="48" />
-		<entity schema="documentacao" name="visita" color="C1D8EE" x="784" y="528" />
-	</layout>
+	<connector name="SAIC" database="MySql" driver_class="com.mysql.jdbc.Driver" driver_jar="mysql-connector-java-8.0.19.jar" driver_desc="Standard" host="localhost" port="3306" instance="saic" user="root" />
 </project>
