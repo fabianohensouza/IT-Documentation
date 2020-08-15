@@ -191,4 +191,19 @@
 		</table>
 	</schema>
 	<connector name="SAIC" database="MySql" driver_class="com.mysql.jdbc.Driver" driver_jar="mysql-connector-java-8.0.19.jar" driver_desc="Standard" host="localhost" port="3306" instance="saic" user="root" />
+	<layout name="Layout" id="Layout_168b" joined_routing="y" show_column_type="y" show_schema_name="y" show_page_borders="y" show_relation="columns" >
+		<entity schema="saic" name="antivirus" color="3986C1" x="352" y="704" />
+		<entity schema="saic" name="aplicacoes" color="3986C1" x="656" y="704" />
+		<entity schema="saic" name="backup" color="3986C1" x="336" y="992" />
+		<entity schema="saic" name="cfs" color="3986C1" x="112" y="800" />
+		<entity schema="saic" name="cooperativa" color="3986C1" x="64" y="432" />
+		<entity schema="saic" name="dhcp" color="3986C1" x="352" y="416" />
+		<entity schema="saic" name="dominio" color="3986C1" x="656" y="448" />
+		<entity schema="saic" name="modelos_hwsw" color="3986C1" x="960" y="704" />
+		<entity schema="saic" name="pa" color="3986C1" x="960" y="1024" />
+		<entity schema="saic" name="relatorios" color="3986C1" x="656" y="1024" />
+		<entity schema="saic" name="servidores" color="3986C1" x="960" y="48" />
+		<entity schema="saic" name="usuarios" color="3986C1" x="336" y="1312" />
+		<entity schema="saic" name="visita" color="3986C1" x="48" y="1312" />
+	</layout>
 </project>

@@ -6,10 +6,18 @@
             <div class="col align-self-start  align-self-center">                            
                 <form class="mx-3">
                     <div class="form-group row" data-style="btn-info">
-                        <label class="col-sm-7 col-form-label">Selecione um item:</label>
+                        <label class="col-sm-4 col-form-label">Selecione uma Cooperativa e o item:</label>
                         <div class="col-sm-3">
-                            <select name="item" class="form-control-plaintext" id="competencia" >
-                                <option disabled selected value>Selecione</option>
+                            <select name="coop" class="form-control-plaintext" id="coop" >
+                                <option disabled selected value>Cooperativa</option>
+                                <option class="text-secondary" value="1003">Geral</option>
+                                <option class="text-secondary" value="3456">3456</option>
+                                <option class="text-secondary" value="3210">3210</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-3">
+                            <select name="item" class="form-control-plaintext" id="item" >
+                                <option disabled selected value>Item</option>
                                 <option class="text-secondary" value="coop">Cooperativa</option>
                                 <option class="text-secondary" value="pa">Ponto de Atendimento</option>
                                 <option class="text-secondary" value="servidores">Servidores</option>
