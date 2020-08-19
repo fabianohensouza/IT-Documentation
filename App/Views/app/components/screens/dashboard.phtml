@@ -1,8 +1,11 @@
 <?php if($_SESSION['permissao'] == 'admin' || $_SESSION['permissao'] == 'edit') { ?>
     <main>
         <div class="container-fluid">
-            <h1 class="my-1 panel-title">Dashboard SAIC</h1>
+            <h1 class="mt-5 pt-3 my-1 panel-title">Dashboard SAIC</h1>
             <hr><br>
+
+            <?php print_r($this->view->dashboard);?>
+            <?php print_r($this->view);?>
 
             <div class="row justify-content-center"> 
                 <div class="col">
@@ -15,7 +18,7 @@
                 </div>
                 <div class="col">
                     <div class="card text-white mb-4">
-                        <div class="card-body bg-info">Número de PAs</div>
+                        <div class="card-body bg-info">Número de PAsSSSS</div>
                         <div class="card-footer d-flex text-secondary">
                             <span class="dashboard-">250</span>&nbsp;PAs
                         </div>

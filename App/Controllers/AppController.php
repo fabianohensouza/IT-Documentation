@@ -12,6 +12,9 @@ class AppController extends Action {
 
 		$this->validaAutenticacao();
 
+		$infoDashboard = Container::getModel('Dashboard');
+		$this->view->dashboard = $infoDashboard->getInfoDashboard();
+
 		$this->render('main.phtml');
 	}
 

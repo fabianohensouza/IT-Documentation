@@ -4,7 +4,7 @@ namespace App\Models;
 
 use MF\Model\Model;
 
-class Tweet extends Model {
+class Dashboard extends Model {
 
 	private $id;
 	private $id_usuarios;
@@ -19,7 +19,7 @@ class Tweet extends Model {
 		$this->$atributo = $valor;
 	}
 
-	public function getTotalTweets() {
+	public function getInfoDashboard() {
 		$query = "SELECT 
                     count(`codigo_coop`) AS getTotalCoops
                 FROM 
@@ -29,7 +29,43 @@ class Tweet extends Model {
                 SELECT 
 					count(`codigo_pa`) AS getTotalPas
 				FROM 
-				  	pas;";
+				    pas;
+				SELECT 
+                    count(`id_usuario`) AS getTotalRespTi
+                FROM 
+					usuarios 
+                WHERE
+					`equipe` = `Cooperativa`;
+				SELECT 
+					sum (`qtd_equip`) AS getTotalEquip
+				FROM 
+					cooperativas
+                WHERE
+                    `infracredis` = TRUE;
+				SELECT
+					count (`codigo_servidor`) AS getTotalServidores
+				FROM 
+					servidores
+                WHERE
+                    `status_servidor` = `Produção`;
+                SELECT 
+					count(`firewall`) AS getTotalFirewalls
+				FROM 
+				    pas;
+				SELECT 
+                    count(`id_usuario`) AS getTotalIc
+                FROM 
+					usuarios 
+                WHERE
+					`equipe` = `Infra-Credis`;
+                SELECT 
+					count(`id_relatorio`) AS getTotalPas
+				FROM 
+					relatorios;
+                SELECT 
+					count(`id_visita`) AS getTotalPas
+				FROM 
+					visitas;";
 				    					
 		$stmt = $this->db->prepare($query);
 		$stmt->execute();
