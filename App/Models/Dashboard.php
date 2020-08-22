@@ -23,7 +23,7 @@ class Dashboard extends Model {
 		(SELECT COUNT(`firewall`) FROM  pas) AS totalFirewalls,
 		(SELECT COUNT(`id_usuario`) FROM usuarios WHERE `equipe` = "Infra-Credis") AS totalIc,
 		(SELECT COUNT(`id_relatorio`) FROM relatorios) AS totalRelatorios,
-		(SELECT COUNT(`id_visita`) FROM visitas) AS totalVisita";
+		(SELECT COUNT(`id_visita`) FROM visitas) AS totalVisitas;";
 				    					
 		$stmt = $this->db->prepare($query);
 		$stmt->execute();
