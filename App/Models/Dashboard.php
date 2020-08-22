@@ -6,11 +6,6 @@ use MF\Model\Model;
 
 class Dashboard extends Model {
 
-	private $id;
-	private $id_usuarios;
-	private $tweet;
-	private $data;
-
 	public function __get($atributo) {
 		return $this->$atributo;
 	}
@@ -20,52 +15,15 @@ class Dashboard extends Model {
 	}
 
 	public function getInfoDashboard() {
-		$query = "SELECT 
-                    count(`codigo_coop`) AS getTotalCoops
-                FROM 
-                    cooperativas 
-                WHERE
-                    `infracredis` = TRUE;
-                SELECT 
-					count(`codigo_pa`) AS getTotalPas
-				FROM 
-				    pas;
-				SELECT 
-                    count(`id_usuario`) AS getTotalRespTi
-                FROM 
-					usuarios 
-                WHERE
-					`equipe` = `Cooperativa`;
-				SELECT 
-					sum (`qtd_equip`) AS getTotalEquip
-				FROM 
-					cooperativas
-                WHERE
-                    `infracredis` = TRUE;
-				SELECT
-					count (`codigo_servidor`) AS getTotalServidores
-				FROM 
-					servidores
-                WHERE
-                    `status_servidor` = `Produção`;
-                SELECT 
-					count(`firewall`) AS getTotalFirewalls
-				FROM 
-				    pas;
-				SELECT 
-                    count(`id_usuario`) AS getTotalIc
-                FROM 
-					usuarios 
-                WHERE
-					`equipe` = `Infra-Credis`;
-                SELECT 
-					count(`id_relatorio`) AS getTotalPas
-				FROM 
-					relatorios;
-                SELECT 
-					count(`id_visita`) AS getTotalPas
-				FROM 
-					visitas;";
+		$query = "SELECT (SELECT COUNT(`codigo_coop`) FROM  cooperativas WHERE `infracredis` = TRUE) AS totalCoops,
+		(SELECT COUNT(`codigo_pa`) FROM pas) AS totalPas,
+		(SELECT SUM(`qtd_usuarios`) FROM  cooperativas WHERE `infracredis` = TRUE) AS totalUsuarios,
+		(SELECT SUM(`qtd_equip`) FROM cooperativas WHERE `infracredis` = TRUE) AS totalEquip,
+		(SELECT COUNT (`codigo_servidor`) FROM servidores WHERE `status_servidor` = "Produção") AS totalServidores,
+		(SELECT COUNT(`firewall`) FROM  pas) AS totalFirewalls,
+		(SELECT COUNT(`id_usuario`) FROM usuarios WHERE `equipe` = "Infra-Credis") AS totalIc,
+		(SELECT COUNT(`id_relatorio`) FROM relatorios) AS totalRelatorios,
+		(SELECT COUNT(`id_visita`) FROM visitas) AS totalVisita";
 				    					
 		$stmt = $this->db->prepare($query);
 		$stmt->execute();
