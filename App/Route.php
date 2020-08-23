@@ -26,6 +26,12 @@ class Route extends Bootstrap {
 			'action' => 'main'
 		);
 
+		$routes['usuarios'] = array(
+			'route' => '/usuarios',
+			'controller' => 'AppController',
+			'action' => 'usuarios'
+		);
+
 		$routes['rateio'] = array(
 			'route' => '/rateio',
 			'controller' => 'AppController',

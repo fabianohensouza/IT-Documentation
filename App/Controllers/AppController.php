@@ -17,6 +17,23 @@ class AppController extends Action {
 
 		$this->render('main.phtml');
 	}
+	
+	public function usuarios() {
+
+		/*$this->view->usuario = array(
+			'permissao' => '',
+			'nome' => '',
+			'login' => '',
+			'email' => '',
+			'cooperativa' => '',
+			'senha' => ''
+		);
+
+		$this->view->usuarioCadastrado = false;
+		$this->view->erroCadastro = false;*/
+
+		$this->render('usuarios.phtml');
+	}
 
 	public function rateio() {
 

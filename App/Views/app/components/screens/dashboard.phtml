@@ -4,9 +4,11 @@
             <h1 class="mt-5 pt-3 my-1 panel-title">Dashboard SAIC</h1>
             <hr><br>
 
-            <?php print_r($this->view->dashboard);?>
-            <?php echo "<hr>";?>
-            <?php print_r($this->view);?>
+            <?php 
+                echo "</pre>";
+                print_r($this->view->dashboard);
+                echo "</pre>";
+            ?>
 
             <div class="row justify-content-center"> 
                 <div class="col">
@@ -29,7 +31,7 @@
                     <div class="card text-white mb-4">
                         <div class="card-body bg-info">Usuários - Cooperativas</div>
                         <div class="card-footer d-flex text-secondary">
-                            <span class="dashboard-"><?php echo $this->view->dashboard["totalUsuarios"];?></span>&nbsp;Profissionais de TI
+                            <span class="dashboard-"><?php echo $this->view->dashboard["totalUsuarios"];?></span>&nbsp;Usuários
                         </div>
                     </div>
                 </div>
@@ -39,7 +41,7 @@
                     <div class="card text-white mb-4">
                         <div class="card-body bg-info">Computadores Gerenciados</div>
                         <div class="card-footer d-flex text-secondary">
-                            <span class="dashboard-"><?php echo $this->view->dashboard["totalRespTi"];?></span>&nbsp;Computadores Gerenciados
+                            <span class="dashboard-"><?php echo $this->view->dashboard["totalEquip"];?></span>&nbsp;Computadores Gerenciados
                         </div>
                     </div>
                 </div>
@@ -47,7 +49,7 @@
                     <div class="card text-white mb-4">
                         <div class="card-body bg-info">Servidores Gerenciados</div>
                         <div class="card-footer d-flex text-secondary">
-                            <span class="dashboard-"><?php echo $this->view->dashboard["totalRespTi"];?></span>&nbsp;Servidores Gerenciados
+                            <span class="dashboard-"><?php echo $this->view->dashboard["totalServidores"];?></span>&nbsp;Servidores Gerenciados
                         </div>
                     </div>
                 </div>
@@ -55,7 +57,7 @@
                     <div class="card text-white mb-4">
                         <div class="card-body bg-info">Firewalls Gerenciados</div>
                         <div class="card-footer d-flex text-secondary">
-                            <span class="dashboard-"><?php echo $this->view->dashboard["totalRespTi"];?></span>&nbsp;Firewalls Gerenciados
+                            <span class="dashboard-"><?php echo $this->view->dashboard["totalFirewalls"];?></span>&nbsp;Firewalls Gerenciados
                         </div>
                     </div>
                 </div>
@@ -65,7 +67,7 @@
                     <div class="card text-white mb-4">
                         <div class="card-body bg-info">Equipe Infra-Credis</div>
                         <div class="card-footer d-flex text-secondary">
-                            <span class="dashboard-"><?php echo $this->view->dashboard["totalRespTi"];?></span>&nbsp;Profissionais Infra-Credis
+                            <span class="dashboard-"><?php echo $this->view->dashboard["totalIc"];?></span>&nbsp;Profissionais Infra-Credis
                         </div>
                     </div>
                 </div>
@@ -73,7 +75,7 @@
                     <div class="card text-white mb-4">
                         <div class="card-body bg-info">Relatórios Emitidos</div>
                         <div class="card-footer d-flex text-secondary">
-                            <span class="dashboard-"><?php echo $this->view->dashboard["totalRespTi"];?></span>&nbsp;Relatórios Emitidos
+                            <span class="dashboard-"><?php echo $this->view->dashboard["totalRelatorios"];?></span>&nbsp;Relatórios Emitidos
                         </div>
                     </div>
                 </div>
@@ -81,7 +83,7 @@
                     <div class="card text-white mb-4">
                         <div class="card-body bg-info">Visitas Realizadas</div>
                         <div class="card-footer d-flex text-secondary">
-                            <span class="dashboard-"><?php echo $this->view->dashboard["totalRespTi"];?></span>&nbsp;Visitas Realizadas
+                            <span class="dashboard-"><?php echo $this->view->dashboard["totalVisitas"];?></span>&nbsp;Visitas Realizadas
                         </div>
                     </div>
                 </div>
