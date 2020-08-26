@@ -20,6 +20,8 @@ class AppController extends Action {
 	
 	public function usuarios() {
 
+		$this->validaAutenticacao();
+
 		/*$this->view->usuario = array(
 			'permissao' => '',
 			'nome' => '',
