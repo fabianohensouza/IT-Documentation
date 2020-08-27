@@ -22,6 +22,18 @@ class Usuario extends Model {
 		$this->$atributo = $valor;
 	}
 
+	//Recuperar todos usuários
+	public function todosUsuarios() {
+		$query = "SELECT id_usuario, permissao, nome, login, email, cooperativa, equipe FROM usuarios";
+
+		$stmt = $this->db->prepare($query);;
+		$stmt->execute();
+
+		
+		return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+	}
+
 	//Salvar
 	public function salvar() {
 
@@ -92,33 +104,6 @@ class Usuario extends Model {
 		$query = "select nome, email from usuarios where email = :email";
 		$stmt = $this->db->prepare($query);
 		$stmt->bindValue(':email', $this->__get('email'));
-		$stmt->execute();
-
-		return $stmt->fetchAll(\PDO::FETCH_ASSOC);
-
-	}
-
-	//Recuperar todos usuários
-	public function getAll() {
-		$query = "select 
-					u.id, u.nome, u.email,
-					(
-						select
-							count(*)
-						from 
-							usuarios_seguidores as us
-						where
-							us.id_usuario = :id_usuario and us.id_usuario_seguindo = u.id
-					) as seguindo_sn 
-				  from 
-				  	usuarios as u
-				  where 
-				  	u.nome like :nome and u.id != :id_usuario
-				  ";
-
-		$stmt = $this->db->prepare($query);
-		$stmt->bindValue(':nome', '%'.$this->__get('nome').'%');
-		$stmt->bindValue(':id_usuario', $this->__get('id'));
 		$stmt->execute();
 
 		return $stmt->fetchAll(\PDO::FETCH_ASSOC);

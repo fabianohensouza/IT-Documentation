@@ -10,6 +10,8 @@ class UserController extends Action {
 
 	public function usuarios() {
 
+		$this->validaAutenticacao();
+
 		/*$this->view->usuario = array(
 			'permissao' => '',
 			'nome' => '',
@@ -23,6 +25,17 @@ class UserController extends Action {
 		$this->view->erroCadastro = false;*/
 
 		$this->render('usuarios.phtml');
+	}
+
+	public function validaAutenticacao() {
+
+		session_start();
+
+		if(!isset($_SESSION['id_usuario']) || $_SESSION['id_usuario'] == '' || !isset($_SESSION['nome']) || $_SESSION['nome'] == '') {
+			
+			header('Location: /?login=erro');
+		}
+		
 	}
 
 	public function registrar() {

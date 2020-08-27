@@ -22,19 +22,20 @@ class AppController extends Action {
 
 		$this->validaAutenticacao();
 
-		/*$this->view->usuario = array(
-			'permissao' => '',
-			'nome' => '',
-			'login' => '',
-			'email' => '',
-			'cooperativa' => '',
-			'senha' => ''
-		);
-
-		$this->view->usuarioCadastrado = false;
-		$this->view->erroCadastro = false;*/
+		$usuarios = Container::getModel('Usuario');
+		$this->view->usuarios = $usuarios->todosUsuarios();
 
 		$this->render('usuarios.phtml');
+	}
+	
+	public function gerenciaUsuarios() {
+
+		$this->validaAutenticacao();
+
+		/*$usuarios = Container::getModel('Usuario');
+		$this->view->usuarios = $usuarios->todosUsuarios();*/
+
+		$this->render('gerencia_usuarios.phtml');
 	}
 
 	public function rateio() {
