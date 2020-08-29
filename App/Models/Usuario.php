@@ -35,7 +35,7 @@ class Usuario extends Model {
 	}
 
 	//Salvar
-	public function salvar() {
+	public function salvarUsuario() {
 
 		$query = "insert into usuarios
 					(nome, login, email, cooperativa, permissao, senha)

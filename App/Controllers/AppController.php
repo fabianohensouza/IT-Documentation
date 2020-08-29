@@ -51,16 +51,53 @@ class AppController extends Action {
 
 		if($_SESSION['permissao'] == 'Administrador') {
 			
-			print_r($_POST);
-			/*$usuarios = Container::getModel('Usuario');
-			$cooperativas = Container::getModel('Cooperativa');
+			$usuario = Container::getModel('Usuario');
 
-			$this->view->cooperativas = $cooperativas->codigoCooperativas();
+			$usuario->__set('nome', $_POST['nome']);
+			$usuario->__set('email', $_POST['email']);
+			$usuario->__set('login', $_POST['login']);
+			$usuario->__set('senha', md5($_POST['senha']));
+			$usuario->__set('cooperativa', $_POST['cooperativa']);
+			$usuario->__set('equipe', $_POST['equipe']);
+			$usuario->__set('permissao', $_POST['permissao']);
 
-			$this->render('salvar_usuario.phtml');*/
-		} else {
+			if($usuario->validarCadastro()) {
+	
+				if(count($usuario->getUsuarioPorEmail()) == 0) {
+					
+					$usuario->salvar();
+	
+					$this->view->usuarioCadastrado = true;
+	
+					$this->render('gerencia_usuarios.phtml');
+					
+				} else {
+	
+					$this->view->usuario = array(
+						'nome' => $_POST['nome'],
+						'email' => $_POST['email'],
+						'senha' => $_POST['senha']
+					);
+	
+					$this->view->usuarioCadastrado = true;
+					
+					$this->render('gerencia_usuarios.phtml');
+				}
+	
+			} else {
+	
+				$this->view->usuario = array(
+					'nome' => $_POST['nome'],
+					'email' => $_POST['email'],
+					'senha' => $_POST['senha']
+				);
+	
+				$this->view->erroCadastro = true;
+				
+				$this->render('gerencia_usuarios.phtml');
+			
 
-			$this->render('main.phtml');
+			}
 		}
 	}
 
