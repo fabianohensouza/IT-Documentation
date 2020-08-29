@@ -1,14 +1,14 @@
 <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
     <a class="navbar-brand" data-toggle="tooltip" data-placement="top" title="Sistema de Acompanhamento IC" href="/main">SAIC</a>
              
-    <?php if($_SESSION['permissao'] == 'admin' || $_SESSION['permissao'] == 'edit') { ?>
+    <?php if($_SESSION['permissao'] == 'Administrador' || $_SESSION['permissao'] == 'Edição') { ?>
         <div class="dropdown">
             <button class="dropbtn">
                         Administração
             </button>
             <div class="dropdown-content">
                         
-                <?php if($_SESSION['permissao'] == 'admin') { ?>
+                <?php if($_SESSION['permissao'] == 'Administrador') { ?>
                 <a class="alinha-menu dropdown-item l" href="/usuarios" id="lateral-usuarios">
                             - Gestão de Usuários
                 </a>                      
@@ -31,7 +31,7 @@
         </button>
         <div class="dropdown-content">
                         
-            <?php if($_SESSION['permissao'] == 'admin' || $_SESSION['permissao'] == 'edit') { ?>
+            <?php if($_SESSION['permissao'] == 'Administrador' || $_SESSION['permissao'] == 'Edição') { ?>
                 <a class="alinha-menu dropdown-item lateral-captura-id" href="#" id="lateral-hwsw">- Cadastrar Item</a>
             <?php } ?>
 
@@ -47,7 +47,7 @@
         </button>
         <div class="dropdown-content">
                         
-            <?php if($_SESSION['permissao'] == 'admin' || $_SESSION['permissao'] == 'edit') { ?>
+            <?php if($_SESSION['permissao'] == 'Administrador' || $_SESSION['permissao'] == 'Edição') { ?>
                 <a class="alinha-menu dropdown-item" href="#">- Cadastrar Etapa</a>
                 <a class="alinha-menu dropdown-item" href="#">- Alterar Etapa</a>
             <?php } ?>
@@ -70,14 +70,14 @@
         </div>
     </div>
              
-    <?php if($_SESSION['permissao'] == 'admin' || $_SESSION['permissao'] == 'edit') { ?>
+    <?php if($_SESSION['permissao'] == 'Administrador' || $_SESSION['permissao'] == 'Edição') { ?>
         <div class="dropdown">
             <button class="dropbtn">
                 Rateio
             </button>
             <div class="dropdown-content">
                          
-                <?php if($_SESSION['permissao'] == 'admin') { ?>
+                <?php if($_SESSION['permissao'] == 'Administrador') { ?>
                     <a class="alinha-menu dropdown-item" href="#">- Calcular Rateio</a>
                 <?php } ?>
 

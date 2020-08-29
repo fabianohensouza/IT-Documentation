@@ -1,4 +1,4 @@
-<?php if($_SESSION['permissao'] == 'admin') { ?>
+<?php if($_SESSION['permissao'] == 'Administrador') { ?>
     <main>
         <div class="container-fluid">
             <h1 class="mt-5 pt-3 my-1 panel-title">Gerenciador de Usuarios</h1>
@@ -32,16 +32,6 @@
                                     <th>Ações</th>
                                 </tr>
                             </thead>
-                            <!--tfoot>
-                                <tr>
-                                    <th>Nome</th>
-                                    <th>Login</th>
-                                    <th>Credi</th>
-                                    <th>Permissão</th>
-                                    <th>Equipe</th>
-                                    <th>Ações</th>
-                                </tr>
-                            </tfoot-->
                             <tbody style="font-size: 13px">
                                 <?php foreach($this->view->usuarios as $idx_usuario => $usuario) {?>
                                     <tr>

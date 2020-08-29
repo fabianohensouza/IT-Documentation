@@ -1,4 +1,4 @@
-<?php if($_SESSION['permissao'] == 'admin' || $_SESSION['permissao'] == 'edit') { ?>
+<?php if($_SESSION['permissao'] == 'Administrador' || $_SESSION['permissao'] == 'Edição') { ?>
     <main>
         <div class="container-fluid">
             <h1 class="mt-5 pt-3 my-1 panel-title">Dashboard SAIC</h1>
@@ -86,11 +86,11 @@
     </main>
 <?php } ?>
 
-<?php if($_SESSION['permissao'] == 'view') { ?>
+<?php if($_SESSION['permissao'] == 'Visualização') { ?>
     <main>
         <div class="container-fluid">
-<h1 class="my-1 panel-title">SAIC</h1>
-<hr><br>
+            <h1 class="mt-5 pt-3 my-1 panel-title">SAIC</h1>
+            <hr><br>
         </div>
     </main>
 <?php } ?>

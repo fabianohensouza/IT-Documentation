@@ -32,10 +32,36 @@ class AppController extends Action {
 
 		$this->validaAutenticacao();
 
-		/*$usuarios = Container::getModel('Usuario');
-		$this->view->usuarios = $usuarios->todosUsuarios();*/
+		if($_SESSION['permissao'] == 'Administrador') {
+			
+			$usuarios = Container::getModel('Usuario');
+			$cooperativas = Container::getModel('Cooperativa');
 
-		$this->render('gerencia_usuarios.phtml');
+			$this->view->cooperativas = $cooperativas->codigoCooperativas();
+
+			$this->render('gerencia_usuarios.phtml');
+		}
+
+		$this->render('main.phtml');
+	}
+	
+	public function salvarUsuarios() {
+
+		$this->validaAutenticacao();
+
+		if($_SESSION['permissao'] == 'Administrador') {
+			
+			print_r($_POST);
+			/*$usuarios = Container::getModel('Usuario');
+			$cooperativas = Container::getModel('Cooperativa');
+
+			$this->view->cooperativas = $cooperativas->codigoCooperativas();
+
+			$this->render('salvar_usuario.phtml');*/
+		} else {
+
+			$this->render('main.phtml');
+		}
 	}
 
 	public function rateio() {

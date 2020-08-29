@@ -1,59 +1,61 @@
-<?php if($_SESSION['permissao'] == 'admin') { ?>
-                <main>
-                    <div class="container-fluid">
-                        <h1 class="my-1 panel-title">Gerenciar Usuario</h1>
-                        <?php print_r($_GET)?>
-                        <hr><br>
-                        <form>
-                            <div class="form-group">
-                                <label for="inputNome">Nome</label>
-                                <input type="text" class="form-control" id="inputNome" placeholder="Nome Completo do usuário">
-                            </div>
-                            <div class="form-group">
-                                <label for="inputEmail">Email</label>
-                                <input type="email" class="form-control" id="inputEmail" placeholder="Email">
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                <label for="inputLogin">Login</label>
-                                <input type="text" class="form-control" id="inputLogin" placeholder="Login do Usuário">
-                                </div>
-                                <div class="form-group col-md-6">
-                                <label for="inputSenha">Senha</label>
-                                <input type="password" class="form-control" id="inputSenha" placeholder="Senha">
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group col-md-4">
-                                    <label for="inputCooperativa">Cooperativa</label>
-                                    <select id="inputCooperativa" class="form-control">
-                                        <option selected>Selecione...</option>
-                                        <option>...</option>
-                                    </select>
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label for="inputEquipe">Equipe</label>
-                                    <select id="inputEquipe" class="form-control">
-                                        <option selected>Selecione...</option>
-                                        <option value="central">Central</option>
-                                        <option value="infra">GETIS - Infraestrutura</option>
-                                        <option value="ic">GETIS - Infra-Credis</option>
-                                        <option value="coops">Cooperativas</option>
-                                    </select>
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label for="inputPermissao">Permissão</label>
-                                    <select id="inputPermissao" class="form-control">
-                                        <option selected>Selecione...</option>
-                                        <option value="admin">Administrador</option>
-                                        <option value="edit">Ediçao</option>
-                                        <option value="view">Visualização</option>
-                                        <option value="coops">Cooperativas</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Enviar</button>
-                        </form>
-                    </div>
-                </main>
+<?php if($_SESSION['permissao'] == 'Administrador') { ?>
+     <main>
+         <div class="container-fluid">
+             <h1 class="mt-5 pt-3 my-1 panel-title">Gerenciar Usuario</h1>
+                        
+             <form method="post" action="/salvar_usuario">
+                 <div class="form-group">
+                     <label for="inputNome">Nome</label>
+                     <input type="text" class="form-control" id="inputNome" placeholder="Nome Completo do usuário" name=”nome“>
+                 </div>
+                 <div class="form-group">
+                     <label for="inputEmail">Email</label>
+                     <input type="email" class="form-control" id="inputEmail" placeholder="Email" name=”email“>
+                 </div>
+                 <div class="form-row">
+                     <div class="form-group col-md-6">
+                     <label for="inputLogin">Login</label>
+                     <input type="text" class="form-control" id="inputLogin" placeholder="Login do Usuário" name=”login“>
+                     </div>
+                     <div class="form-group col-md-6">
+                     <label for="inputSenha">Senha</label>
+                     <input type="password" class="form-control" id="inputSenha" placeholder="Senha" name=”senha“>
+                     </div>
+                 </div>
+                 <div class="form-row">
+                     <div class="form-group col-md-4">
+                         <label for="inputCooperativa">Cooperativa</label>
+                         <select id="inputCooperativa" class="form-control" name=”cooperativa“>
+                            <option selected>Selecione...</option>
+                            <?php foreach($this->view->cooperativas as $idx_codigoCooperativa => $codigoCooperativa) {
+                                  $codigo = $codigoCooperativa['codigo_coop']; 
+                            ?>
+                                <option value="<?=$codigo; ?>"><?=$codigo; ?></option>
+                            <?php }?>
+                         </select>
+                     </div>
+                     <div class="form-group col-md-4">
+                         <label for="inputEquipe">Equipe</label>
+                         <select id="inputEquipe" class="form-control" name=”equipe“>
+                             <option selected>Selecione...</option>
+                             <option value="Infraestrutura">Infraestrutura</option>
+                             <option value="Infra-Credis">Infra-Credis</option>
+                             <option value="Cooperativa">Cooperativa</option>
+                         </select>
+                     </div>
+                     <div class="form-group col-md-4">
+                         <label for="inputPermissao">Permissão</label>
+                         <select id="inputPermissao" class="form-control" name=”permissao“>
+                             <option selected>Selecione...</option>
+                             <option value="Administrador">Administrador</option>
+                             <option value="Edição">Edição</option>
+                             <option value="Visualização">Visualização</option>
+                             <option value="Cooperativas">Cooperativas</option>
+                         </select>
+                     </div>
+                 </div>
+                 <button type="submit" class="btn btn-primary">Enviar</button>
+             </form>
+         </div>
+     </main>
 <?php } ?>

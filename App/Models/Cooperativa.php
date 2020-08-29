@@ -4,12 +4,17 @@ namespace App\Models;
 
 use MF\Model\Model;
 
-class Tweet extends Model {
+class Cooperativa extends Model {
 
-	private $id;
-	private $id_usuarios;
-	private $tweet;
-	private $data;
+	private $codigo_coop;
+	private $nome;
+	private $resp_ti;
+	private $resp_ic;
+	private $qtd_usuarios;
+	private $qtd_equip;
+	private $infracredis;
+	private $adesao;
+	private $site_unificado;
 
 	public function __get($atributo) {
 		return $this->$atributo;
@@ -17,6 +22,34 @@ class Tweet extends Model {
 
 	public function __set($atributo, $valor) {
 		$this->$atributo = $valor;
+	}
+
+	//Recuperar todos usuários
+	public function todasCooperativas() {
+		$query = "SELECT 
+					* 
+				  FROM 
+				  	cooperativas";
+
+		$stmt = $this->db->prepare($query);;
+		$stmt->execute();
+
+		
+		return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+	
+	}
+
+	//Recuperar todos usuários
+	public function codigoCooperativas() {
+		$query = "SELECT codigo_coop 
+				  FROM cooperativas";
+
+		$stmt = $this->db->prepare($query);;
+		$stmt->execute();
+
+		
+		return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+	
 	}
 
 	//Salvar
@@ -29,31 +62,6 @@ class Tweet extends Model {
 		$stmt->execute();
 
 		return $this;
-	}
-
-	//Recuperar usuário por e-mail
-	public function getAll() {
-		$query = "select 
-					t.id, 
-					t.id_usuarios, 
-					t.tweet, 
-					u.nome, 
-					DATE_FORMAT(t.data, '%d/%m/%Y %H:%i') as data
-				  from 
-					tweets as t
-					left join usuarios as u on (t.id_usuarios = u.id)
-				  where 
-					t.id_usuarios = :id_usuarios
-					or t.id_usuarios in (SELECT `id_usuario_seguindo` FROM `usuarios_seguidores` WHERE id_usuario = :id_usuarios)
-				  order by 
-				    t.data desc";
-				    					
-		$stmt = $this->db->prepare($query);
-		$stmt->bindValue(':id_usuarios', $this->__get('id_usuarios'));
-		$stmt->execute();
-
-		return $stmt->fetchAll(\PDO::FETCH_ASSOC);
-
 	}
 
 	public function getPorPagina($limit, $offset) {
