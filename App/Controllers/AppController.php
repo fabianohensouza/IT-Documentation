@@ -37,6 +37,13 @@ class AppController extends Action {
 			$usuarios = Container::getModel('Usuario');
 			$cooperativas = Container::getModel('Cooperativa');
 
+			if(isset($_GET['id'])) {
+
+				$usuarios->__set('id_usuario', $_GET['id']);
+				$this->view->usuarios = $usuarios->usuarioPorId();
+				
+			}    
+
 			$this->view->cooperativas = $cooperativas->codigoCooperativas();
 
 			$this->render('gerencia_usuarios.phtml');

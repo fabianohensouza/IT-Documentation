@@ -34,6 +34,19 @@ class Usuario extends Model {
 
 	}
 
+	//Recuperar usuário  por ID
+	public function usuarioPorId() {
+		$query = "SELECT * FROM usuarios WHERE id_usuario = :id_usuario";
+
+		$stmt = $this->db->prepare($query);
+		$stmt->bindValue(':id_usuario', $this->__get('id_usuario'));
+		$stmt->execute();
+
+		
+		return $stmt->fetch(\PDO::FETCH_ASSOC);
+
+	}
+
 	//Salvar
 	public function salvarUsuario() {
 

@@ -6,27 +6,33 @@
              <form method="post" action="/salvar_usuario">
                  <div class="form-group">
                      <label for="inputNome">Nome</label>
-                     <input type="text" class="form-control" id="inputNome" placeholder="Nome Completo do usuário" name=”nome“>
+                     <input type="text" class="form-control" id="inputNome" placeholder="Nome Completo do usuário" name=”nome“ value="<?= $this->view->usuarios['nome'] ?>">
                  </div>
                  <div class="form-group">
                      <label for="inputEmail">Email</label>
-                     <input type="email" class="form-control" id="inputEmail" placeholder="Email" name=”email“>
+                     <input type="email" class="form-control" id="inputEmail" placeholder="Email" name=”email“ value="<?= $this->view->usuarios['email'] ?>">
                  </div>
                  <div class="form-row">
                      <div class="form-group col-md-6">
                      <label for="inputLogin">Login</label>
-                     <input type="text" class="form-control" id="inputLogin" placeholder="Login do Usuário" name=”login“>
+                     <input type="text" class="form-control" id="inputLogin" placeholder="Login do Usuário" name=”login“ value="<?= $this->view->usuarios['login'] ?>">
                      </div>
                      <div class="form-group col-md-6">
                      <label for="inputSenha">Senha</label>
-                     <input type="password" class="form-control" id="inputSenha" placeholder="Senha" name=”senha“>
+                     <input type="password" class="form-control" id="inputSenha" placeholder="Senha" name=”senha“ value="<?= $this->view->usuarios['senha'] ?>">
                      </div>
                  </div>
                  <div class="form-row">
                      <div class="form-group col-md-4">
                          <label for="inputCooperativa">Cooperativa</label>
                          <select id="inputCooperativa" class="form-control" name=”cooperativa“>
-                            <option selected>Selecione...</option>
+                            
+                            <?php if(isset($this->view->usuarios['cooperativa'])) { ?>
+                                <option selected value="<?=$this->view->usuarios['cooperativa'] ?>"><?=$this->view->usuarios['cooperativa'] ?></option>
+                            <?php } else {?>
+                                <option selected>Selecione...</option>                               
+                            <?php }?>
+
                             <?php foreach($this->view->cooperativas as $idx_codigoCooperativa => $codigoCooperativa) {
                                   $codigo = $codigoCooperativa['codigo_coop']; 
                             ?>
@@ -37,24 +43,37 @@
                      <div class="form-group col-md-4">
                          <label for="inputEquipe">Equipe</label>
                          <select id="inputEquipe" class="form-control" name=”equipe“>
-                             <option selected>Selecione...</option>
-                             <option value="Infraestrutura">Infraestrutura</option>
-                             <option value="Infra-Credis">Infra-Credis</option>
-                             <option value="Cooperativa">Cooperativa</option>
+                            
+                            <?php if(isset($this->view->usuarios['equipe'])) { ?>
+                                <option selected value="<?=$this->view->usuarios['equipe'] ?>"><?=$this->view->usuarios['equipe'] ?></option>
+                            <?php } else {?>
+                                <option selected>Selecione...</option>                               
+                            <?php }?>
+
+                            <option value="Infraestrutura">Infraestrutura</option>
+                            <option value="Infra-Credis">Infra-Credis</option>
+                            <option value="Cooperativa">Cooperativa</option>
                          </select>
                      </div>
                      <div class="form-group col-md-4">
                          <label for="inputPermissao">Permissão</label>
                          <select id="inputPermissao" class="form-control" name=”permissao“>
-                             <option selected>Selecione...</option>
-                             <option value="Administrador">Administrador</option>
-                             <option value="Edição">Edição</option>
-                             <option value="Visualização">Visualização</option>
-                             <option value="Cooperativas">Cooperativas</option>
+                            
+                            <?php if(isset($this->view->usuarios['permissao'])) { ?>
+                                <option selected value="<?=$this->view->usuarios['permissao'] ?>"><?=$this->view->usuarios['permissao'] ?></option>
+                            <?php } else {?>
+                                <option selected>Selecione...</option>                               
+                            <?php }?>
+
+                            <option value="Administrador">Administrador</option>
+                            <option value="Edição">Edição</option>
+                            <option value="Visualização">Visualização</option>
+                            <option value="Cooperativas">Cooperativas</option>
                          </select>
                      </div>
-                 </div>
-                 <button type="submit" class="btn btn-primary">Enviar</button>
+                </div>
+                <button type="submit" class="btn btn-primary">Enviar</button>
+                <a href="/usuarios" class="btn btn-danger">Retornar</a>
              </form>
          </div>
      </main>
