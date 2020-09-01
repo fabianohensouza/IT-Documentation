@@ -28,7 +28,7 @@ class AppController extends Action {
 		$this->render('usuarios.phtml');
 	}
 	
-	public function gerenciaUsuarios() {
+	public function usuariosAdicionar() {
 
 		$this->validaAutenticacao();
 
@@ -46,7 +46,7 @@ class AppController extends Action {
 
 			$this->view->cooperativas = $cooperativas->codigoCooperativas();
 
-			$this->render('gerencia_usuarios.phtml');
+			$this->render('usuarios-adicionar.phtml');
 		}
 
 		$this->render('main.phtml');
@@ -72,11 +72,19 @@ class AppController extends Action {
 				
 				if(count($usuarios->usuarioPorEmail()) == 0) {
 
-					$usuarios->salvarUsuario();
+					$usuarios->salvarUsuario('inserir');
 	
 					$this->view->usuarios['mensagem'] = 'sucesso';
 
-					$this->render('gerencia_usuarios.phtml');
+					header('Location: /usuarios');
+					
+				} elseif($_GET['acao'] == 'alterar') {
+
+					$usuarios->salvarUsuario('alterar');
+	
+					$this->view->usuarios['mensagem'] = 'alterado';
+
+					header('Location: /usuarios');
 					
 				} else {
 	
@@ -91,7 +99,7 @@ class AppController extends Action {
 						'permissao' => $_POST['permissao']
 					);
 					
-					$this->render('gerencia_usuarios.phtml');
+					$this->render('usuarios-adicionar.phtml');
 				}
 	
 			} else {
@@ -107,10 +115,11 @@ class AppController extends Action {
 					'permissao' => $_POST['permissao']
 				);
 				
-				$this->render('gerencia_usuarios.phtml');
+				$this->render('usuarios-adicionar.phtml');
 			}
 
 		}
+		echo $_GET['acao'];
 
 	}
 

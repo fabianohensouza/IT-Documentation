@@ -18,8 +18,13 @@
      <main>
          <div class="container-fluid">
              <h1 class="mt-5 pt-3 my-1 panel-title">Gerenciar Usuario</h1>
-                                            
-             <form action="/salvar_usuario" method="POST">
+
+            <?php if($_GET['acao'] == 'alterar') {?>                                
+                <form action="/salvar_usuario?acao=alterar" method="POST">
+            <?php } else { ?>                                
+                <form action="/salvar_usuario" method="POST">
+            <?php }?>
+
                  <div class="form-group">
                      <label for="inputNome">Nome</label>
                      <input type="text" class="form-control" id="inputNome" placeholder="Nome Completo do usuário" name="nome" value="<?= $this->view->usuarios['nome'] ?>">

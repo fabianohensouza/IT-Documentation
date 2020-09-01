@@ -49,33 +49,31 @@ class Usuario extends Model {
 	}
 
 	//Salvar
-	public function salvarUsuario() {
+	public function salvarUsuario($acao) {
 
-		echo "<br>" . $this->__get('nome');
-		echo "<br>" . $this->__get('login');
-		echo "<br>" . $this->__get('email');
-		echo "<br>" . $this->__get('cooperativa');
-		echo "<br>" . $this->__get('equipe');
-		echo "<br>" . $this->__get('permissao');
-		echo "<br>" . $this->__get('senha');
-
-		$query = "INSERT INTO usuarios
-					(nome, login, email, cooperativa, permissao, senha)
-				  VALUES
-				  	(:nome, :login, :email, :cooperativa, :permissao, :senha)";
+		if ($acao == 'inserir') {
+			$query = "INSERT INTO usuarios
+							(nome, login, email, cooperativa, permissao, equipe, senha)
+						VALUES
+							(:nome, :login, :email, :cooperativa, :permissao, :equipe, :senha)";
+		} elseif ($acao == 'alterar') {
+			$query = "INSERT INTO usuarios
+							(nome, login, email, cooperativa, permissao, equipe, senha)
+						VALUES
+							(:nome, :login, :email, :cooperativa, :permissao, :equipe, :senha)";
+		}
 
 		$stmt = $this->db->prepare($query);
 		$stmt->bindValue(':nome', $this->__get('nome'));
 		$stmt->bindValue(':login', $this->__get('login'));
 		$stmt->bindValue(':email', $this->__get('email'));
 		$stmt->bindValue(':cooperativa', $this->__get('cooperativa'));
-		$stmt->bindValue(':equipe', $this->__get('equipe'));
 		$stmt->bindValue(':permissao', $this->__get('permissao'));
+		$stmt->bindValue(':equipe', $this->__get('equipe'));
 		$stmt->bindValue(':senha', $this->__get('senha'));
 		$stmt->execute();
 
-		//return $this;
-		echo $this;
+		return $this;
 	}
 
 	//Validar cadastro
