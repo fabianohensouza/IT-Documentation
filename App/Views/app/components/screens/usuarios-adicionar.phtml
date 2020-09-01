@@ -1,11 +1,9 @@
 <?php if($_SESSION['permissao'] == 'Administrador') {
 
-    if(isset($this->view->usuarios['mensagem'])) {
+    
+	if(isset($this->view->usuarios['mensagem'])) {
         $mensagem = $this->view->usuarios['mensagem'];
         switch ($mensagem) {
-            case "sucesso":
-                echo '<script>alert("Usuário cadastrado com sucesso!")</script>';
-                break;
             case "duplicado":
                 echo '<script>alert("Usuário já cadastrado!")</script>';
                 break;
@@ -19,13 +17,22 @@
          <div class="container-fluid">
              <h1 class="mt-5 pt-3 my-1 panel-title">Gerenciar Usuario</h1>
 
-            <?php if($_GET['acao'] == 'alterar') {?>                                
-                <form action="/salvar_usuario?acao=alterar" method="POST">
+            <?php echo $_GET['id'];?>
+            <?php if($_GET['acao'] == 'alterar') {?>  
+
+                <form action="/alterar_usuario?acao=alterar" method="POST">
+                    <input type="hidden" id="inputId" name="id_usuario" value="<?= $this->view->usuarios['id_usuario']?>">
+
+            <?php } elseif($_GET['acao'] == 'deletar') { ?>                                
+
+                <form action="/alterar_usuario?acao=deletar" method="POST">
+                    <input type="hidden" id="inputId" name="id_usuario" value="<?= $this->view->usuarios['id_usuario']?>">
+
             <?php } else { ?>                                
-                <form action="/salvar_usuario" method="POST">
+                <form action="/alterar_usuario" method="POST">
             <?php }?>
 
-                 <div class="form-group">
+                <div class="form-group">
                      <label for="inputNome">Nome</label>
                      <input type="text" class="form-control" id="inputNome" placeholder="Nome Completo do usuário" name="nome" value="<?= $this->view->usuarios['nome'] ?>">
                  </div>
@@ -93,9 +100,15 @@
                          </select>
                      </div>
                 </div>
-                <button type="submit" value="submit" class="btn btn-primary">Enviar</button>
-             </form>
-             <a href="/usuarios" class="btn btn-danger">Voltar&nbsp;</a>
+                <?php if($_GET['acao'] == 'alterar') {?>  
+                    <button type="submit" value="submit" class="btn btn-primary">Alterar</button>
+                <?php } elseif($_GET['acao'] == 'deletar') {?>  
+                    <button type="submit" value="submit" class="btn btn-danger">Deletar</button>
+                <?php } else { ?>                                
+                    <button type="submit" value="submit" class="btn btn-primary">Enviar</button>
+                <?php }?>
+            </form>
+            <a href="/usuarios" class="btn btn-warning">Voltar&nbsp;</a>
          </div>
      </main>
 <?php } ?>

@@ -52,7 +52,7 @@ class AppController extends Action {
 		$this->render('main.phtml');
 	}
 	
-	public function salvarUsuarios() {
+	public function alterarUsuario() {
 
 		$this->validaAutenticacao();
 
@@ -60,6 +60,7 @@ class AppController extends Action {
 
 			$usuarios = Container::getModel('Usuario');
 
+			$usuarios->__set('id_usuario', $_POST['id_usuario']);
 			$usuarios->__set('email', $_POST['email']);
 			$usuarios->__set('nome', $_POST['nome']);
 			$usuarios->__set('login', $_POST['login']);
@@ -72,24 +73,27 @@ class AppController extends Action {
 				
 				if(count($usuarios->usuarioPorEmail()) == 0) {
 
-					$usuarios->salvarUsuario('inserir');
-	
-					$this->view->usuarios['mensagem'] = 'sucesso';
+					$usuarios->alterarUsuario('inserir');
 
-					header('Location: /usuarios');
+					header('Location: /usuarios?mensagem=sucesso');
 					
 				} elseif($_GET['acao'] == 'alterar') {
 
-					$usuarios->salvarUsuario('alterar');
-	
-					$this->view->usuarios['mensagem'] = 'alterado';
+					$usuarios->alterarUsuario('alterar');
 
-					header('Location: /usuarios');
+					header('Location: /usuarios?mensagem=alterado');
+					
+				} elseif($_GET['acao'] == 'deletar') {
+
+					$usuarios->alterarUsuario('deletar');
+
+					header('Location: /usuarios?mensagem=deletado');
 					
 				} else {
 	
 					$this->view->usuarios = array(
 						'mensagem' => 'duplicado',
+						'id_usuario' => $_POST['id_usuario'],
 						'nome' => $_POST['nome'],
 						'email' => $_POST['email'],
 						'login' => $_POST['login'],
@@ -106,6 +110,7 @@ class AppController extends Action {
 	
 				$this->view->usuarios = array(
 					'mensagem' => 'erro',
+					'id_usuario' => $_POST['id_usuario'],
 					'nome' => $_POST['nome'],
 					'email' => $_POST['email'],
 					'login' => $_POST['login'],
@@ -119,7 +124,6 @@ class AppController extends Action {
 			}
 
 		}
-		echo $_GET['acao'];
 
 	}
 

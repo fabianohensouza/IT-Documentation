@@ -49,7 +49,7 @@ class Usuario extends Model {
 	}
 
 	//Salvar
-	public function salvarUsuario($acao) {
+	public function alterarUsuario($acao) {
 
 		if ($acao == 'inserir') {
 			$query = "INSERT INTO usuarios
@@ -57,20 +57,34 @@ class Usuario extends Model {
 						VALUES
 							(:nome, :login, :email, :cooperativa, :permissao, :equipe, :senha)";
 		} elseif ($acao == 'alterar') {
-			$query = "INSERT INTO usuarios
-							(nome, login, email, cooperativa, permissao, equipe, senha)
-						VALUES
-							(:nome, :login, :email, :cooperativa, :permissao, :equipe, :senha)";
+			$query = "UPDATE 
+						usuarios
+					SET
+						nome = :nome , login = :login, email = :email, cooperativa = :cooperativa, permissao = :permissao, equipe = :equipe, senha = :senha
+					WHERE
+						id_usuario = :id_usuario";
+		} elseif ($acao == 'deletar') {
+			$query = "DELETE FROM 
+						usuarios
+					WHERE
+						id_usuario = :id_usuario";
 		}
 
 		$stmt = $this->db->prepare($query);
-		$stmt->bindValue(':nome', $this->__get('nome'));
-		$stmt->bindValue(':login', $this->__get('login'));
-		$stmt->bindValue(':email', $this->__get('email'));
-		$stmt->bindValue(':cooperativa', $this->__get('cooperativa'));
-		$stmt->bindValue(':permissao', $this->__get('permissao'));
-		$stmt->bindValue(':equipe', $this->__get('equipe'));
-		$stmt->bindValue(':senha', $this->__get('senha'));
+		if ($acao == 'alterar' || $acao == 'deletar') { 
+			$stmt->bindValue(':id_usuario', $this->__get('id_usuario')); 
+		}
+		
+		if ($acao == 'inserir' || $acao == 'alterar') { 
+			$stmt->bindValue(':nome', $this->__get('nome'));
+			$stmt->bindValue(':login', $this->__get('login'));
+			$stmt->bindValue(':email', $this->__get('email'));
+			$stmt->bindValue(':cooperativa', $this->__get('cooperativa'));
+			$stmt->bindValue(':permissao', $this->__get('permissao'));
+			$stmt->bindValue(':equipe', $this->__get('equipe'));
+			$stmt->bindValue(':senha', $this->__get('senha'));
+		}
+	
 		$stmt->execute();
 
 		return $this;
