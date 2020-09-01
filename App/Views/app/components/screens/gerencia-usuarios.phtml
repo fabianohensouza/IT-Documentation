@@ -1,7 +1,7 @@
 <?php if($_SESSION['permissao'] == 'Administrador') {
 
-    if(isset($this->view->usuario['mensagem'])) {
-        $mensagem = $this->view->usuario['mensagem'];
+    if(isset($this->view->usuarios['mensagem'])) {
+        $mensagem = $this->view->usuarios['mensagem'];
         switch ($mensagem) {
             case "sucesso":
                 echo '<script>alert("Usuário cadastrado com sucesso!")</script>';
@@ -18,31 +18,30 @@
      <main>
          <div class="container-fluid">
              <h1 class="mt-5 pt-3 my-1 panel-title">Gerenciar Usuario</h1>
-           
-                                 
+                                            
              <form action="/salvar_usuario" method="POST">
                  <div class="form-group">
                      <label for="inputNome">Nome</label>
-                     <input type="text" class="form-control" id="inputNome" placeholder="Nome Completo do usuário" name=”nome“ value="<?= $this->view->usuarios['nome'] ?>">
+                     <input type="text" class="form-control" id="inputNome" placeholder="Nome Completo do usuário" name="nome" value="<?= $this->view->usuarios['nome'] ?>">
                  </div>
                  <div class="form-group">
                      <label for="inputEmail">Email</label>
-                     <input type="email" class="form-control" id="inputEmail" placeholder="Email" name=”email“ value="<?= $this->view->usuarios['email'] ?>">
+                     <input type="email" class="form-control" id="inputEmail" placeholder="Email" name="email" value="<?= $this->view->usuarios['email'] ?>">
                  </div>
                  <div class="form-row">
                      <div class="form-group col-md-6">
                      <label for="inputLogin">Login</label>
-                     <input type="text" class="form-control" id="inputLogin" placeholder="Login do Usuário" name=”login“ value="<?= $this->view->usuarios['login'] ?>">
+                     <input type="text" class="form-control" id="inputLogin" placeholder="Login do Usuário" name="login" value="<?= $this->view->usuarios['login'] ?>">
                      </div>
                      <div class="form-group col-md-6">
                      <label for="inputSenha">Senha</label>
-                     <input type="password" class="form-control" id="inputSenha" placeholder="Senha" name=”senha“ value="<?= $this->view->usuarios['senha'] ?>">
+                     <input type="password" class="form-control" id="inputSenha" placeholder="Senha" name="senha" value="<?= $this->view->usuarios['senha'] ?>">
                      </div>
                  </div>
                  <div class="form-row">
                      <div class="form-group col-md-4">
                          <label for="inputCooperativa">Cooperativa</label>
-                         <select id="inputCooperativa" class="form-control" name=”cooperativa“>
+                         <select id="inputCooperativa" class="form-control" name="cooperativa">
                             
                             <?php if(isset($this->view->usuarios['cooperativa'])) { ?>
                                 <option selected value="<?=$this->view->usuarios['cooperativa'] ?>"><?=$this->view->usuarios['cooperativa'] ?></option>
@@ -59,7 +58,7 @@
                      </div>
                      <div class="form-group col-md-4">
                          <label for="inputEquipe">Equipe</label>
-                         <select id="inputEquipe" class="form-control" name=”equipe“>
+                         <select id="inputEquipe" class="form-control" name="equipe">
                             
                             <?php if(isset($this->view->usuarios['equipe'])) { ?>
                                 <option selected value="<?=$this->view->usuarios['equipe'] ?>"><?=$this->view->usuarios['equipe'] ?></option>
@@ -74,7 +73,7 @@
                      </div>
                      <div class="form-group col-md-4">
                          <label for="inputPermissao">Permissão</label>
-                         <select id="inputPermissao" class="form-control" name=”permissao“>
+                         <select id="inputPermissao" class="form-control" name="permissao">
                             
                             <?php if(isset($this->view->usuarios['permissao'])) { ?>
                                 <option selected value="<?=$this->view->usuarios['permissao'] ?>"><?=$this->view->usuarios['permissao'] ?></option>

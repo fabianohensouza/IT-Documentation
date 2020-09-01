@@ -51,17 +51,17 @@ class Usuario extends Model {
 	//Salvar
 	public function salvarUsuario() {
 
-		echo $this->__get('nome');
-		echo $this->__get('login');
-		echo $this->__get('email');
-		echo $this->__get('cooperativa');
-		echo $this->__get('equipe');
-		echo $this->__get('permissao');
-		echo $this->__get('senha');
+		echo "<br>" . $this->__get('nome');
+		echo "<br>" . $this->__get('login');
+		echo "<br>" . $this->__get('email');
+		echo "<br>" . $this->__get('cooperativa');
+		echo "<br>" . $this->__get('equipe');
+		echo "<br>" . $this->__get('permissao');
+		echo "<br>" . $this->__get('senha');
 
-		/*$query = "insert into usuarios
+		$query = "INSERT INTO usuarios
 					(nome, login, email, cooperativa, permissao, senha)
-				  values
+				  VALUES
 				  	(:nome, :login, :email, :cooperativa, :permissao, :senha)";
 
 		$stmt = $this->db->prepare($query);
@@ -74,16 +74,14 @@ class Usuario extends Model {
 		$stmt->bindValue(':senha', $this->__get('senha'));
 		$stmt->execute();
 
-		return $this;*/
+		//return $this;
+		echo $this;
 	}
 
 	//Validar cadastro
 	public function validarCadastro() {
 
-		echo "<br><br><br><br><br>".$this->__get('nome')." - ".strlen($this->__get('nome'));
-		echo "<br>".$this->__get('email')." - ".strlen($this->__get('email'));
-		echo "<br>".$this->__get('senha')." - ".strlen($this->__get('senha'));;
-		/*$valido = true;
+		$valido = true;
 
 		if(strlen($this->__get('nome')) < 3 ) {
 			$valido = false;
@@ -101,7 +99,7 @@ class Usuario extends Model {
 			$valido = false;
 		}
 
-		return $valido;*/
+		return $valido;
 	}
 
 	//Validar cadastro
