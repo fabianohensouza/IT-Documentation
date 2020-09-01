@@ -1,9 +1,26 @@
-<?php if($_SESSION['permissao'] == 'Administrador') { ?>
+<?php if($_SESSION['permissao'] == 'Administrador') {
+
+    if(isset($this->view->usuario['mensagem'])) {
+        $mensagem = $this->view->usuario['mensagem'];
+        switch ($mensagem) {
+            case "sucesso":
+                echo '<script>alert("Usuário cadastrado com sucesso!")</script>';
+                break;
+            case "duplicado":
+                echo '<script>alert("Usuário já cadastrado!")</script>';
+                break;
+            case "erro":
+                echo '<script>alert("Erro no preenchimento dos campos")</script>';
+                break;
+        }
+    } ?>
+
      <main>
          <div class="container-fluid">
              <h1 class="mt-5 pt-3 my-1 panel-title">Gerenciar Usuario</h1>
-                        
-             <form method="post" action="/salvar_usuario">
+           
+                                 
+             <form action="/salvar_usuario" method="POST">
                  <div class="form-group">
                      <label for="inputNome">Nome</label>
                      <input type="text" class="form-control" id="inputNome" placeholder="Nome Completo do usuário" name=”nome“ value="<?= $this->view->usuarios['nome'] ?>">
@@ -72,9 +89,9 @@
                          </select>
                      </div>
                 </div>
-                <button type="submit" class="btn btn-primary">Enviar</button>
-                <a href="/usuarios" class="btn btn-danger">Retornar</a>
+                <button type="submit" value="submit" class="btn btn-primary">Enviar</button>
              </form>
+             <a href="/usuarios" class="btn btn-danger">Voltar&nbsp;</a>
          </div>
      </main>
 <?php } ?>

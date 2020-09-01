@@ -54,39 +54,58 @@ class AppController extends Action {
 	
 	public function salvarUsuarios() {
 
+		echo "<br><br><br><br><br><pre>";
+		print_r($_POST);
+		echo "</pre>";
+
 		$this->validaAutenticacao();
 
 		if($_SESSION['permissao'] == 'Administrador') {
-			
+
 			$usuario = Container::getModel('Usuario');
 
-			$usuario->__set('nome', $_POST['nome']);
 			$usuario->__set('email', $_POST['email']);
+			$usuario->__set('nome', $_POST['nome']);
 			$usuario->__set('login', $_POST['login']);
 			$usuario->__set('senha', md5($_POST['senha']));
 			$usuario->__set('cooperativa', $_POST['cooperativa']);
 			$usuario->__set('equipe', $_POST['equipe']);
 			$usuario->__set('permissao', $_POST['permissao']);
+			
+			echo "<hr><pre>";
+			print_r($usuario);
+			echo "</pre>";
 
-			if($usuario->validarCadastro()) {
-	
-				if(count($usuario->getUsuarioPorEmail()) == 0) {
+			echo "<br><br><br><br><br><br>nome: ".$usuario->__get('nome');
+			echo "<br>email: ".$usuario->__get('email');
+			echo "<br>senha: ".$usuario->__get('senha');
+			echo "<br>login: ".$usuario->__get('login');
+			echo "<br>cooperativa: ".$usuario->__get('cooperativa');
+			echo "<br>equipe: ".$usuario->__get('equipe');
+			echo "<br>permissao: ".$usuario->__get('permissao');
+
+			/*if($usuario->validarCadastro()) {
 					
-					$usuario->salvar();
+				if(count($usuario->usuarioPorEmail()) == 0) {
+
+					$usuario->salvarUsuario();
 	
-					$this->view->usuarioCadastrado = true;
-	
+					$this->view->usuario['mensagem'] = 'sucesso';
+
 					$this->render('gerencia_usuarios.phtml');
 					
 				} else {
 	
 					$this->view->usuario = array(
+						'mensagem' => 'duplicado',
 						'nome' => $_POST['nome'],
 						'email' => $_POST['email'],
-						'senha' => $_POST['senha']
+						'login' => $_POST['login'],
+						'senha' => $_POST['senha'],
+						'cooperativa' => $_POST['cooperativa'],
+						'equipe' => $_POST['equipe'],
+						'permissao' => $_POST['permissao']
 					);
-	
-					$this->view->usuarioCadastrado = true;
 					
 					$this->render('gerencia_usuarios.phtml');
 				}
@@ -94,18 +113,21 @@ class AppController extends Action {
 			} else {
 	
 				$this->view->usuario = array(
+					'mensagem' => 'erro',
 					'nome' => $_POST['nome'],
 					'email' => $_POST['email'],
-					'senha' => $_POST['senha']
+					'login' => $_POST['login'],
+					'senha' => $_POST['senha'],
+					'cooperativa' => $_POST['cooperativa'],
+					'equipe' => $_POST['equipe'],
+					'permissao' => $_POST['permissao']
 				);
-	
-				$this->view->erroCadastro = true;
 				
 				$this->render('gerencia_usuarios.phtml');
-			
+			}*/
 
-			}
 		}
+
 	}
 
 	public function rateio() {

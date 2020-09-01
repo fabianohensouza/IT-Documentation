@@ -417,6 +417,8 @@ h6, .h6 {
   line-height: 1.2;
 }
 
+a, a:hover { color: inherit; }
+
 hr {
   margin-top: 1rem;
   margin-bottom: 1rem;

@@ -12,6 +12,7 @@ class Usuario extends Model {
 	private $email;
 	private $cooperativa;
 	private $permissao;
+	private $equipe;
 	private $senha;
 
 	public function __get($atributo) {
@@ -50,7 +51,15 @@ class Usuario extends Model {
 	//Salvar
 	public function salvarUsuario() {
 
-		$query = "insert into usuarios
+		echo $this->__get('nome');
+		echo $this->__get('login');
+		echo $this->__get('email');
+		echo $this->__get('cooperativa');
+		echo $this->__get('equipe');
+		echo $this->__get('permissao');
+		echo $this->__get('senha');
+
+		/*$query = "insert into usuarios
 					(nome, login, email, cooperativa, permissao, senha)
 				  values
 				  	(:nome, :login, :email, :cooperativa, :permissao, :senha)";
@@ -60,16 +69,21 @@ class Usuario extends Model {
 		$stmt->bindValue(':login', $this->__get('login'));
 		$stmt->bindValue(':email', $this->__get('email'));
 		$stmt->bindValue(':cooperativa', $this->__get('cooperativa'));
+		$stmt->bindValue(':equipe', $this->__get('equipe'));
 		$stmt->bindValue(':permissao', $this->__get('permissao'));
 		$stmt->bindValue(':senha', $this->__get('senha'));
 		$stmt->execute();
 
-		return $this;
+		return $this;*/
 	}
 
 	//Validar cadastro
 	public function validarCadastro() {
-		$valido = true;
+
+		echo "<br><br><br><br><br>".$this->__get('nome')." - ".strlen($this->__get('nome'));
+		echo "<br>".$this->__get('email')." - ".strlen($this->__get('email'));
+		echo "<br>".$this->__get('senha')." - ".strlen($this->__get('senha'));;
+		/*$valido = true;
 
 		if(strlen($this->__get('nome')) < 3 ) {
 			$valido = false;
@@ -87,7 +101,7 @@ class Usuario extends Model {
 			$valido = false;
 		}
 
-		return $valido;
+		return $valido;*/
 	}
 
 	//Validar cadastro
@@ -113,7 +127,7 @@ class Usuario extends Model {
 	}
 
 	//Recuperar usuário por e-mail
-	public function getUsuarioPorEmail() {
+	public function usuarioPorEmail() {
 		$query = "select nome, email from usuarios where email = :email";
 		$stmt = $this->db->prepare($query);
 		$stmt->bindValue(':email', $this->__get('email'));
