@@ -18,6 +18,7 @@
     <main>
         <div class="container-fluid">
             <h1 class="mt-5 pt-3 my-1 panel-title">Gerenciar Cooperativas</h1>
+            <?php echo "<pre>"; print_r($this->view->cooperativas); echo "</pre>";?>
             <hr><br>
             <button type="button" class="btn btn-info btn-sm mb-4">
                 <a class="nav-link text-white" href="/cooperativas-adicionar" id="adiciona-cooperativas">
@@ -57,11 +58,11 @@
                                         <td><?=$cooperativa['codigo_coop']; ?></td>
                                         <td><?=$cooperativa['nome']; ?></td>
                                         <td><?php echo $cooperativa['infracredis'] == 1 ? "Sim" : "Não"; ?></td>
-                                        <td><?php foreach($cooperativas['resp_ti'] as $ti) {
+                                        <td><?php foreach(explode(",",$cooperativa['resp_ti']) as $ti) {
                                                 echo $ti; 
                                                 echo "<br>"; 
                                             }?>
-                                        <td><?php foreach($cooperativas['diretoria'] as $diretor) {
+                                        <td><?php foreach($cooperativa['diretoria'] as $diretor) {
                                                 echo $diretor; 
                                                 echo "<br>"; 
                                             }?>
