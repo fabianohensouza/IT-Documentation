@@ -126,6 +126,16 @@ class AppController extends Action {
 		}
 
 	}
+	
+	public function cooperativas() {
+
+		$this->validaAutenticacao();
+
+		$cooperativas = Container::getModel('Cooperativa');
+		$this->view->cooperativas = $cooperativas->todasCooperativas();
+
+		$this->render('cooperativas.phtml');
+	}
 
 	public function rateio() {
 
