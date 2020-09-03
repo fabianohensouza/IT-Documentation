@@ -52,17 +52,10 @@ class Cooperativa extends Model {
 
 			$valor = $stmt->fetch(\PDO::FETCH_ASSOC);
 			$cooperativas[$idx]['pas'] = $valor['pas'];
-			echo "<br><br><br>" . $cooperativa['codigo_coop'];
-			print_r($svalor);
-			echo "<br>" . $valor['pas'];
-			//echo "<br>" . $cooperativa['pas'];
+			
 			$idx++;
 		}
-		//$cooperativas[2]['pas'] = 5;
-		echo "<pre>";
-		print_r($cooperativas);
-		echo "</pre>";
-		//return $stmt->fetchAll(\PDO::FETCH_ASSOC);*/
+		
 		return $cooperativas;
 	
 	}

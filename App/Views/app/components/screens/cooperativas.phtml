@@ -74,7 +74,7 @@
                                         <td><?=$cooperativa['qtd_usuarios']; ?></td>
                                         <td><?=$cooperativa['qtd_equip']; ?></td>
                                         <td><?=$cooperativa['pas']; ?></td>
-                                        <td><?=$cooperativa['adesao']; ?></td>
+                                        <td><?=date('d/m/Y', strtotime($cooperativa['adesao'])); ?></td>
                                         <td>
                                         <div class="">
                                             <a href="/cooperativas-adicionar?acao=alterar&id=<?=$cooperativa['codigo_coop']; ?>">
