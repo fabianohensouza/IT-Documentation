@@ -62,9 +62,12 @@
                                                 echo $ti; 
                                                 echo "<br>"; 
                                             }?>
-                                        <td><?php foreach($cooperativa['diretoria'] as $diretor) {
-                                                echo $diretor; 
-                                                echo "<br>"; 
+                                        </td>
+                                        <td><?php $cargo = "(Riscos)";
+                                            foreach(explode(",",$cooperativa['diretoria']) as $diretor) {
+                                                echo $diretor . " " . $cargo; 
+                                                echo "<br>";
+                                                $cargo = "";
                                             }?>
                                         </td>
                                         <td><?=$cooperativa['resp_ic']; ?></td>

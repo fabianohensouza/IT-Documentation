@@ -36,6 +36,8 @@ class Cooperativa extends Model {
 
 		$cooperativas = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 
+		$idx = 0;
+
 		foreach($cooperativas as $cooperativa) {
 
 			$query = "SELECT 
@@ -49,16 +51,19 @@ class Cooperativa extends Model {
 			$stmt->execute();
 
 			$valor = $stmt->fetch(\PDO::FETCH_ASSOC);
+			$cooperativas[$idx]['pas'] = $valor['pas'];
 			echo "<br><br><br>" . $cooperativa['codigo_coop'];
 			print_r($svalor);
 			echo "<br>" . $valor['pas'];
+			//echo "<br>" . $cooperativa['pas'];
+			$idx++;
 		}
-		/*$cooperativas[2]['pas'] = 5;
+		//$cooperativas[2]['pas'] = 5;
 		echo "<pre>";
 		print_r($cooperativas);
 		echo "</pre>";
 		//return $stmt->fetchAll(\PDO::FETCH_ASSOC);*/
-		//return $cooperativas;
+		return $cooperativas;
 	
 	}
 
