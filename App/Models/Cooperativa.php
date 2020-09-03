@@ -34,8 +34,31 @@ class Cooperativa extends Model {
 		$stmt = $this->db->prepare($query);;
 		$stmt->execute();
 
-		
-		return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+		$cooperativas = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+		foreach($cooperativas as $cooperativa) {
+
+			$query = "SELECT 
+						count(*) AS pas 
+					FROM 
+						pas 
+					WHERE coop = :coop";
+				    					
+			$stmt = $this->db->prepare($query);
+			$stmt->bindValue(':coop', $cooperativa['codigo_coop']);
+			$stmt->execute();
+
+			$valor = $stmt->fetch(\PDO::FETCH_ASSOC);
+			echo "<br><br><br>" . $cooperativa['codigo_coop'];
+			print_r($svalor);
+			echo "<br>" . $valor['pas'];
+		}
+		/*$cooperativas[2]['pas'] = 5;
+		echo "<pre>";
+		print_r($cooperativas);
+		echo "</pre>";
+		//return $stmt->fetchAll(\PDO::FETCH_ASSOC);*/
+		//return $cooperativas;
 	
 	}
 
