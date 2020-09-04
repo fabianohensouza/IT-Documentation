@@ -8,6 +8,7 @@ class Cooperativa extends Model {
 
 	private $codigo_coop;
 	private $nome;
+	private $cidade;
 	private $infracredis;
 	private $resp_ti;
 	private $diretoria;

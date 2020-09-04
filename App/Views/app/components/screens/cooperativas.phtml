@@ -39,14 +39,15 @@
                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
-                                    <th>Código</th>
+                                    <th>N&deg;</th>
                                     <th>Nome</th>
+                                    <th>Cidade Sede</th>
                                     <th>IC</th>
                                     <th>Res. TI</th>
                                     <th>Diretoria</th>
                                     <th>Res. IC</th>
                                     <th>Usuários</th>
-                                    <th>Equipamentos</th>
+                                    <th>Equipa-<br>mentos</th>
                                     <th>PAs</th>
                                     <th>Adesão</th>
                                     <th>Ações</th>
@@ -57,13 +58,14 @@
                                     <tr>
                                         <td><?=$cooperativa['codigo_coop']; ?></td>
                                         <td><?=$cooperativa['nome']; ?></td>
+                                        <td><?=$cooperativa['cidade']; ?></td>
                                         <td><?php echo $cooperativa['infracredis'] == 1 ? "Sim" : "Não"; ?></td>
                                         <td><?php foreach(explode(",",$cooperativa['resp_ti']) as $ti) {
                                                 echo $ti; 
                                                 echo "<br>"; 
                                             }?>
                                         </td>
-                                        <td><?php $cargo = "<b>(Riscos)</b>";
+                                        <td><?php $cargo = "<b>(R)</b>";
                                             foreach(explode(",",$cooperativa['diretoria']) as $diretor) {
                                                 echo $diretor . " " . $cargo; 
                                                 echo "<br>";

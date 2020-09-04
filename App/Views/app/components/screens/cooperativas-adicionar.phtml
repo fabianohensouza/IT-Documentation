@@ -20,89 +20,79 @@
             <?php echo $_GET['id'];?>
             <?php if($_GET['acao'] == 'alterar') {?>  
 
-                <form action="/alterar_usuario?acao=alterar" method="POST">
+                <form action="/alterar_cooperativa?acao=alterar" method="POST">
                     <input type="hidden" id="inputId" name="codigo_coop" value="<?= $this->view->cooperativas['codigo_coop']?>">
 
             <?php } elseif($_GET['acao'] == 'deletar') { ?>                                
 
-                <form action="/alterar_usuario?acao=deletar" method="POST">
+                <form action="/alterar_cooperativa?acao=deletar" method="POST">
                     <input type="hidden" id="inputId" name="codigo_coop" value="<?= $this->view->cooperativas['codigo_coop']?>">
 
             <?php } else { ?>                                
-                <form action="/alterar_usuario" method="POST">
+                <form action="/alterar_cooperativa" method="POST">
             <?php }?>
 
-                <div class="form-group">
-                     <label for="inputNome">Nome</label>
-                     <input type="text" class="form-control" id="inputNome" placeholder="Nome da Cooperativa" name="nome" value="<?= $this->view->cooperativas['nome'] ?>">
-                 </div>
-                <div class="form-group">
-                     <label for="inputNome">Nome</label>
-                     <input type="text" class="form-control" id="inputNome" placeholder="Nome da Cooperativa" name="nome" value="<?= $this->view->cooperativas['nome'] ?>">
-                 </div>
-                 <div class="form-group">
-                     <label for="inputEmail">Email</label>
-                     <input type="email" class="form-control" id="inputEmail" placeholder="Email" name="email" value="<?= $this->view->cooperativas['email'] ?>">
-                 </div>
-                 <div class="form-row">
-                     <div class="form-group col-md-6">
-                     <label for="inputLogin">Login</label>
-                     <input type="text" class="form-control" id="inputLogin" placeholder="Login do Usuário" name="login" value="<?= $this->view->cooperativas['login'] ?>">
-                     </div>
-                     <div class="form-group col-md-6">
-                     <label for="inputSenha">Senha</label>
-                     <input type="password" class="form-control" id="inputSenha" placeholder="Senha" name="senha" value="<?= $this->view->cooperativas['senha'] ?>">
-                     </div>
-                 </div>
-                 <div class="form-row">
-                     <div class="form-group col-md-4">
-                         <label for="inputCooperativa">Cooperativa</label>
-                         <select id="inputCooperativa" class="form-control" name="cooperativa">
+                <div class="form-row">
+                    <div class="form-group col-md-2">
+                        <label for="inputCodigo">Código</label>
+                        <input type="text"  maxlength="4" class="form-control" id="inputCodigo" placeholder="Codigo da Cooperativa" name="codigo_coop" value="<?= $this->view->cooperativas['codigo_coop'] ?>">
+                    </div>
+                    <div class="form-group col-md-9">
+                        <label for="inputNome">Nome</label>
+                        <input type="text" class="form-control" id="inputNome" placeholder="Nome da Cooperativa" name="nome" value="<?= $this->view->cooperativas['nome'] ?>">
+                    </div>
+                    <div class="form-group col-md-1">
+                        <label for="inputIC">Infra-Credis</label>
+                        <select id="inputIC" class="form-control" name="infracredis">
                             
-                            <?php if(isset($this->view->cooperativas['cooperativa'])) { ?>
-                                <option selected value="<?=$this->view->cooperativas['cooperativa'] ?>"><?=$this->view->cooperativas['cooperativa'] ?></option>
+                            <?php if(isset($this->view->cooperativas['infracredis'])) { ?>
+                                <option selected value="<?=$this->view->cooperativas['infracredis'] ?>"><?=$this->view->cooperativas['infracredis'] ?></option>
                             <?php } else {?>
-                                <option selected>Selecione...</option>                               
+                                <option selected>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-</option>                               
                             <?php }?>
 
-                            <?php foreach($this->view->cooperativas as $idx_codigoCooperativa => $codigoCooperativa) {
-                                  $codigo = $codigoCooperativa['codigo_coop']; 
-                            ?>
-                                <option value="<?=$codigo; ?>"><?=$codigo; ?></option>
-                            <?php }?>
+                            <option value="Sim">Sim</option>
+                            <option value="Não">Não</option>
                          </select>
-                     </div>
-                     <div class="form-group col-md-4">
-                         <label for="inputEquipe">Equipe</label>
-                         <select id="inputEquipe" class="form-control" name="equipe">
-                            
-                            <?php if(isset($this->view->cooperativas['equipe'])) { ?>
-                                <option selected value="<?=$this->view->cooperativas['equipe'] ?>"><?=$this->view->cooperativas['equipe'] ?></option>
-                            <?php } else {?>
-                                <option selected>Selecione...</option>                               
-                            <?php }?>
+                    </div>
+                </div>
 
-                            <option value="Infraestrutura">Infraestrutura</option>
-                            <option value="Infra-Credis">Infra-Credis</option>
-                            <option value="Cooperativa">Cooperativa</option>
-                         </select>
-                     </div>
-                     <div class="form-group col-md-4">
-                         <label for="inputPermissao">Permissão</label>
-                         <select id="inputPermissao" class="form-control" name="permissao">
-                            
-                            <?php if(isset($this->view->cooperativas['permissao'])) { ?>
-                                <option selected value="<?=$this->view->cooperativas['permissao'] ?>"><?=$this->view->cooperativas['permissao'] ?></option>
-                            <?php } else {?>
-                                <option selected>Selecione...</option>                               
-                            <?php }?>
+                <div class="form-row">
+                    <div class="form-group col-md-9">
+                        <label for="inputCidade">Cidade</label>
+                        <input type="text" class="form-control" id="inputCidade" placeholder="Cidade da Cooperativa" name="cidade_coop" value="<?= $this->view->cooperativas['cidade_coop'] ?>">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="inputAdesao">Data de Adesao</label>
+                        <input type="date" class="form-control" id="inputAdesao" name="adesao" value="<?= $this->view->cooperativas['adesao'] ?>">
+                    </div>
+                </div>
 
-                            <option value="Administrador">Administrador</option>
-                            <option value="Edição">Edição</option>
-                            <option value="Visualização">Visualização</option>
-                            <option value="Cooperativas">Cooperativas</option>
-                         </select>
-                     </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6 border border-light rounded">
+                        <div class="form-group">
+                            <label for="inputDiretor">Diretoria</label>
+                            <input type="text" class="form-control" id="inputDiretorRiscos" placeholder="Diretor de Riscos" name="diretoria[0]" value="<?= $this->view->cooperativas['diretoria'][0] ?>">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="inputDiretor2" placeholder="Diretor Executivo" name="diretoria[1]" value="<?= $this->view->cooperativas['diretoria'][1] ?>">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="inputDiretor3" placeholder="Diretor Executivo" name="diretoria[2]" value="<?= $this->view->cooperativas['diretoria'][2] ?>">
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6 border border-light rounded">
+                        <div class="form-group">
+                            <label for="inputTI">Equipe de TI</label>
+                            <input type="text" class="form-control" id="inputTI" placeholder="Responsável de TI" name="resp_ti[0]" value="<?= $this->view->cooperativas['resp_ti'][0] ?>">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="inputTI" placeholder="Equipe de TI 2" name="resp_ti[1]" value="<?= $this->view->cooperativas['resp_ti'][1] ?>">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="inputTI" placeholder="Equipe de TI 3" name="resp_ti[2]" value="<?= $this->view->cooperativas['resp_ti'][2] ?>">
+                        </div>
+                    </div>
                 </div>
                 <?php if($_GET['acao'] == 'alterar') {?>  
                     <button type="submit" value="submit" class="btn btn-primary">Alterar</button>
