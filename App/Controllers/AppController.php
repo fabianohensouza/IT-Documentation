@@ -52,7 +52,7 @@ class AppController extends Action {
 		$this->render('main.phtml');
 	}
 	
-	public function alterarUsuario() {
+	public function usuarioAlterar() {
 
 		$this->validaAutenticacao();
 
@@ -125,6 +125,27 @@ class AppController extends Action {
 
 		}
 
+	}
+	
+	public function cooperativasAdicionar() {
+
+		$this->validaAutenticacao();
+
+		if($_SESSION['permissao'] == 'Administrador') {
+			
+			$cooperativas = Container::getModel('Cooperativa'); 
+
+			if(isset($_GET['id'])) {
+
+				$cooperativas->__set('codigo_coop', $_GET['id']);
+				$this->view->cooperativas = $cooperativas->CoopPorCod();
+				
+			} 
+
+			$this->render('cooperativas-adicionar.phtml');
+		}
+
+		$this->render('main.phtml');
 	}
 	
 	public function cooperativas() {

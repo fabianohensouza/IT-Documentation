@@ -8,13 +8,13 @@ class Cooperativa extends Model {
 
 	private $codigo_coop;
 	private $nome;
+	private $infracredis;
 	private $resp_ti;
+	private $diretoria;
 	private $resp_ic;
 	private $qtd_usuarios;
 	private $qtd_equip;
-	private $infracredis;
 	private $adesao;
-	private $site_unificado;
 
 	public function __get($atributo) {
 		return $this->$atributo;

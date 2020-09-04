@@ -38,16 +38,22 @@ class Route extends Bootstrap {
 			'action' => 'usuariosAdicionar'
 		);
 
-		$routes['alterar_usuario'] = array(
-			'route' => '/alterar_usuario',
+		$routes['usuario_alterar'] = array(
+			'route' => '/usuario_alterar',
 			'controller' => 'AppController',
-			'action' => 'alterarUsuario'
+			'action' => 'usuarioAlterar'
 		);
 
 		$routes['cooperativas'] = array(
 			'route' => '/cooperativas',
 			'controller' => 'AppController',
 			'action' => 'cooperativas'
+		);
+
+		$routes['cooperativas-adicionar'] = array(
+			'route' => '/cooperativas-adicionar',
+			'controller' => 'AppController',
+			'action' => 'cooperativasAdicionar'
 		);
 
 		$routes['rateio'] = array(

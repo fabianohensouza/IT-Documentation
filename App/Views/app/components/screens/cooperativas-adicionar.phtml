@@ -1,11 +1,11 @@
 <?php if($_SESSION['permissao'] == 'Administrador') {
 
     
-	if(isset($this->view->usuarios['mensagem'])) {
-        $mensagem = $this->view->usuarios['mensagem'];
+	if(isset($this->view->cooperativas['mensagem'])) {
+        $mensagem = $this->view->cooperativas['mensagem'];
         switch ($mensagem) {
             case "duplicado":
-                echo '<script>alert("Usuário já cadastrado!")</script>';
+                echo '<script>alert("Cooperativa já cadastrada!")</script>';
                 break;
             case "erro":
                 echo '<script>alert("Erro no preenchimento dos campos")</script>';
@@ -15,39 +15,43 @@
 
      <main>
          <div class="container-fluid">
-             <h1 class="mt-5 pt-3 my-1 panel-title">Gerenciar Usuario</h1>
+             <h1 class="mt-5 pt-3 my-1 panel-title">Gerenciar Cooperativa</h1>
 
             <?php echo $_GET['id'];?>
             <?php if($_GET['acao'] == 'alterar') {?>  
 
-                <form action="/usuario_alterar?acao=alterar" method="POST">
-                    <input type="hidden" id="inputId" name="id_usuario" value="<?= $this->view->usuarios['id_usuario']?>">
+                <form action="/alterar_usuario?acao=alterar" method="POST">
+                    <input type="hidden" id="inputId" name="codigo_coop" value="<?= $this->view->cooperativas['codigo_coop']?>">
 
             <?php } elseif($_GET['acao'] == 'deletar') { ?>                                
 
-                <form action="/usuario_alterar?acao=deletar" method="POST">
-                    <input type="hidden" id="inputId" name="id_usuario" value="<?= $this->view->usuarios['id_usuario']?>">
+                <form action="/alterar_usuario?acao=deletar" method="POST">
+                    <input type="hidden" id="inputId" name="codigo_coop" value="<?= $this->view->cooperativas['codigo_coop']?>">
 
             <?php } else { ?>                                
-                <form action="/usuario_alterar" method="POST">
+                <form action="/alterar_usuario" method="POST">
             <?php }?>
 
                 <div class="form-group">
                      <label for="inputNome">Nome</label>
-                     <input type="text" class="form-control" id="inputNome" placeholder="Nome Completo do usuário" name="nome" value="<?= $this->view->usuarios['nome'] ?>">
+                     <input type="text" class="form-control" id="inputNome" placeholder="Nome da Cooperativa" name="nome" value="<?= $this->view->cooperativas['nome'] ?>">
+                 </div>
+                <div class="form-group">
+                     <label for="inputNome">Nome</label>
+                     <input type="text" class="form-control" id="inputNome" placeholder="Nome da Cooperativa" name="nome" value="<?= $this->view->cooperativas['nome'] ?>">
                  </div>
                  <div class="form-group">
                      <label for="inputEmail">Email</label>
-                     <input type="email" class="form-control" id="inputEmail" placeholder="Email" name="email" value="<?= $this->view->usuarios['email'] ?>">
+                     <input type="email" class="form-control" id="inputEmail" placeholder="Email" name="email" value="<?= $this->view->cooperativas['email'] ?>">
                  </div>
                  <div class="form-row">
                      <div class="form-group col-md-6">
                      <label for="inputLogin">Login</label>
-                     <input type="text" class="form-control" id="inputLogin" placeholder="Login do Usuário" name="login" value="<?= $this->view->usuarios['login'] ?>">
+                     <input type="text" class="form-control" id="inputLogin" placeholder="Login do Usuário" name="login" value="<?= $this->view->cooperativas['login'] ?>">
                      </div>
                      <div class="form-group col-md-6">
                      <label for="inputSenha">Senha</label>
-                     <input type="password" class="form-control" id="inputSenha" placeholder="Senha" name="senha" value="<?= $this->view->usuarios['senha'] ?>">
+                     <input type="password" class="form-control" id="inputSenha" placeholder="Senha" name="senha" value="<?= $this->view->cooperativas['senha'] ?>">
                      </div>
                  </div>
                  <div class="form-row">
@@ -55,8 +59,8 @@
                          <label for="inputCooperativa">Cooperativa</label>
                          <select id="inputCooperativa" class="form-control" name="cooperativa">
                             
-                            <?php if(isset($this->view->usuarios['cooperativa'])) { ?>
-                                <option selected value="<?=$this->view->usuarios['cooperativa'] ?>"><?=$this->view->usuarios['cooperativa'] ?></option>
+                            <?php if(isset($this->view->cooperativas['cooperativa'])) { ?>
+                                <option selected value="<?=$this->view->cooperativas['cooperativa'] ?>"><?=$this->view->cooperativas['cooperativa'] ?></option>
                             <?php } else {?>
                                 <option selected>Selecione...</option>                               
                             <?php }?>
@@ -72,8 +76,8 @@
                          <label for="inputEquipe">Equipe</label>
                          <select id="inputEquipe" class="form-control" name="equipe">
                             
-                            <?php if(isset($this->view->usuarios['equipe'])) { ?>
-                                <option selected value="<?=$this->view->usuarios['equipe'] ?>"><?=$this->view->usuarios['equipe'] ?></option>
+                            <?php if(isset($this->view->cooperativas['equipe'])) { ?>
+                                <option selected value="<?=$this->view->cooperativas['equipe'] ?>"><?=$this->view->cooperativas['equipe'] ?></option>
                             <?php } else {?>
                                 <option selected>Selecione...</option>                               
                             <?php }?>
@@ -87,8 +91,8 @@
                          <label for="inputPermissao">Permissão</label>
                          <select id="inputPermissao" class="form-control" name="permissao">
                             
-                            <?php if(isset($this->view->usuarios['permissao'])) { ?>
-                                <option selected value="<?=$this->view->usuarios['permissao'] ?>"><?=$this->view->usuarios['permissao'] ?></option>
+                            <?php if(isset($this->view->cooperativas['permissao'])) { ?>
+                                <option selected value="<?=$this->view->cooperativas['permissao'] ?>"><?=$this->view->cooperativas['permissao'] ?></option>
                             <?php } else {?>
                                 <option selected>Selecione...</option>                               
                             <?php }?>
@@ -108,7 +112,7 @@
                     <button type="submit" value="submit" class="btn btn-primary">Enviar</button>
                 <?php }?>
             </form>
-            <a href="/usuarios" class="btn btn-warning">Voltar&nbsp;</a>
+            <a href="/cooperativas" class="btn btn-warning">Voltar&nbsp;</a>
          </div>
      </main>
 <?php } ?>
