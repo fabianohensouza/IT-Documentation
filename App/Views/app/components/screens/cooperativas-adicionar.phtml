@@ -17,7 +17,7 @@
          <div class="container-fluid">
              <h1 class="mt-5 pt-3 my-1 panel-title">Gerenciar Cooperativa</h1>
 
-            <?php echo $_GET['id'];?>
+            
             <?php if($_GET['acao'] == 'alterar') {?>  
 
                 <form action="/alterar_cooperativa?acao=alterar" method="POST">
@@ -31,6 +31,12 @@
             <?php } else { ?>                                
                 <form action="/alterar_cooperativa" method="POST">
             <?php }?>
+
+            <?php 
+            echo "<pre>";
+            print_r($this->view->cooperativas);
+            echo "</pre>";
+            ?>
 
                 <div class="form-row">
                     <div class="form-group col-md-2">
@@ -58,11 +64,15 @@
                 </div>
 
                 <div class="form-row">
-                    <div class="form-group col-md-9">
+                    <div class="form-group col-md-8">
                         <label for="inputCidade">Cidade</label>
                         <input type="text" class="form-control" id="inputCidade" placeholder="Cidade da Cooperativa" name="cidade_coop" value="<?= $this->view->cooperativas['cidade_coop'] ?>">
                     </div>
-                    <div class="form-group col-md-3">
+                    <div class="form-group col-md-2">
+                        <label for="inputEquipamentos">Equipamentos</label>
+                        <input type="number" class="form-control" id="inputEquipamentos" name="qtd_equip" value="<?= $this->view->cooperativas['qtd_equip'] ?>">
+                    </div>
+                    <div class="form-group col-md-2">
                         <label for="inputAdesao">Data de Adesao</label>
                         <input type="date" class="form-control" id="inputAdesao" name="adesao" value="<?= $this->view->cooperativas['adesao'] ?>">
                     </div>
