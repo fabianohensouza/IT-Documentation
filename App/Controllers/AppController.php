@@ -134,6 +134,7 @@ class AppController extends Action {
 		if($_SESSION['permissao'] == 'Administrador') {
 			
 			$cooperativas = Container::getModel('Cooperativa'); 
+			$this->view->cooperativas;
 
 			if(isset($_GET['id'])) {
 
