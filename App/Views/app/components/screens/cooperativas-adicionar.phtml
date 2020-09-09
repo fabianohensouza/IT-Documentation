@@ -33,9 +33,10 @@
             <?php }?>
 
             <?php 
-            echo "<pre>";
-            print_r($this->view->cooperativas);
-            echo "</pre>";
+            
+            $diretoria = explode(",",$this->view->cooperativas['diretoria']);            
+            $resp_ti = explode(",",$this->view->cooperativas['resp_ti']);
+
             ?>
 
                 <div class="form-row">
@@ -64,9 +65,13 @@
                 </div>
 
                 <div class="form-row">
-                    <div class="form-group col-md-8">
+                    <div class="form-group col-md-6">
                         <label for="inputCidade">Cidade</label>
                         <input type="text" class="form-control" id="inputCidade" placeholder="Cidade da Cooperativa" name="cidade_coop" value="<?= $this->view->cooperativas['cidade_coop'] ?>">
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="inputUsuarios">Usuários</label>
+                        <input type="number" class="form-control" id="inputUsuarios" name="qtd_usuarios" value="<?= $this->view->cooperativas['qtd_usuarios'] ?>">
                     </div>
                     <div class="form-group col-md-2">
                         <label for="inputEquipamentos">Equipamentos</label>
@@ -82,25 +87,25 @@
                     <div class="form-group col-md-6 border border-light rounded">
                         <div class="form-group">
                             <label for="inputDiretor">Diretoria</label>
-                            <input type="text" class="form-control" id="inputDiretorRiscos" placeholder="Diretor de Riscos" name="diretoria[0]" value="<?= $this->view->cooperativas['diretoria'][0] ?>">
+                            <input type="text" class="form-control" id="inputDiretorRiscos" placeholder="Diretor de Riscos" name="diretoria[0]" value="<?= $diretoria[0] ?>">
                         </div>
                         <div class="form-group">
-                            <input type="text" class="form-control" id="inputDiretor2" placeholder="Diretor Executivo" name="diretoria[1]" value="<?= $this->view->cooperativas['diretoria'][1] ?>">
+                            <input type="text" class="form-control" id="inputDiretor2" placeholder="Diretor Executivo" name="diretoria[1]" value="<?= $diretoria[1] ?>">
                         </div>
                         <div class="form-group">
-                            <input type="text" class="form-control" id="inputDiretor3" placeholder="Diretor Executivo" name="diretoria[2]" value="<?= $this->view->cooperativas['diretoria'][2] ?>">
+                            <input type="text" class="form-control" id="inputDiretor3" placeholder="Diretor Executivo" name="diretoria[2]" value="<?= $diretoria[2] ?>">
                         </div>
                     </div>
                     <div class="form-group col-md-6 border border-light rounded">
                         <div class="form-group">
                             <label for="inputTI">Equipe de TI</label>
-                            <input type="text" class="form-control" id="inputTI" placeholder="Responsável de TI" name="resp_ti[0]" value="<?= $this->view->cooperativas['resp_ti'][0] ?>">
+                            <input type="text" class="form-control" id="inputTI" placeholder="Responsável de TI" name="resp_ti[0]" value="<?= $resp_ti[0] ?>">
                         </div>
                         <div class="form-group">
-                            <input type="text" class="form-control" id="inputTI" placeholder="Equipe de TI 2" name="resp_ti[1]" value="<?= $this->view->cooperativas['resp_ti'][1] ?>">
+                            <input type="text" class="form-control" id="inputTI" placeholder="Equipe de TI 2" name="resp_ti[1]" value="<?= $resp_ti[1] ?>">
                         </div>
                         <div class="form-group">
-                            <input type="text" class="form-control" id="inputTI" placeholder="Equipe de TI 3" name="resp_ti[2]" value="<?= $this->view->cooperativas['resp_ti'][2] ?>">
+                            <input type="text" class="form-control" id="inputTI" placeholder="Equipe de TI 3" name="resp_ti[2]" value="<?= $resp_ti[2] ?>">
                         </div>
                     </div>
                 </div>

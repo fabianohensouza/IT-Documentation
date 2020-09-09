@@ -75,16 +75,14 @@ class Cooperativa extends Model {
 	}
 
 	public function CoopPorCod() {
-		$query = "SELECT * FROM usuarios WHERE codigo_coop = :codigo_coop";
+
+		$query = "SELECT * FROM cooperativas WHERE codigo_coop = :codigo_coop";
 
 		$stmt = $this->db->prepare($query);
 		$stmt->bindValue(':codigo_coop', $this->__get('codigo_coop'));
 		$stmt->execute();
 
-		echo "<pre>";
-		print_r($stmt->fetch(\PDO::FETCH_ASSOC));
-		echo "</pre>";
-		//return $stmt->fetch(\PDO::FETCH_ASSOC);
+		return $stmt->fetch(\PDO::FETCH_ASSOC);
 
 	}
 

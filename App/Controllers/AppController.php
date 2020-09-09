@@ -145,7 +145,7 @@ class AppController extends Action {
 			$this->render('cooperativas-adicionar.phtml');
 		}
 
-		//$this->render('main.phtml');
+		$this->render('main.phtml');
 	}
 	
 	public function cooperativas() {
