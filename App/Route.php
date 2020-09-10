@@ -56,6 +56,12 @@ class Route extends Bootstrap {
 			'action' => 'cooperativasAdicionar'
 		);
 
+		$routes['cooperativa_alterar'] = array(
+			'route' => '/cooperativa_alterar',
+			'controller' => 'AppController',
+			'action' => 'cooperativaAlterar'
+		);
+
 		$routes['rateio'] = array(
 			'route' => '/rateio',
 			'controller' => 'AppController',

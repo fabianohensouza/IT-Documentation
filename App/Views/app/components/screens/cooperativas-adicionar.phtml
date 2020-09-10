@@ -15,7 +15,7 @@
 
      <main>
          <div class="container-fluid">
-             <h1 class="mt-5 pt-3 my-1 panel-title">Gerenciar Cooperativa</h1>
+             <h1 class="mt-5 pt-3 my-1 panel-title">Gerenciar Cooperativa</h1><hr>
 
             
             <?php if($_GET['acao'] == 'alterar') {?>  
@@ -36,16 +36,23 @@
             
             $diretoria = explode(",",$this->view->cooperativas['diretoria']);            
             $resp_ti = explode(",",$this->view->cooperativas['resp_ti']);
+            /*echo "<pre>";
+            print_r($this->view->cooperativas);
+            echo "</pre>";*/
 
             ?>
 
                 <div class="form-row">
-                    <div class="form-group col-md-2">
+                    <div class="form-group col-md-1">
                         <label for="inputCodigo">Código</label>
                         <input type="text"  maxlength="4" class="form-control" id="inputCodigo" placeholder="Codigo da Cooperativa" name="codigo_coop" value="<?= $this->view->cooperativas['codigo_coop'] ?>">
                     </div>
-                    <div class="form-group col-md-9">
+                    <div class="form-group col-md-5">
                         <label for="inputNome">Nome</label>
+                        <input type="text" class="form-control" id="inputNome" placeholder="Nome da Cooperativa" name="nome" value="<?= $this->view->cooperativas['nome'] ?>">
+                    </div>
+                    <div class="form-group col-md-5">
+                        <label for="inputNome">Responsável Infra-Credis</label>
                         <input type="text" class="form-control" id="inputNome" placeholder="Nome da Cooperativa" name="nome" value="<?= $this->view->cooperativas['nome'] ?>">
                     </div>
                     <div class="form-group col-md-1">
@@ -56,10 +63,13 @@
                                 <option selected value="<?=$this->view->cooperativas['infracredis'] ?>"><?=$this->view->cooperativas['infracredis'] ?></option>
                             <?php } else {?>
                                 <option selected>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-</option>                               
-                            <?php }?>
-
-                            <option value="Sim">Sim</option>
-                            <option value="Não">Não</option>
+                            <?php }
+                            
+                            if($this->view->cooperativas['infracredis'] != "Sim") { ?>
+                                <option value="Sim">Sim</option>
+                            <?php } else if($this->view->cooperativas['infracredis'] != "Não") {?>
+                                <option value="Não">Não</option>
+                                <?php } ?>
                          </select>
                     </div>
                 </div>
@@ -67,7 +77,23 @@
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="inputCidade">Cidade</label>
-                        <input type="text" class="form-control" id="inputCidade" placeholder="Cidade da Cooperativa" name="cidade_coop" value="<?= $this->view->cooperativas['cidade_coop'] ?>">
+                        <select id="inputCidade" class="form-control selectpicker" name="nome_cidade" data-live-search="true">
+                            
+                            <?php if(isset($this->view->cooperativas['nome_cidade'])) { ?>
+                                <option selected value="<?=$this->view->cooperativas['nome_cidade'] ?>"><?=$this->view->cooperativas['nome_cidade'] ?></option>
+                            <?php } else {?>
+                                <option selected>Selecione...</option>                               
+                            <?php }
+                            
+                            foreach($this->view->cooperativas['cidades'] as $idx_cidades => $cidades)  { 
+                                
+                                if($cidades['nome_cidade'] != $this->view->cooperativas['nome_cidade']) { ?>
+                                <option value="<?=$cidades['nome_cidade']; ?>"><?=$cidades['nome_cidade']; ?></option>
+                            <?php 
+                                }
+                            }
+                            ?>
+                         </select>
                     </div>
                     <div class="form-group col-md-2">
                         <label for="inputUsuarios">Usuários</label>

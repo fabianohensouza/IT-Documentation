@@ -58,7 +58,7 @@
                                     <tr>
                                         <td><?=$cooperativa['codigo_coop']; ?></td>
                                         <td><?=$cooperativa['nome']; ?></td>
-                                        <td><?=$cooperativa['cidade']; ?></td>
+                                        <td><?=$cooperativa['nome_cidade']; ?></td>
                                         <td><?php echo $cooperativa['infracredis'] == 1 ? "Sim" : "Não"; ?></td>
                                         <td><?php foreach(explode(",",$cooperativa['resp_ti']) as $ti) {
                                                 echo $ti; 

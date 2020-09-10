@@ -23,7 +23,6 @@ class Usuario extends Model {
 		$this->$atributo = $valor;
 	}
 
-	//Recuperar todos usuários
 	public function todosUsuarios() {
 		$query = "SELECT id_usuario, permissao, nome, login, email, cooperativa, equipe FROM usuarios";
 
@@ -35,7 +34,24 @@ class Usuario extends Model {
 
 	}
 
-	//Recuperar usuário  por ID
+	public function todosUsuariosIC() {
+		$query = "SELECT 
+					id_usuario, permissao, nome, login, email, cooperativa, equipe 
+				  FROM 
+					usuarios
+				  WHERE
+				  	equipe = :equipe";
+
+		$stmt = $this->db->prepare($query);
+		$stmt->bindValue(':equipe', "Infra-Credis");
+		$stmt->execute();
+
+		
+		return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+	}
+
+	
 	public function usuarioPorId() {
 		$query = "SELECT * FROM usuarios WHERE id_usuario = :id_usuario";
 
@@ -48,7 +64,7 @@ class Usuario extends Model {
 
 	}
 
-	//Salvar
+	
 	public function alterarUsuario($acao) {
 
 		if ($acao == 'inserir') {

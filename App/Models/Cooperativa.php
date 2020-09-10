@@ -8,7 +8,7 @@ class Cooperativa extends Model {
 
 	private $codigo_coop;
 	private $nome;
-	private $cidade;
+	private $nome_cidade;
 	private $infracredis;
 	private $resp_ti;
 	private $diretoria;
@@ -61,7 +61,6 @@ class Cooperativa extends Model {
 	
 	}
 
-	//Recuperar todos usuários
 	public function codigoCooperativas() {
 		$query = "SELECT codigo_coop 
 				  FROM cooperativas";
@@ -70,6 +69,17 @@ class Cooperativa extends Model {
 		$stmt->execute();
 
 		
+		return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+	
+	}
+
+	public function cidadesMG() {
+		$query = "SELECT nome_cidade 
+				  FROM cidades_mg";
+
+		$stmt = $this->db->prepare($query);;
+		$stmt->execute();
+
 		return $stmt->fetchAll(\PDO::FETCH_ASSOC);
 	
 	}

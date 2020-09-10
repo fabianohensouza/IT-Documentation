@@ -142,6 +142,9 @@ class AppController extends Action {
 				
 			} 
 
+			//$this->view->cidades = $cooperativas->cidadesMG();
+			$this->view->cooperativas['cidades'] = $cooperativas->cidadesMG();
+
 			$this->render('cooperativas-adicionar.phtml');
 		}
 
@@ -156,6 +159,81 @@ class AppController extends Action {
 		$this->view->cooperativas = $cooperativas->todasCooperativas();
 
 		$this->render('cooperativas.phtml');
+	}
+	
+	public function cooperativaAlterar() {
+
+		$this->validaAutenticacao();
+
+		if($_SESSION['permissao'] == 'Administrador') {
+
+			$usuarios = Container::getModel('Cooperativa');
+
+			$usuarios->__set('codigo_coop', $_POST['codigo_coop']);
+			$usuarios->__set('nome', $_POST['nome']);
+			$usuarios->__set('nome_cidade', $_POST['nome_cidade']);
+			$usuarios->__set('infracredis', $_POST['infracredis']);
+			$usuarios->__set('resp_ic', $_POST['resp_ic']);
+			$usuarios->__set('qtd_usuarios', $_POST['qtd_usuarios']);
+			$usuarios->__set('qtd_equip', $_POST['qtd_equip']);
+			$usuarios->__set('adesao', $_POST['adesao']);
+
+			if($usuarios->validarCadastro()) {
+				
+				if(count($usuarios->usuarioPorEmail()) == 0) {
+
+					$usuarios->alterarUsuario('inserir');
+
+					header('Location: /usuarios?mensagem=sucesso');
+					
+				} elseif($_GET['acao'] == 'alterar') {
+
+					$usuarios->alterarUsuario('alterar');
+
+					header('Location: /usuarios?mensagem=alterado');
+					
+				} elseif($_GET['acao'] == 'deletar') {
+
+					$usuarios->alterarUsuario('deletar');
+
+					header('Location: /usuarios?mensagem=deletado');
+					
+				} else {
+	
+					$this->view->usuarios = array(
+						'mensagem' => 'duplicado',
+						'id_usuario' => $_POST['id_usuario'],
+						'nome' => $_POST['nome'],
+						'email' => $_POST['email'],
+						'login' => $_POST['login'],
+						'senha' => $_POST['senha'],
+						'cooperativa' => $_POST['cooperativa'],
+						'equipe' => $_POST['equipe'],
+						'permissao' => $_POST['permissao']
+					);
+					
+					$this->render('usuarios-adicionar.phtml');
+				}
+	
+			} else {
+	
+				$this->view->usuarios = array(
+					'mensagem' => 'erro',
+					'id_usuario' => $_POST['id_usuario'],
+					'nome' => $_POST['nome'],
+					'email' => $_POST['email'],
+					'login' => $_POST['login'],
+					'senha' => $_POST['senha'],
+					'cooperativa' => $_POST['cooperativa'],
+					'equipe' => $_POST['equipe'],
+					'permissao' => $_POST['permissao']
+				);
+				
+				$this->render('usuarios-adicionar.phtml');
+			}
+
+		}
+
 	}
 
 	public function rateio() {
