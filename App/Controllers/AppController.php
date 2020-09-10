@@ -43,7 +43,7 @@ class AppController extends Action {
 				$this->view->usuarios = $usuarios->usuarioPorId();
 				
 			}    
-
+			
 			$this->view->cooperativas = $cooperativas->codigoCooperativas();
 
 			$this->render('usuarios-adicionar.phtml');
