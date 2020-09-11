@@ -169,7 +169,6 @@ class AppController extends Action {
 		print_r($_POST);
 		echo "</pre><hr><hr>";
 
-		/*
 		$this->validaAutenticacao();
 
 		if($_SESSION['permissao'] == 'Administrador') {
@@ -178,54 +177,37 @@ class AppController extends Action {
 
 			$usuarios->__set('codigo_coop', $_POST['codigo_coop']);
 			$usuarios->__set('nome', $_POST['nome']);
-			$usuarios->__set('nome_cidade', $_POST['nome_cidade']);
-			$usuarios->__set('infracredis', $_POST['infracredis']);
 			$usuarios->__set('resp_ic', $_POST['resp_ic']);
+			$usuarios->__set('infracredis', $_POST['infracredis']);
+			$usuarios->__set('nome_cidade', $_POST['nome_cidade']);
 			$usuarios->__set('qtd_usuarios', $_POST['qtd_usuarios']);
 			$usuarios->__set('qtd_equip', $_POST['qtd_equip']);
 			$usuarios->__set('adesao', $_POST['adesao']);
+			$usuarios->__set('diretoria', implode(",",$_POST['diretoria']));
+			$usuarios->__set('resp_ti', implode(",",$_POST['resp_ti']));
 
-			if($usuarios->validarCadastro()) {
-				
-				if(count($usuarios->usuarioPorEmail()) == 0) {
+			if(count($usuarios->usuarioPorCod()) == 0) {
 
-					$usuarios->alterarUsuario('inserir');
+				$usuarios->alterarCooperativa('inserir');
 
-					header('Location: /usuarios?mensagem=sucesso');
+				header('Location: /usuarios?mensagem=sucesso');
 					
-				} elseif($_GET['acao'] == 'alterar') {
+			} elseif($_GET['acao'] == 'alterar') {
 
-					$usuarios->alterarUsuario('alterar');
+				$usuarios->alterarCooperativa('alterar');
 
-					header('Location: /usuarios?mensagem=alterado');
+				header('Location: /usuarios?mensagem=alterado');
 					
-				} elseif($_GET['acao'] == 'deletar') {
+			} elseif($_GET['acao'] == 'deletar') {
 
-					$usuarios->alterarUsuario('deletar');
+				$usuarios->alterarCooperativa('deletar');
 
-					header('Location: /usuarios?mensagem=deletado');
+				header('Location: /usuarios?mensagem=deletado');
 					
-				} else {
-	
-					$this->view->usuarios = array(
-						'mensagem' => 'duplicado',
-						'id_usuario' => $_POST['id_usuario'],
-						'nome' => $_POST['nome'],
-						'email' => $_POST['email'],
-						'login' => $_POST['login'],
-						'senha' => $_POST['senha'],
-						'cooperativa' => $_POST['cooperativa'],
-						'equipe' => $_POST['equipe'],
-						'permissao' => $_POST['permissao']
-					);
-					
-					$this->render('usuarios-adicionar.phtml');
-				}
-	
 			} else {
 	
 				$this->view->usuarios = array(
-					'mensagem' => 'erro',
+					'mensagem' => 'duplicado',
 					'id_usuario' => $_POST['id_usuario'],
 					'nome' => $_POST['nome'],
 					'email' => $_POST['email'],
@@ -234,12 +216,13 @@ class AppController extends Action {
 					'cooperativa' => $_POST['cooperativa'],
 					'equipe' => $_POST['equipe'],
 					'permissao' => $_POST['permissao']
-				);
-				
+			);
+					
 				$this->render('usuarios-adicionar.phtml');
 			}
-
-		}*/
+				
+				$this->render('usuarios-adicionar.phtml');
+		}
 
 	}
 
