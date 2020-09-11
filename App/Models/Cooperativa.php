@@ -95,6 +95,45 @@ class Cooperativa extends Model {
 		return $stmt->fetch(\PDO::FETCH_ASSOC);
 
 	}
+	
+	public function alterarCooperativa($acao) {
+
+		if ($acao == 'inserir') {
+			$query = "INSERT INTO cooperativas
+							(codigo_coop, nome, nome_cidade, infracredis, resp_ti, diretoria, resp_ic, qtd_usuarios, qtd_equip, adesao)
+						VALUES
+							(:codigo_coop, :nome, :nome_cidade, :infracredis, :resp_ti, :diretoria, :resp_ic, :qtd_usuarios, :qtd_equip, :adesao)";
+		} elseif ($acao == 'alterar') {
+			$query = "UPDATE 
+						cooperativas
+					SET
+					codigo_coop = :codigo_coop, nome = :nome, nome_cidade = :nome_cidade, infracredis = :infracredis, resp_ti = :resp_ti, diretoria = :diretoria, resp_ic = :resp_ic, qtd_usuarios = :qtd_usuarios, qtd_equip = :qtd_equip, adesao = :adesao
+					WHERE
+						codigo_coop = :codigo_coop";
+		} elseif ($acao == 'deletar') {
+			$query = "DELETE FROM 
+						cooperativas
+					WHERE
+						codigo_coop = :codigo_coop";
+		}
+
+		$stmt = $this->db->prepare($query);
+		
+		$stmt->bindValue(':codigo_coop', $this->__get('codigo_coop')); 
+		$stmt->bindValue(':nome', $this->__get('nome'));
+		$stmt->bindValue(':resp_ic', $this->__get('resp_ic'));
+		$stmt->bindValue(':infracredis', $this->__get('infracredis'));
+		$stmt->bindValue(':nome_cidade', $this->__get('nome_cidade'));
+		$stmt->bindValue(':qtd_usuarios', $this->__get('qtd_usuarios'));
+		$stmt->bindValue(':qtd_equip', $this->__get('qtd_equip'));
+		$stmt->bindValue(':adesao', $this->__get('adesao'));
+		$stmt->bindValue(':diretoria', $this->__get('diretoria'));
+		$stmt->bindValue(':resp_ti', $this->__get('resp_ti'));
+	
+		$stmt->execute();
+
+		return $this;
+	}
 
 	//Salvar
 	public function salvar() {

@@ -165,10 +165,6 @@ class AppController extends Action {
 	
 	public function cooperativaAlterar() {
 
-		echo "<hr><hr><pre>";
-		print_r($_POST);
-		echo "</pre><hr><hr>";
-
 		$this->validaAutenticacao();
 
 		if($_SESSION['permissao'] == 'Administrador') {
@@ -186,36 +182,38 @@ class AppController extends Action {
 			$usuarios->__set('diretoria', implode(",",$_POST['diretoria']));
 			$usuarios->__set('resp_ti', implode(",",$_POST['resp_ti']));
 
-			if(count($usuarios->usuarioPorCod()) == 0) {
+			if(count($usuarios->CoopPorCod()) == 0) {
 
 				$usuarios->alterarCooperativa('inserir');
 
-				header('Location: /usuarios?mensagem=sucesso');
+				header('Location: /cooperativas?mensagem=sucesso');
 					
 			} elseif($_GET['acao'] == 'alterar') {
 
 				$usuarios->alterarCooperativa('alterar');
 
-				header('Location: /usuarios?mensagem=alterado');
+				header('Location: /cooperativas?mensagem=alterado');
 					
 			} elseif($_GET['acao'] == 'deletar') {
 
 				$usuarios->alterarCooperativa('deletar');
 
-				header('Location: /usuarios?mensagem=deletado');
+				header('Location: /cooperativas?mensagem=deletado');
 					
 			} else {
 	
 				$this->view->usuarios = array(
 					'mensagem' => 'duplicado',
-					'id_usuario' => $_POST['id_usuario'],
+					'codigo_coop' => $_POST['codigo_coop'],
 					'nome' => $_POST['nome'],
-					'email' => $_POST['email'],
-					'login' => $_POST['login'],
-					'senha' => $_POST['senha'],
-					'cooperativa' => $_POST['cooperativa'],
-					'equipe' => $_POST['equipe'],
-					'permissao' => $_POST['permissao']
+					'resp_ic' => $_POST['resp_ic'],
+					'infracredis' => $_POST['infracredis'],
+					'nome_cidade' => $_POST['nome_cidade'],
+					'qtd_usuarios' => $_POST['qtd_usuarios'],
+					'qtd_equip' => $_POST['qtd_equip'],
+					'adesao' => $_POST['adesao'],
+					'diretoria' => $_POST['diretoria'],
+					'resp_ti' => $_POST['resp_ti']
 			);
 					
 				$this->render('usuarios-adicionar.phtml');
