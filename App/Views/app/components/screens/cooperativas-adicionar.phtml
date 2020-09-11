@@ -20,25 +20,22 @@
             
             <?php if($_GET['acao'] == 'alterar') {?>  
 
-                <form action="/alterar_cooperativa?acao=alterar" method="POST">
+                <form action="/cooperativa_alterar?acao=alterar" method="POST">
                     <input type="hidden" id="inputId" name="codigo_coop" value="<?= $this->view->cooperativas['codigo_coop']?>">
 
             <?php } elseif($_GET['acao'] == 'deletar') { ?>                                
 
-                <form action="/alterar_cooperativa?acao=deletar" method="POST">
+                <form action="/cooperativa_alterar?acao=deletar" method="POST">
                     <input type="hidden" id="inputId" name="codigo_coop" value="<?= $this->view->cooperativas['codigo_coop']?>">
 
             <?php } else { ?>                                
-                <form action="/alterar_cooperativa" method="POST">
+                <form action="/cooperativa_alterar" method="POST">
             <?php }?>
 
             <?php 
             
             $diretoria = explode(",",$this->view->cooperativas['diretoria']);            
             $resp_ti = explode(",",$this->view->cooperativas['resp_ti']);
-            /*echo "<pre>";
-            print_r($this->view->cooperativas);
-            echo "</pre>";*/
 
             ?>
 
@@ -52,8 +49,22 @@
                         <input type="text" class="form-control" id="inputNome" placeholder="Nome da Cooperativa" name="nome" value="<?= $this->view->cooperativas['nome'] ?>">
                     </div>
                     <div class="form-group col-md-5">
-                        <label for="inputNome">Responsável Infra-Credis</label>
-                        <input type="text" class="form-control" id="inputNome" placeholder="Nome da Cooperativa" name="nome" value="<?= $this->view->cooperativas['nome'] ?>">
+                        <label for="inputRespIc">Responsável Infra-Credis</label>
+                        <select id="inputRespIc" class="form-control" name="resp_ic">
+                            
+                            <?php if(isset($this->view->cooperativas['resp_ic'])) { ?>
+                                <option selected value="<?=$this->view->cooperativas['resp_ic'] ?>"><?=$this->view->cooperativas['resp_ic'] ?></option>
+                            <?php } else {?>
+                                <option selected>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-</option>                               
+                            <?php } ?>
+
+                            <?php foreach($this->view->cooperativas['equipeic'] as $idx_equipe_ic => $equipe_ic) {
+                                $resp_ic = $equipe_ic['nome']; 
+                            ?>
+                                <option value="<?=$resp_ic; ?>"><?=$resp_ic; ?></option>
+                            <?php } ?>
+                            
+                         </select>
                     </div>
                     <div class="form-group col-md-1">
                         <label for="inputIC">Infra-Credis</label>
@@ -63,13 +74,11 @@
                                 <option selected value="<?=$this->view->cooperativas['infracredis'] ?>"><?=$this->view->cooperativas['infracredis'] ?></option>
                             <?php } else {?>
                                 <option selected>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-</option>                               
-                            <?php }
+                            <?php } ?>
                             
-                            if($this->view->cooperativas['infracredis'] != "Sim") { ?>
                                 <option value="Sim">Sim</option>
-                            <?php } else if($this->view->cooperativas['infracredis'] != "Não") {?>
                                 <option value="Não">Não</option>
-                                <?php } ?>
+
                          </select>
                     </div>
                 </div>

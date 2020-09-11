@@ -13,6 +13,7 @@ class Usuario extends Model {
 	private $cooperativa;
 	private $permissao;
 	private $equipe;
+	private $equipeic;
 	private $senha;
 
 	public function __get($atributo) {
@@ -36,7 +37,7 @@ class Usuario extends Model {
 
 	public function todosUsuariosIC() {
 		$query = "SELECT 
-					id_usuario, permissao, nome, login, email, cooperativa, equipe 
+					nome 
 				  FROM 
 					usuarios
 				  WHERE

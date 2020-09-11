@@ -134,6 +134,7 @@ class AppController extends Action {
 		if($_SESSION['permissao'] == 'Administrador') {
 			
 			$cooperativas = Container::getModel('Cooperativa'); 
+			$usuarios = Container::getModel('Usuario');
 
 			if(isset($_GET['id'])) {
 
@@ -144,6 +145,7 @@ class AppController extends Action {
 
 			//$this->view->cidades = $cooperativas->cidadesMG();
 			$this->view->cooperativas['cidades'] = $cooperativas->cidadesMG();
+			$this->view->cooperativas['equipeic'] = $usuarios->todosUsuariosIC();
 
 			$this->render('cooperativas-adicionar.phtml');
 		}
@@ -152,7 +154,7 @@ class AppController extends Action {
 	}
 	
 	public function cooperativas() {
-
+		
 		$this->validaAutenticacao();
 
 		$cooperativas = Container::getModel('Cooperativa');
@@ -163,6 +165,11 @@ class AppController extends Action {
 	
 	public function cooperativaAlterar() {
 
+		echo "<hr><hr><pre>";
+		print_r($_POST);
+		echo "</pre><hr><hr>";
+
+		/*
 		$this->validaAutenticacao();
 
 		if($_SESSION['permissao'] == 'Administrador') {
@@ -232,7 +239,7 @@ class AppController extends Action {
 				$this->render('usuarios-adicionar.phtml');
 			}
 
-		}
+		}*/
 
 	}
 
