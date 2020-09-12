@@ -6,16 +6,18 @@ use MF\Model\Model;
 
 class Cooperativa extends Model {
 
-	private $codigo_coop;
-	private $nome;
-	private $nome_cidade;
-	private $infracredis;
-	private $resp_ti;
-	private $diretoria;
-	private $resp_ic;
-	private $qtd_usuarios;
-	private $qtd_equip;
-	private $adesao;
+	private $id_pa;
+    private $codigo_pa;
+    private $coop;
+    private $nome_cidade;
+    private $tipo_pa;
+    private $firewall;
+    private $link_x0;
+    private $link_x1;
+    private $link_x2;
+    private $link_x3;
+    private $link_x4;
+    private $link_x5;
 
 	public function __get($atributo) {
 		return $this->$atributo;
@@ -26,38 +28,18 @@ class Cooperativa extends Model {
 	}
 
 	//Recuperar todos usuários
-	public function todasCooperativas() {
+	public function todosPas() {
 		$query = "SELECT 
 					* 
 				  FROM 
-				  	cooperativas";
+				  	pas";
 
 		$stmt = $this->db->prepare($query);;
 		$stmt->execute();
 
-		$cooperativas = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-
-		$idx = 0;
-
-		foreach($cooperativas as $cooperativa) {
-
-			$query = "SELECT 
-						count(*) AS pas 
-					FROM 
-						pas 
-					WHERE coop = :coop";
-				    					
-			$stmt = $this->db->prepare($query);
-			$stmt->bindValue(':coop', $cooperativa['codigo_coop']);
-			$stmt->execute();
-
-			$valor = $stmt->fetch(\PDO::FETCH_ASSOC);
-			$cooperativas[$idx]['pas'] = $valor['pas'];
-			
-			$idx++;
-		}
+		$pas = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 		
-		return $cooperativas;
+		return $pas;
 	
 	}
 

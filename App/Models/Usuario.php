@@ -77,7 +77,7 @@ class Usuario extends Model {
 			$query = "UPDATE 
 						usuarios
 					SET
-						nome = :nome , login = :login, email = :email, cooperativa = :cooperativa, permissao = :permissao, equipe = :equipe, senha = :senha
+						nome = :nome , login = :login, email = :email, cooperativa = :cooperativa, permissao = :permissao, equipe = :equipe
 					WHERE
 						id_usuario = :id_usuario";
 		} elseif ($acao == 'deletar') {
@@ -161,95 +161,6 @@ class Usuario extends Model {
 		$stmt->execute();
 
 		return $stmt->fetchAll(\PDO::FETCH_ASSOC);
-
-	}
-
-	//Seguir usuários
-	public function seguirUsuario($id_usuario_seguindo) {
-
-		$query = "insert into usuarios_seguidores(id_usuario, id_usuario_seguindo)
-				  values(:id_usuario, :id_usuario_seguindo)";
-
-		$stmt = $this->db->prepare($query);
-		$stmt->bindValue(':id_usuario', $this->__get('id'));
-		$stmt->bindValue(':id_usuario_seguindo', $id_usuario_seguindo);
-		$stmt->execute();
-
-		return true;
-
-	}
-
-	//Deixar de seguir usuários
-	public function deixarSeguirUsuario($id_usuario_seguindo) {
-		$query = "delete from 
-					usuarios_seguidores
-				  where 
-				  	id_usuario = :id_usuario and id_usuario_seguindo = :id_usuario_seguindo";
-
-		$stmt = $this->db->prepare($query);
-		$stmt->bindValue(':id_usuario', $this->__get('id'));
-		$stmt->bindValue(':id_usuario_seguindo', $id_usuario_seguindo);
-		$stmt->execute();
-
-		return true;
-
-	}
-
-	//Deixar de seguir usuários
-	public function excluirTweet($id_usuario_seguindo) {
-		$query = "delete from tweets where id_usuarios = :id_usuario and id = :tweet_id";
-
-		$stmt = $this->db->prepare($query);
-		$stmt->bindValue(':id_usuario', $this->__get('id'));
-		$stmt->bindValue(':tweet_id', $tweet['id']);
-		$stmt->execute();
-
-		return true;
-
-	}
-
-	public function getInfoUsuario() {
-
-		$query = "select nome from usuarios where id = :id_usuario";
-		$stmt = $this->db->prepare($query);
-		$stmt->bindValue(':id_usuario', $this->__get('id'));
-		$stmt->execute();
-
-		return $stmt->fetch(\PDO::FETCH_ASSOC);
-
-	}
-
-	public function getTotaltweets() {
-
-		$query = "select count(*) as total_tweet from tweets where id_usuarios = :id_usuario";
-		$stmt = $this->db->prepare($query);
-		$stmt->bindValue(':id_usuario', $this->__get('id'));
-		$stmt->execute();
-
-		return $stmt->fetch(\PDO::FETCH_ASSOC);
-
-	}
-
-	public function getTotalSeguindo() {
-
-		$query = "select count(*) as total_seguindo from usuarios_seguidores where id_usuario = :id_usuario";
-		$stmt = $this->db->prepare($query);
-		$stmt->bindValue(':id_usuario', $this->__get('id'));
-		$stmt->execute();
-
-		return $stmt->fetch(\PDO::FETCH_ASSOC);
-
-	}
-
-
-	public function getTotalSeguidores() {
-
-		$query = "select count(*) as total_seguidores from usuarios_seguidores where id_usuario_seguindo = :id_usuario";
-		$stmt = $this->db->prepare($query);
-		$stmt->bindValue(':id_usuario', $this->__get('id'));
-		$stmt->execute();
-
-		return $stmt->fetch(\PDO::FETCH_ASSOC);
 
 	}
 

@@ -62,46 +62,28 @@ class Route extends Bootstrap {
 			'action' => 'cooperativaAlterar'
 		);
 
+		$routes['pas'] = array(
+			'route' => '/pas',
+			'controller' => 'AppController',
+			'action' => 'pas'
+		);
+
+		$routes['pas-adicionar'] = array(
+			'route' => '/pas-adicionar',
+			'controller' => 'AppController',
+			'action' => 'pasAdicionar'
+		);
+
+		$routes['pa_alterar'] = array(
+			'route' => '/pa_alterar',
+			'controller' => 'AppController',
+			'action' => 'paAlterar'
+		);
+
 		$routes['rateio'] = array(
 			'route' => '/rateio',
 			'controller' => 'AppController',
 			'action' => 'rateio'
-		);
-
-		$routes['cadastro'] = array(
-			'route' => '/cadastro',
-			'controller' => 'indexController',
-			'action' => 'cadastro'
-		);
-
-		$routes['registrar'] = array(
-			'route' => '/registrar',
-			'controller' => 'indexController',
-			'action' => 'registrar'
-		);
-
-		$routes['authenticate'] = array(
-			'route' => '/authenticate',
-			'controller' => 'AuthController',
-			'action' => 'authenticate'
-		);
-
-		$routes['tweet'] = array(
-			'route' => '/tweet',
-			'controller' => 'AppController',
-			'action' => 'tweet'
-		);
-
-		$routes['quem_seguir'] = array(
-			'route' => '/quem_seguir',
-			'controller' => 'AppController',
-			'action' => 'quemSeguir'
-		);
-
-		$routes['acao'] = array(
-			'route' => '/acao',
-			'controller' => 'AppController',
-			'action' => 'acao'
 		);
 
 		$this->setRoutes($routes);

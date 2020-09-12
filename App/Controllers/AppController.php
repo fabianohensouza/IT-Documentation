@@ -223,6 +223,20 @@ class AppController extends Action {
 		}
 
 	}
+	
+	public function pas() {
+		
+		$this->validaAutenticacao();
+
+		$pas = Container::getModel('Pa');
+		$this->view->pas = $pas->todosPas();
+
+		echo "<pre>";
+		print_r($pas->todosPas());
+		echo "</pre>";
+
+		//$this->render('pas.phtml');
+	}
 
 	public function rateio() {
 
