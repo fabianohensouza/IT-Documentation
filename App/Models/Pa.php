@@ -4,7 +4,7 @@ namespace App\Models;
 
 use MF\Model\Model;
 
-class Cooperativa extends Model {
+class Pa extends Model {
 
 	private $id_pa;
     private $codigo_pa;
@@ -43,9 +43,9 @@ class Cooperativa extends Model {
 	
 	}
 
-	public function codigoCooperativas() {
-		$query = "SELECT codigo_coop 
-				  FROM cooperativas";
+	public function codigoPas() {
+		$query = "SELECT id_pa 
+				  FROM pas";
 
 		$stmt = $this->db->prepare($query);;
 		$stmt->execute();
@@ -66,12 +66,12 @@ class Cooperativa extends Model {
 	
 	}
 
-	public function CoopPorCod() {
+	public function paPorId() {
 
-		$query = "SELECT * FROM cooperativas WHERE codigo_coop = :codigo_coop";
+		$query = "SELECT * FROM pas WHERE id_pa = :id_pa";
 
 		$stmt = $this->db->prepare($query);
-		$stmt->bindValue(':codigo_coop', $this->__get('codigo_coop'));
+		$stmt->bindValue(':id_pa', $this->__get('id_pa'));
 		$stmt->execute();
 
 		return $stmt->fetch(\PDO::FETCH_ASSOC);

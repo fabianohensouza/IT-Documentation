@@ -14,6 +14,12 @@ class Route extends Bootstrap {
 			'action' => 'index'
 		);
 
+		$routes['authenticate'] = array(
+			'route' => '/authenticate',
+			'controller' => 'AuthController',
+			'action' => 'authenticate'
+		);
+
 		$routes['logout'] = array(
 			'route' => '/logout',
 			'controller' => 'AuthController',

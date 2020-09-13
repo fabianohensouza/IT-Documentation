@@ -231,11 +231,32 @@ class AppController extends Action {
 		$pas = Container::getModel('Pa');
 		$this->view->pas = $pas->todosPas();
 
-		echo "<pre>";
-		print_r($pas->todosPas());
-		echo "</pre>";
+		$this->render('pas.phtml');
+	}
+	
+	public function pasAdicionar() {
 
-		//$this->render('pas.phtml');
+		$this->validaAutenticacao();
+
+		if($_SESSION['permissao'] == 'Administrador') {
+			
+			$pas = Container::getModel('Pa');
+			$cooperativas = Container::getModel('Cooperativa'); 
+
+			if(isset($_GET['id'])) {
+
+				$pas->__set('id_pa', $_GET['id']);
+				$this->view->pas = $pas->paPorId();
+				
+			} 
+
+			$this->view->pas['cidades'] = $cooperativas->cidadesMG();
+			//$this->view->cooperativas['equipeic'] = $usuarios->todosUsuariosIC();
+
+			$this->render('pas-adicionar.phtml');
+		}
+
+		$this->render('main.phtml');
 	}
 
 	public function rateio() {
