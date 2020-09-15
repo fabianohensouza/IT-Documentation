@@ -258,6 +258,84 @@ class AppController extends Action {
 
 		$this->render('main.phtml');
 	}
+	
+	public function paAlterar() {
+
+		$this->validaAutenticacao();
+
+		for($i=0; $i <= 5; $i++) { 
+			$_POST["link_x" . $i] = implode(', ', array_map(
+				function ($v, $k) {
+					if(is_array($v)){
+						return $k.'[]='.implode('&'.$k.'[]=', $v);
+					}else{
+						return $k.'='.$v;
+					}
+				}, 
+				$_POST["x" . $i], 
+				array_keys($_POST["x" . $i])
+			));
+		}
+
+		if(!isset($_POST['id_pa'])) {
+			$_POST['id_pa'] = $_POST['coop'] . $_POST['codigo_pa'];
+		}
+
+		if($_SESSION['permissao'] == 'Administrador') {
+
+			$pas = Container::getModel('Pa');
+
+			$pas->__set('id_pa', $_POST['id_pa']);
+			$pas->__set('coop', $_POST['coop']);
+			$pas->__set('codigo_pa', $_POST['codigo_pa']);
+			$pas->__set('nome_cidade', $_POST['nome_cidade']);
+			$pas->__set('tipo_pa', $_POST['tipo_pa']);
+			$pas->__set('firewall', $_POST['firewall']);
+
+			for($i=0; $i <= 5; $i++) { 
+				$pas->__set('link_x' . $i, $_POST['link_x' . $i]);
+			}
+
+			if(count($pas->paPorId()) == 0) {
+
+				$pas->alterarPa('inserir');
+
+				header('Location: /pas?mensagem=sucesso');
+					
+			} elseif($_GET['acao'] == 'alterar') {
+
+				$pas->alterarPa('alterar');
+
+				header('Location: /pas?mensagem=alterado');
+					
+			} elseif($_GET['acao'] == 'deletar') {
+
+				$pas->alterarPa('deletar');
+
+				header('Location: /pas?mensagem=deletado');
+					
+			} else {
+	
+				$this->view->pas = array(
+					'mensagem' => 'duplicado',
+					'id_pa' => $_POST['id_pa'],
+					'coop' => $_POST['coop'],
+					'codigo_pa' => $_POST['codigo_pa'],
+					'nome_cidade' => $_POST['nome_cidade'],
+					'tipo_pa' => $_POST['tipo_pa'],
+					'firewall' => $_POST['firewall']
+				);
+			
+			for($i=0; $i <= 5; $i++) { 
+					$this->view->pas = array('link_x' . $i => $_POST['link_x' . $i],);
+			}
+				$this->render('pas-adicionar.phtml');
+			}
+				
+				$this->render('pas-adicionar.phtml');
+		}
+
+	}
 
 	public function rateio() {
 

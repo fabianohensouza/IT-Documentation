@@ -78,7 +78,7 @@ class Pa extends Model {
 
 	}
 	
-	public function alterarCooperativa($acao) {
+	public function alterarPa($acao) {
 
 		if ($acao == 'inserir') {
 			$query = "INSERT INTO cooperativas
