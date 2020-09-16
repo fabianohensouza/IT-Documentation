@@ -14,6 +14,8 @@
                 break;
         }
     }
+
+    
 ?>
     <main>
         <div class="container-fluid">
@@ -61,12 +63,28 @@
                                         <td><?=$pa['nome_cidade']; ?></td>
                                         <td><?=$pa['tipo_pa']; ?></td>
                                         <td><?=$pa['firewall']; ?></td>
-                                        <td><?=$pa['link_x0']; ?></td>
-                                        <td><?=$pa['link_x1']; ?></td>
-                                        <td><?=$pa['link_x2']; ?></td>
-                                        <td><?=$pa['link_x3']; ?></td>
-                                        <td><?=$pa['link_x4']; ?></td>
-                                        <td><?=$pa['link_x5']; ?></td>
+                                        
+                                        <?php
+                                            for($i=0; $i <= 5; $i++) { 
+                                                $idx1 = "link_x".$i;?>
+                                            <td>    
+                                                <?= $pa[$idx1]; ?>
+                                                <?php
+                                                    $convert_to_array = explode(',', $pa[$idx1]);
+
+                                                    for($x=0; $x < count($convert_to_array ); $x++){
+                                                        $key_value = explode('=', $convert_to_array [$x]);
+                                                        $link_info[$key_value [0]] = $key_value [1];
+                                                    }
+
+                                                    echo "<pre>";
+                                                    print_r($link_info);
+                                                    echo "</pre>";
+                                                    $link_info = [];
+                                                ?>
+                                            </td>                                            
+                                        <?php } ?>
+
                                         <td>
                                             <div class="">
                                                 <a href="/pas-adicionar?acao=alterar&id=<?=$pa['id_pa']; ?>">

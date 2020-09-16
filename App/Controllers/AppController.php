@@ -223,6 +223,19 @@ class AppController extends Action {
 		}
 
 	}
+
+	public function explode_links($string, $fetch) {
+		
+		$this->validaAutenticacao();
+
+		$pas = Container::getModel('Pa');
+		$this->view->pas = $pas->todosPas();
+		echo "<pre>";
+		print_r($pas->todosPas());
+		echo "</pre>";
+		
+		//$this->render('pas.phtml');
+	}
 	
 	public function pas() {
 		
@@ -230,8 +243,11 @@ class AppController extends Action {
 
 		$pas = Container::getModel('Pa');
 		$this->view->pas = $pas->todosPas();
-
-		$this->render('pas.phtml');
+		echo "<pre>";
+		print_r($pas->todosPas());
+		echo "</pre>";
+		
+		//$this->render('pas.phtml');
 	}
 	
 	public function pasAdicionar() {
@@ -247,16 +263,18 @@ class AppController extends Action {
 
 				$pas->__set('id_pa', $_GET['id']);
 				$this->view->pas = $pas->paPorId();
+				echo "<pre>";
+				print_r($pas->paPorId());
+				echo "</pre>";
 				
 			} 
 
-			$this->view->pas['cidades'] = $cooperativas->cidadesMG();
-			//$this->view->cooperativas['equipeic'] = $usuarios->todosUsuariosIC();
+			//$this->view->pas['cidades'] = $cooperativas->cidadesMG();
 
-			$this->render('pas-adicionar.phtml');
+			//$this->render('pas-adicionar.phtml');
 		}
 
-		$this->render('main.phtml');
+		//$this->render('main.phtml');
 	}
 	
 	public function paAlterar() {
@@ -264,7 +282,7 @@ class AppController extends Action {
 		$this->validaAutenticacao();
 
 		for($i=0; $i <= 5; $i++) { 
-			$_POST["link_x" . $i] = implode(', ', array_map(
+			$_POST["link_x" . $i] = implode(',', array_map(
 				function ($v, $k) {
 					if(is_array($v)){
 						return $k.'[]='.implode('&'.$k.'[]=', $v);

@@ -50,18 +50,6 @@ class Pa extends Model {
 		$stmt = $this->db->prepare($query);;
 		$stmt->execute();
 
-		
-		return $stmt->fetchAll(\PDO::FETCH_ASSOC);
-	
-	}
-
-	public function cidadesMG() {
-		$query = "SELECT nome_cidade 
-				  FROM cidades_mg";
-
-		$stmt = $this->db->prepare($query);;
-		$stmt->execute();
-
 		return $stmt->fetchAll(\PDO::FETCH_ASSOC);
 	
 	}
@@ -77,44 +65,72 @@ class Pa extends Model {
 		return $stmt->fetch(\PDO::FETCH_ASSOC);
 
 	}
+
+	public function cidadesMG() {
+		$query = "SELECT nome_cidade 
+				  FROM cidades_mg";
+
+		$stmt = $this->db->prepare($query);;
+		$stmt->execute();
+
+		return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+	
+	}
 	
 	public function alterarPa($acao) {
 
-		if ($acao == 'inserir') {
-			$query = "INSERT INTO cooperativas
-							(codigo_coop, nome, nome_cidade, infracredis, resp_ti, diretoria, resp_ic, qtd_usuarios, qtd_equip, adesao)
+		/*if ($acao == 'inserir') {
+			$query = "INSERT INTO pas
+							(id_pa, codigo_pa, coop, nome_cidade, tipo_pa, firewall, link_x0, link_x1, link_x2, link_x3, link_x4, link_x5)
 						VALUES
-							(:codigo_coop, :nome, :nome_cidade, :infracredis, :resp_ti, :diretoria, :resp_ic, :qtd_usuarios, :qtd_equip, :adesao)";
+							(:id_pa, :codigo_pa, :coop, :nome_cidade, :tipo_pa, :firewall, :link_x0, :link_x1, :link_x2, :link_x3, :link_x4, :link_x5)";
 		} elseif ($acao == 'alterar') {
 			$query = "UPDATE 
-						cooperativas
+						pas
 					SET
-					codigo_coop = :codigo_coop, nome = :nome, nome_cidade = :nome_cidade, infracredis = :infracredis, resp_ti = :resp_ti, diretoria = :diretoria, resp_ic = :resp_ic, qtd_usuarios = :qtd_usuarios, qtd_equip = :qtd_equip, adesao = :adesao
+					id_pa = :id_pa, codigo_pa = :codigo_pa, coop = :coop, nome_cidade = :nome_cidade, tipo_pa = :tipo_pa, firewall = :firewall, link_x0 = :link_x0, link_x1 = :link_x1, link_x2 = :link_x2, link_x3 = :link_x3, link_x4 = :link_x4, link_x5 = :link_x5
 					WHERE
-						codigo_coop = :codigo_coop";
+						id_pa = :id_pa";
 		} elseif ($acao == 'deletar') {
 			$query = "DELETE FROM 
-						cooperativas
+						pas
 					WHERE
-						codigo_coop = :codigo_coop";
+						id_pa = :id_pa";
 		}
 
 		$stmt = $this->db->prepare($query);
 		
-		$stmt->bindValue(':codigo_coop', $this->__get('codigo_coop')); 
-		$stmt->bindValue(':nome', $this->__get('nome'));
-		$stmt->bindValue(':resp_ic', $this->__get('resp_ic'));
-		$stmt->bindValue(':infracredis', $this->__get('infracredis'));
+		$stmt->bindValue(':id_pa', $this->__get('id_pa')); 
+		$stmt->bindValue(':codigo_pa', $this->__get('codigo_pa'));
+		$stmt->bindValue(':coop', $this->__get('resp_ic'));
 		$stmt->bindValue(':nome_cidade', $this->__get('nome_cidade'));
-		$stmt->bindValue(':qtd_usuarios', $this->__get('qtd_usuarios'));
-		$stmt->bindValue(':qtd_equip', $this->__get('qtd_equip'));
-		$stmt->bindValue(':adesao', $this->__get('adesao'));
-		$stmt->bindValue(':diretoria', $this->__get('diretoria'));
-		$stmt->bindValue(':resp_ti', $this->__get('resp_ti'));
+		$stmt->bindValue(':tipo_pa', $this->__get('tipo_pa'));
+		$stmt->bindValue(':firewall', $this->__get('firewall'));
+		$stmt->bindValue(':link_x0', $this->__get('link_x0'));
+		$stmt->bindValue(':link_x1', $this->__get('link_x1'));
+		$stmt->bindValue(':link_x2', $this->__get('link_x2'));
+		$stmt->bindValue(':link_x3', $this->__get('link_x3'));
+		$stmt->bindValue(':link_x4', $this->__get('link_x4'));
+		$stmt->bindValue(':link_x5', $this->__get('link_x5'));
 	
 		$stmt->execute();
 
-		return $this;
+		return $this;*/
+
+		echo $acao . "<br>";
+		echo $this->__get('id_pa') . "<br>";
+		echo $this->__get('codigo_pa'). "<br>";
+		echo $this->__get('resp_ic'). "<br>";
+		echo $this->__get('nome_cidade'). "<br>";
+		echo $this->__get('tipo_pa'). "<br>";
+		echo $this->__get('firewall'). "<br>";
+		echo $this->__get('link_x0'). "<br>";
+		echo $this->__get('link_x1'). "<br>";
+		echo $this->__get('link_x2'). "<br>";
+		echo $this->__get('link_x3'). "<br>";
+		echo $this->__get('link_x4'). "<br>";
+		echo $this->__get('link_x5'). "<br>";
+
 	}
 
 
