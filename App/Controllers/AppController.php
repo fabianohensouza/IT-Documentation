@@ -223,19 +223,6 @@ class AppController extends Action {
 		}
 
 	}
-
-	public function explode_links($string, $fetch) {
-		
-		$this->validaAutenticacao();
-
-		$pas = Container::getModel('Pa');
-		$this->view->pas = $pas->todosPas();
-		echo "<pre>";
-		print_r($pas->todosPas());
-		echo "</pre>";
-		
-		//$this->render('pas.phtml');
-	}
 	
 	public function pas() {
 		
@@ -246,8 +233,37 @@ class AppController extends Action {
 		echo "<pre>";
 		print_r($pas->todosPas());
 		echo "</pre>";
+
+		for($i = 0; $i < count($this->view->pas); $i++) {
+			echo "<br>string: ";
+			$link_x = str_replace( "'", "", $this->view->pas["link_x" . $i] );
+			echo $link_x;
+
+			$finalArray = array();
+
+			$asArr = explode( ',', $link_x );
+			echo "<pre>";
+			print_r( $asArr );
+			echo "</pre>";
+
+			foreach( $asArr as $val ){
+			$tmp = explode( '=>', $val );
+				
+			echo "ARRRR <pre>";
+			print_r( $tmp );
+			echo "</pre>";
+			$finalArray[ $tmp[0] ] = $tmp[1];
+			}
+
+			$this->view->pas["link_x" . $i] = $finalArray;
+
+			echo "FINAL <pre>";
+			print_r( $this->view->pas["link_x" . $i] );
+			echo "</pre><hr><hr><hr>";
+
+		}
 		
-		//$this->render('pas.phtml');
+		$this->render('pas.phtml');
 	}
 	
 	public function pasAdicionar() {
@@ -269,33 +285,74 @@ class AppController extends Action {
 				
 			} 
 
-			//$this->view->pas['cidades'] = $cooperativas->cidadesMG();
+			$this->view->pas['cidades'] = $cooperativas->cidadesMG();
 
-			//$this->render('pas-adicionar.phtml');
+			$this->render('pas-adicionar.phtml');
 		}
 
-		//$this->render('main.phtml');
+		$this->render('main.phtml');
 	}
 	
 	public function paAlterar() {
 
 		$this->validaAutenticacao();
 
+		/*echo "<pre>";
+		print_r($_POST);
+		echo "</pre>";
+
+		for($i=0; $i <= 5; $i++) { 
+			$_POST["link_x" . $i] = implode(",",$_POST["x" . $i]);
+			echo "<pre>";
+			print_r($_POST["link_x" . $i]);
+			echo "</pre><hr>";
+		}*/
+
 		for($i=0; $i <= 5; $i++) { 
 			$_POST["link_x" . $i] = implode(',', array_map(
 				function ($v, $k) {
 					if(is_array($v)){
-						return $k.'[]='.implode('&'.$k.'[]=', $v);
+						return $k."[]=>".implode("&".$k."[]=>", $v);
 					}else{
-						return $k.'='.$v;
+						return $k."=>".$v;
 					}
 				}, 
 				$_POST["x" . $i], 
 				array_keys($_POST["x" . $i])
 			));
+			
+			//-------------------------------------
+
+			//String Format -> 'ip'=>172.50.83.12,'tecnologia'=>Fibra,'velocidade'=>Caeté,'provedor'=>OOPa
+
+			echo "<br>string: ";
+			$_POST["link_x" . $i] = str_replace( "'", "", $_POST["link_x" . $i] );
+			echo $_POST["link_x" . $i];
+			echo "<hr>";
+
+			$finalArray = array();
+
+			$asArr = explode( ',', $_POST["link_x" . $i] );
+			echo "<pre>";
+			print_r( $asArr );
+			echo "</pre>";
+
+			foreach( $asArr as $val ){
+			$tmp = explode( '=>', $val );
+			
+			echo "ARRRR <pre>";
+			print_r( $tmp );
+			echo "</pre>";
+			$finalArray[ $tmp[0] ] = $tmp[1];
+			}
+
+			echo "FINAL <pre>";
+			print_r( $finalArray );
+			echo "</pre>";
 		}
 
-		if(!isset($_POST['id_pa'])) {
+
+		/*if(!isset($_POST['id_pa'])) {
 			$_POST['id_pa'] = $_POST['coop'] . $_POST['codigo_pa'];
 		}
 
@@ -351,7 +408,7 @@ class AppController extends Action {
 			}
 				
 				$this->render('pas-adicionar.phtml');
-		}
+		}*/
 
 	}
 
