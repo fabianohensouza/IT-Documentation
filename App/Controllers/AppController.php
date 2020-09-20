@@ -33,6 +33,23 @@ class AppController extends Action {
 		
 		return $finalArray;
 	}
+
+	public function arrayToString($array) {
+
+		$finalString = implode(',', array_map(
+			function ($v, $k) {
+				if(is_array($v)){
+					return $k."[]=>".implode("&".$k."[]=>", $v);
+				}else{
+					return $k."=>".$v;
+				}
+			}, 
+			$array, 
+			array_keys($array)
+		));
+		
+		return $finalString;
+	}
 	
 	public function usuarios() {
 
@@ -301,21 +318,15 @@ class AppController extends Action {
 		for($i=0; $i <= 5; $i++) { 
 
 			$idx = "link_x" . $i;
-			$_POST[$idx] = implode(',', array_map(
-				function ($v, $k) {
-					if(is_array($v)){
-						return $k."[]=>".implode("&".$k."[]=>", $v);
-					}else{
-						return $k."=>".$v;
-					}
-				}, 
-				$_POST[$idx], 
-				array_keys($_POST[$idx])
-			));
-
+			$_POST[$idx] = $this->arrayToString($_POST[$idx]);
+			
 		}
 
-		/*if(!isset($_POST['id_pa'])) {
+		echo "<pre>";
+		print_r($_POST);
+		echo "</pre>";
+
+		if(!isset($_POST['id_pa'])) {
 			$_POST['id_pa'] = $_POST['coop'] . $_POST['codigo_pa'];
 		}
 
@@ -371,7 +382,7 @@ class AppController extends Action {
 			}
 				
 				$this->render('pas-adicionar.phtml');
-		}*/
+		}
 
 	}
 
