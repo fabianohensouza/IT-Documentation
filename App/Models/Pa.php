@@ -79,16 +79,16 @@ class Pa extends Model {
 	
 	public function alterarPa($acao) {
 
-		/*if ($acao == 'inserir') {
+		if ($acao == 'inserir') {
 			$query = "INSERT INTO pas
-							(id_pa, codigo_pa, coop, nome_cidade, tipo_pa, firewall, link_x0, link_x1, link_x2, link_x3, link_x4, link_x5)
+							(id_pa, coop, codigo_pa, nome_cidade, tipo_pa, firewall, link_x0, link_x1, link_x2, link_x3, link_x4, link_x5)
 						VALUES
-							(:id_pa, :codigo_pa, :coop, :nome_cidade, :tipo_pa, :firewall, :link_x0, :link_x1, :link_x2, :link_x3, :link_x4, :link_x5)";
+							(:id_pa, :coop, :codigo_pa, :nome_cidade, :tipo_pa, :firewall, :link_x0, :link_x1, :link_x2, :link_x3, :link_x4, :link_x5)";
 		} elseif ($acao == 'alterar') {
 			$query = "UPDATE 
 						pas
 					SET
-					id_pa = :id_pa, codigo_pa = :codigo_pa, coop = :coop, nome_cidade = :nome_cidade, tipo_pa = :tipo_pa, firewall = :firewall, link_x0 = :link_x0, link_x1 = :link_x1, link_x2 = :link_x2, link_x3 = :link_x3, link_x4 = :link_x4, link_x5 = :link_x5
+						id_pa = :id_pa, coop = :coop, codigo_pa = :codigo_pa, nome_cidade = :nome_cidade, tipo_pa = :tipo_pa, firewall = :firewall, link_x0 = :link_x0, link_x1 = :link_x1, link_x2 = :link_x2, link_x3 = :link_x3, link_x4 = :link_x4, link_x5 = :link_x5
 					WHERE
 						id_pa = :id_pa";
 		} elseif ($acao == 'deletar') {
@@ -100,36 +100,23 @@ class Pa extends Model {
 
 		$stmt = $this->db->prepare($query);
 		
-		$stmt->bindValue(':id_pa', $this->__get('id_pa')); 
+		$stmt->bindValue(':id_pa', $this->__get('id_pa'));
+		$stmt->bindValue(':coop', $this->__get('coop')); 
 		$stmt->bindValue(':codigo_pa', $this->__get('codigo_pa'));
-		$stmt->bindValue(':coop', $this->__get('resp_ic'));
 		$stmt->bindValue(':nome_cidade', $this->__get('nome_cidade'));
 		$stmt->bindValue(':tipo_pa', $this->__get('tipo_pa'));
 		$stmt->bindValue(':firewall', $this->__get('firewall'));
-		$stmt->bindValue(':link_x0', $this->__get('link_x0'));
-		$stmt->bindValue(':link_x1', $this->__get('link_x1'));
-		$stmt->bindValue(':link_x2', $this->__get('link_x2'));
-		$stmt->bindValue(':link_x3', $this->__get('link_x3'));
-		$stmt->bindValue(':link_x4', $this->__get('link_x4'));
-		$stmt->bindValue(':link_x5', $this->__get('link_x5'));
+		for($i=0; $i <= 5; $i++) { 
+
+			$bind = ":link_x" . $i;
+			$idx = "link_x" . $i;
+			$stmt->bindValue( $bind, $this->__get($idx));
+			
+		}
 	
 		$stmt->execute();
 
-		return $this;*/
-
-		echo $acao . "<br>";
-		echo $this->__get('id_pa') . "<br>";
-		echo $this->__get('codigo_pa'). "<br>";
-		echo $this->__get('resp_ic'). "<br>";
-		echo $this->__get('nome_cidade'). "<br>";
-		echo $this->__get('tipo_pa'). "<br>";
-		echo $this->__get('firewall'). "<br>";
-		echo $this->__get('link_x0'). "<br>";
-		echo $this->__get('link_x1'). "<br>";
-		echo $this->__get('link_x2'). "<br>";
-		echo $this->__get('link_x3'). "<br>";
-		echo $this->__get('link_x4'). "<br>";
-		echo $this->__get('link_x5'). "<br>";
+		return $this;
 
 	}
 

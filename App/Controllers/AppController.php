@@ -27,7 +27,7 @@ class AppController extends Action {
 		$asArr = explode( ',', $string );
 
 		foreach( $asArr as $val ){
-			$tmp = explode( '=', $val );
+			$tmp = explode( '=>', $val );
 			$finalArray[ $tmp[0] ] = $tmp[1];
 		}
 		
@@ -266,7 +266,7 @@ class AppController extends Action {
 
 		for($i = 0; $i < count($this->view->pas); $i++) {
 
-			for($x = 0; $x < 4; $x++) {
+			for($x = 0; $x <= 5; $x++) {
 
 				$link_x = $this->view->pas[$i]["link_x" . $x];
 				if($link_x != "") {
@@ -293,7 +293,7 @@ class AppController extends Action {
 				$pas->__set('id_pa', $_GET['id']);
 				$this->view->pas = $pas->paPorId();
 				
-				for($x = 0; $x < 4; $x++) {
+				for($x = 0; $x <= 5; $x++) {
 
 					$link_x = $this->view->pas["link_x" . $x];
 					if($link_x != "") {
@@ -322,10 +322,6 @@ class AppController extends Action {
 			
 		}
 
-		echo "<pre>";
-		print_r($_POST);
-		echo "</pre>";
-
 		if(!isset($_POST['id_pa'])) {
 			$_POST['id_pa'] = $_POST['coop'] . $_POST['codigo_pa'];
 		}
@@ -344,6 +340,10 @@ class AppController extends Action {
 			for($i=0; $i <= 5; $i++) { 
 				$pas->__set('link_x' . $i, $_POST['link_x' . $i]);
 			}
+
+			echo "<pre>";
+			print_r($_POST);
+			echo "</pre>";
 
 			if(count($pas->paPorId()) == 0) {
 
