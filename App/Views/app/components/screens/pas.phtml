@@ -68,20 +68,7 @@
                                             for($i=0; $i <= 5; $i++) { 
                                                 $idx1 = "link_x".$i;?>
                                             <td>    
-                                                <?= $pa[$idx1]; ?>
-                                                <?php
-                                                    $convert_to_array = explode(',', $pa[$idx1]);
-
-                                                    for($x=0; $x < count($convert_to_array ); $x++){
-                                                        $key_value = explode('=', $convert_to_array [$x]);
-                                                        $link_info[$key_value [0]] = $key_value [1];
-                                                    }
-
-                                                    echo "<pre>";
-                                                    print_r($link_info);
-                                                    echo "</pre>";
-                                                    $link_info = [];
-                                                ?>
+                                                <?= $pa[$idx1]['ip']?>
                                             </td>                                            
                                         <?php } ?>
 

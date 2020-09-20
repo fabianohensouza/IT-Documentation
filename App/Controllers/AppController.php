@@ -17,6 +17,22 @@ class AppController extends Action {
 
 		$this->render('main.phtml');
 	}
+
+	public function stringToArray($string) {
+
+		$finalArray = array();
+
+		$string = str_replace( "'", "", $string );
+
+		$asArr = explode( ',', $string );
+
+		foreach( $asArr as $val ){
+			$tmp = explode( '=', $val );
+			$finalArray[ $tmp[0] ] = $tmp[1];
+		}
+		
+		return $finalArray;
+	}
 	
 	public function usuarios() {
 
@@ -230,37 +246,17 @@ class AppController extends Action {
 
 		$pas = Container::getModel('Pa');
 		$this->view->pas = $pas->todosPas();
-		echo "<pre>";
-		print_r($pas->todosPas());
-		echo "</pre>";
 
 		for($i = 0; $i < count($this->view->pas); $i++) {
-			echo "<br>string: ";
-			$link_x = str_replace( "'", "", $this->view->pas["link_x" . $i] );
-			echo $link_x;
 
-			$finalArray = array();
+			for($x = 0; $x < 4; $x++) {
 
-			$asArr = explode( ',', $link_x );
-			echo "<pre>";
-			print_r( $asArr );
-			echo "</pre>";
-
-			foreach( $asArr as $val ){
-			$tmp = explode( '=>', $val );
-				
-			echo "ARRRR <pre>";
-			print_r( $tmp );
-			echo "</pre>";
-			$finalArray[ $tmp[0] ] = $tmp[1];
+				$link_x = $this->view->pas[$i]["link_x" . $x];
+				if($link_x != "") {
+					$this->view->pas[$i]["link_x" . $x] = $this->stringToArray($link_x);
+				}
 			}
-
-			$this->view->pas["link_x" . $i] = $finalArray;
-
-			echo "FINAL <pre>";
-			print_r( $this->view->pas["link_x" . $i] );
-			echo "</pre><hr><hr><hr>";
-
+		
 		}
 		
 		$this->render('pas.phtml');
@@ -279,9 +275,14 @@ class AppController extends Action {
 
 				$pas->__set('id_pa', $_GET['id']);
 				$this->view->pas = $pas->paPorId();
-				echo "<pre>";
-				print_r($pas->paPorId());
-				echo "</pre>";
+				
+				for($x = 0; $x < 4; $x++) {
+
+					$link_x = $this->view->pas["link_x" . $x];
+					if($link_x != "") {
+						$this->view->pas["link_x" . $x] = $this->stringToArray($link_x);
+					}
+				}
 				
 			} 
 
@@ -297,19 +298,10 @@ class AppController extends Action {
 
 		$this->validaAutenticacao();
 
-		/*echo "<pre>";
-		print_r($_POST);
-		echo "</pre>";
-
 		for($i=0; $i <= 5; $i++) { 
-			$_POST["link_x" . $i] = implode(",",$_POST["x" . $i]);
-			echo "<pre>";
-			print_r($_POST["link_x" . $i]);
-			echo "</pre><hr>";
-		}*/
 
-		for($i=0; $i <= 5; $i++) { 
-			$_POST["link_x" . $i] = implode(',', array_map(
+			$idx = "link_x" . $i;
+			$_POST[$idx] = implode(',', array_map(
 				function ($v, $k) {
 					if(is_array($v)){
 						return $k."[]=>".implode("&".$k."[]=>", $v);
@@ -317,40 +309,11 @@ class AppController extends Action {
 						return $k."=>".$v;
 					}
 				}, 
-				$_POST["x" . $i], 
-				array_keys($_POST["x" . $i])
+				$_POST[$idx], 
+				array_keys($_POST[$idx])
 			));
-			
-			//-------------------------------------
 
-			//String Format -> 'ip'=>172.50.83.12,'tecnologia'=>Fibra,'velocidade'=>Caeté,'provedor'=>OOPa
-
-			echo "<br>string: ";
-			$_POST["link_x" . $i] = str_replace( "'", "", $_POST["link_x" . $i] );
-			echo $_POST["link_x" . $i];
-			echo "<hr>";
-
-			$finalArray = array();
-
-			$asArr = explode( ',', $_POST["link_x" . $i] );
-			echo "<pre>";
-			print_r( $asArr );
-			echo "</pre>";
-
-			foreach( $asArr as $val ){
-			$tmp = explode( '=>', $val );
-			
-			echo "ARRRR <pre>";
-			print_r( $tmp );
-			echo "</pre>";
-			$finalArray[ $tmp[0] ] = $tmp[1];
-			}
-
-			echo "FINAL <pre>";
-			print_r( $finalArray );
-			echo "</pre>";
 		}
-
 
 		/*if(!isset($_POST['id_pa'])) {
 			$_POST['id_pa'] = $_POST['coop'] . $_POST['codigo_pa'];

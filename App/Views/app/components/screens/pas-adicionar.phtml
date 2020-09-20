@@ -129,14 +129,15 @@
 
                     <div class="form-row">    
                         <div class="form-group col-md-1">X<?=$i?></div>		
-                        <div class="form-group col-md-5">	
-                            <input type="text" maxlength="15" class="form-control" id=" inputIP x<?=$i?>_ip" placeholder="" name="x<?=$i?>['ip']" value="<?= $this->view->pas['x$i']['ip'] ?>">
+                        <div class="form-group col-md-5">
+                            <?php $idx = "link_x" . $i; ?>
+                            <input type="text" maxlength="15" class="form-control" id=" inputIP x<?=$i?>_ip" placeholder="" name="link_x<?=$i?>['ip']" value="<?= $this->view->pas[$idx]['ip'] ?>">
                         </div>
                         <div class="form-group col-md-2">
-                            <select id="inputTipoLink" class="form-control" name="x<?=$i?>['tecnologia']">
+                            <select id="inputTipoLink" class="form-control" name="link_x<?=$i?>['tecnologia']">
                                 
-                                <?php if(isset($this->view->pas['x$i']['tecnologia'])) { ?>
-                                    <option selected value="<?=$this->view->pas['x$i']['tecnologia'] ?>"><?=$this->view->pas['x$i']['tecnologia'] ?></option>
+                                <?php if(isset($this->view->pas[$idx]['tecnologia'])) { ?>
+                                    <option selected value="<?=$this->view->pas[$idx]['tecnologia'] ?>"><?=$this->view->pas[$idx]['tecnologia'] ?></option>
                                 <?php } else {?>
                                     <option selected disabled>Tecnologia</option>
                                 <?php } ?>
@@ -149,10 +150,10 @@
                             </select>
                         </div>		
                         <div class="form-group col-md-2">	
-                            <input type="text" maxlength="15" class="form-control" id=" inputIP x<?=$i?>_velocidade" placeholder="" name="x<?=$i?>['velocidade']" value="<?= $this->view->pas['x$i']['velocidade'] ?>">
+                            <input type="text" maxlength="15" class="form-control" id=" inputIP x<?=$i?>_velocidade" placeholder="" name="link_x<?=$i?>['velocidade']" value="<?= $this->view->pas[$idx]['velocidade'] ?>">
                         </div>		
                         <div class="form-group col-md-2">	
-                            <input type="text" maxlength="40" class="form-control" id=" inputIP x<?=$i?>_provedor" placeholder="" name="x<?=$i?>['provedor']" value="<?= $this->view->pas['x$i']['provedor'] ?>">
+                            <input type="text" maxlength="40" class="form-control" id=" inputIP x<?=$i?>_provedor" placeholder="" name="link_x<?=$i?>['provedor']" value="<?= $this->view->pas[$idx]['provedor'] ?>">
                         </div>
                     </div>
                 <?php } ?>	
