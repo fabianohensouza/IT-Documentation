@@ -38,6 +38,12 @@ class Route extends Bootstrap {
 			'action' => 'usuarios'
 		);
 
+		$routes['resetar_senha'] = array(
+			'route' => '/resetar_senha',
+			'controller' => 'AppController',
+			'action' => 'resetarSenha'
+		);
+
 		$routes['usuarios-adicionar'] = array(
 			'route' => '/usuarios-adicionar',
 			'controller' => 'AppController',

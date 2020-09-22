@@ -61,6 +61,23 @@ class AppController extends Action {
 		$this->render('usuarios.phtml');
 	}
 	
+	public function resetarSenha() {
+
+		$this->validaAutenticacao();
+
+		$this->render('resetar_senha.phtml');
+	}
+	
+	public function senha_alterar() {
+
+		$this->validaAutenticacao();
+
+		$usuario = Container::getModel('Usuario');
+		$this->view->usuario = $usuario->resetarSenha();
+
+		$this->render('resetar_senha.phtml');
+	}
+	
 	public function usuariosAdicionar() {
 
 		$this->validaAutenticacao();
