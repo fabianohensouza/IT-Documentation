@@ -15,6 +15,8 @@ class Usuario extends Model {
 	private $equipe;
 	private $equipeic;
 	private $senha;
+	private $senha_nova1;
+	private $senha_nova2;
 
 	public function __get($atributo) {
 		return $this->$atributo;
@@ -73,11 +75,18 @@ class Usuario extends Model {
 							(nome, login, email, cooperativa, permissao, equipe, senha)
 						VALUES
 							(:nome, :login, :email, :cooperativa, :permissao, :equipe, :senha)";
-		} elseif ($acao == 'alterar') {
+		} elseif ($acao == 'alterarsemsenha') {
 			$query = "UPDATE 
 						usuarios
 					SET
 						nome = :nome , login = :login, email = :email, cooperativa = :cooperativa, permissao = :permissao, equipe = :equipe
+					WHERE
+						id_usuario = :id_usuario";
+		} elseif ($acao == 'alterarcomsenha') {
+			$query = "UPDATE 
+						usuarios
+					SET
+						nome = :nome , login = :login, email = :email, cooperativa = :cooperativa, permissao = :permissao, equipe = :equipe, senha = :senha
 					WHERE
 						id_usuario = :id_usuario";
 		} elseif ($acao == 'deletar') {
@@ -107,6 +116,24 @@ class Usuario extends Model {
 		return $this;
 	}
 
+	
+	public function alterarSenha() {
+
+		$query = "UPDATE 
+						usuarios
+					SET
+						senha = :senha
+					WHERE
+						id_usuario = :id_usuario";
+		
+		$stmt = $this->db->prepare($query);
+
+		$stmt->bindValue(':id_usuario', $this->__get('id_usuario')); 
+		$stmt->bindValue(':senha', $this->__get('senha_nova1'));
+		
+		$stmt->execute();
+	}
+
 	//Validar cadastro
 	public function validarCadastro() {
 
@@ -133,7 +160,7 @@ class Usuario extends Model {
 
 	//Validar cadastro
 	public function authenticate() {
-		$query = "select id_usuario, nome, permissao, email, cooperativa from usuarios where login = :login and senha = :senha";
+		$query = "select id_usuario, nome, permissao, cooperativa, login from usuarios where login = :login and senha = :senha";
 		$stmt = $this->db->prepare($query);
 		$stmt->bindValue(':login', $this->__get('login'));
 		$stmt->bindValue(':senha', $this->__get('senha'));
@@ -145,11 +172,25 @@ class Usuario extends Model {
 			$this->__set('id_usuario', $usuario['id_usuario']);			
 			$this->__set('nome', $usuario['nome']);	
 			$this->__set('permissao', $usuario['permissao']);
-			$this->__set('email', $usuario['email']);
 			$this->__set('cooperativa', $usuario['cooperativa']);
+			$this->__set('login', $usuario['login']);
 		}
 
 		//return $this;
+		return $usuario;
+
+	}
+
+	public function validaSenha() {
+		$query = "select count(*) as valida from usuarios where login = :login and senha = :senha";
+		$stmt = $this->db->prepare($query);
+		$stmt->bindValue(':login', $this->__get('login'));
+		$stmt->bindValue(':senha', $this->__get('senha'));
+		$stmt->execute();
+
+		$usuario = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+		return $usuario;
 
 	}
 

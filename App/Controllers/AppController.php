@@ -68,14 +68,34 @@ class AppController extends Action {
 		$this->render('resetar_senha.phtml');
 	}
 	
-	public function senha_alterar() {
+	public function senhaAlterar() {
 
 		$this->validaAutenticacao();
 
 		$usuario = Container::getModel('Usuario');
-		$this->view->usuario = $usuario->resetarSenha();
 
-		$this->render('resetar_senha.phtml');
+		$usuario->__set('id_usuario', $_SESSION['id_usuario']);
+		$usuario->__set('login', $_SESSION['login']);
+		$usuario->__set('senha', md5($_POST['senha']));
+		$usuario->__set('senha_nova1', md5($_POST['senha_nova1']));
+		$usuario->__set('senha_nova2', md5($_POST['senha_nova2']));
+
+		$valida = $usuario->validaSenha();
+
+		if ($valida['valida'] == 0) {
+
+			header('Location: /resetar_senha?mensagem=senhaincorreta');
+
+		} elseif ($_POST['senha_nova1'] != $_POST['senha_nova2']) {
+
+			header('Location: /resetar_senha?mensagem=naoconfere');
+
+		} else {
+
+			$usuario->alterarSenha();
+			header('Location: /resetar_senha?mensagem=sucesso');
+
+		}
 	}
 	
 	public function usuariosAdicionar() {
@@ -129,7 +149,15 @@ class AppController extends Action {
 					
 				} elseif($_GET['acao'] == 'alterar') {
 
-					$usuarios->alterarUsuario('alterar');
+					if($_POST['senha'] == "") {
+
+						$usuarios->alterarUsuario('alterarsemsenha');
+
+					}else {
+						
+						$usuarios->alterarUsuario('alterarcomsenha');
+
+					}
 
 					header('Location: /usuarios?mensagem=alterado');
 					
