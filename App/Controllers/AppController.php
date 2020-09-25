@@ -139,13 +139,21 @@ class AppController extends Action {
 			$usuarios->__set('equipe', $_POST['equipe']);
 			$usuarios->__set('permissao', $_POST['permissao']);
 
+			echo "<pre>";
+			print_r($_POST);
+			echo "</pre>";
+
 			if($usuarios->validarCadastro()) {
 				
-				if(count($usuarios->usuarioPorEmail()) == 0) {
+				if(count($usuarios->validaUsuario()) == 0) {
 
-					$usuarios->alterarUsuario('inserir');
+					echo "<pre>";
+					print_r($usuarios->validaUsuario());
+					echo "</pre>";
+					
+					//$usuarios->alterarUsuario('inserir');
 
-					header('Location: /usuarios?mensagem=sucesso');
+					//header('Location: /usuarios?mensagem=sucesso');
 					
 				} elseif($_GET['acao'] == 'alterar') {
 
@@ -387,10 +395,10 @@ class AppController extends Action {
 				$pas->__set('link_x' . $i, $_POST['link_x' . $i]);
 			}
 
-			if(count($pas->paPorId()) == 0) {
+			if($pas->paPorId()['pas'] == 0) {
 
 				$pas->alterarPa('inserir');
-
+				
 				header('Location: /pas?mensagem=sucesso');
 					
 			} elseif($_GET['acao'] == 'alterar') {

@@ -194,6 +194,19 @@ class Usuario extends Model {
 
 	}
 
+	public function validaUsuario() {
+		$query = "select count(*) as usuario from usuarios where login = :login and email = :email";
+		$stmt = $this->db->prepare($query);
+		$stmt->bindValue(':login', $this->__get('login'));
+		$stmt->bindValue(':email', $this->__get('email'));
+		$stmt->execute();
+
+		$usuario = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+		return $usuario;
+
+	}
+
 	//Recuperar usuário por e-mail
 	public function usuarioPorEmail() {
 		$query = "select nome, email from usuarios where email = :email";

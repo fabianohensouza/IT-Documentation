@@ -56,12 +56,12 @@ class Pa extends Model {
 
 	public function paPorId() {
 
-		$query = "SELECT * FROM pas WHERE id_pa = :id_pa";
+		$query = "SELECT COUNT(*) AS pas FROM pas WHERE id_pa = :id_pa";
 
 		$stmt = $this->db->prepare($query);
 		$stmt->bindValue(':id_pa', $this->__get('id_pa'));
 		$stmt->execute();
-
+		
 		return $stmt->fetch(\PDO::FETCH_ASSOC);
 
 	}
