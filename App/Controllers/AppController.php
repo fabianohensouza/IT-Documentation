@@ -348,6 +348,7 @@ class AppController extends Action {
 				
 			} 
 
+			$this->view->cooperativas = $cooperativas->codigoCooperativas();
 			$this->view->pas['cidades'] = $cooperativas->cidadesMG();
 
 			$this->render('pas-adicionar.phtml');
@@ -386,10 +387,6 @@ class AppController extends Action {
 				$pas->__set('link_x' . $i, $_POST['link_x' . $i]);
 			}
 
-			echo "<pre>";
-			print_r($_POST);
-			echo "</pre>";
-
 			if(count($pas->paPorId()) == 0) {
 
 				$pas->alterarPa('inserir');
@@ -420,13 +417,13 @@ class AppController extends Action {
 					'firewall' => $_POST['firewall']
 				);
 			
-			for($i=0; $i <= 5; $i++) { 
-					$this->view->pas = array('link_x' . $i => $_POST['link_x' . $i],);
-			}
+				for($i=0; $i <= 5; $i++) { 
+						$this->view->pas = array('link_x' . $i => $_POST['link_x' . $i],);
+				}
 				$this->render('pas-adicionar.phtml');
 			}
 				
-				$this->render('pas-adicionar.phtml');
+				$this->render('pas');
 		}
 
 	}
