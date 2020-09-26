@@ -139,21 +139,15 @@ class AppController extends Action {
 			$usuarios->__set('equipe', $_POST['equipe']);
 			$usuarios->__set('permissao', $_POST['permissao']);
 
-			echo "<pre>";
-			print_r($_POST);
-			echo "</pre>";
-
 			if($usuarios->validarCadastro()) {
+
+				$valida = $usuarios->validaUsuario()['usuario'];
 				
-				if(count($usuarios->validaUsuario()) == 0) {
+				if(count($valida) == 0) {
 
-					echo "<pre>";
-					print_r($usuarios->validaUsuario());
-					echo "</pre>";
-					
-					//$usuarios->alterarUsuario('inserir');
+					$usuarios->alterarUsuario('inserir');
 
-					//header('Location: /usuarios?mensagem=sucesso');
+					header('Location: /usuarios?mensagem=sucesso');
 					
 				} elseif($_GET['acao'] == 'alterar') {
 
@@ -162,7 +156,7 @@ class AppController extends Action {
 						$usuarios->alterarUsuario('alterarsemsenha');
 
 					}else {
-						
+
 						$usuarios->alterarUsuario('alterarcomsenha');
 
 					}
@@ -190,7 +184,7 @@ class AppController extends Action {
 					);
 					
 					$this->render('usuarios-adicionar.phtml');
-				}
+				} 
 	
 			} else {
 	

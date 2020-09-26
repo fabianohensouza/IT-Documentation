@@ -75,6 +75,7 @@ class Usuario extends Model {
 							(nome, login, email, cooperativa, permissao, equipe, senha)
 						VALUES
 							(:nome, :login, :email, :cooperativa, :permissao, :equipe, :senha)";
+							
 		} elseif ($acao == 'alterarsemsenha') {
 			$query = "UPDATE 
 						usuarios
@@ -82,6 +83,7 @@ class Usuario extends Model {
 						nome = :nome , login = :login, email = :email, cooperativa = :cooperativa, permissao = :permissao, equipe = :equipe
 					WHERE
 						id_usuario = :id_usuario";
+						
 		} elseif ($acao == 'alterarcomsenha') {
 			$query = "UPDATE 
 						usuarios
@@ -89,11 +91,13 @@ class Usuario extends Model {
 						nome = :nome , login = :login, email = :email, cooperativa = :cooperativa, permissao = :permissao, equipe = :equipe, senha = :senha
 					WHERE
 						id_usuario = :id_usuario";
+						
 		} elseif ($acao == 'deletar') {
 			$query = "DELETE FROM 
 						usuarios
 					WHERE
 						id_usuario = :id_usuario";
+						
 		}
 
 		$stmt = $this->db->prepare($query);
@@ -152,6 +156,10 @@ class Usuario extends Model {
 		}
 
 		if(strlen($this->__get('senha')) < 3 ) {
+			$valido = false;
+		}
+
+		if(strlen($this->__get('login')) < 3 ) {
 			$valido = false;
 		}
 
