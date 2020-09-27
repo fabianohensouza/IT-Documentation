@@ -8,12 +8,11 @@ class Usuario extends Model {
 
 	private $id_usuario;
 	private $nome;
-	private $login;
+	private $usuario;
 	private $email;
 	private $cooperativa;
 	private $permissao;
 	private $equipe;
-	private $equipeic;
 	private $senha;
 	private $senha_nova1;
 	private $senha_nova2;
@@ -27,7 +26,7 @@ class Usuario extends Model {
 	}
 
 	public function todosUsuarios() {
-		$query = "SELECT id_usuario, permissao, nome, login, email, cooperativa, equipe FROM usuarios";
+		$query = "SELECT id_usuario, permissao, nome, usuario, email, cooperativa, equipe FROM usuarios";
 
 		$stmt = $this->db->prepare($query);;
 		$stmt->execute();
@@ -70,54 +69,61 @@ class Usuario extends Model {
 	
 	public function alterarUsuario($acao) {
 
-		if ($acao == 'inserir') {
-			$query = "INSERT INTO usuarios
-							(nome, login, email, cooperativa, permissao, equipe, senha)
-						VALUES
-							(:nome, :login, :email, :cooperativa, :permissao, :equipe, :senha)";
+		try {
+			if ($acao == 'inserir') {
+				$query = "INSERT INTO usuarios (nome, usuario, email, cooperativa, permissao, equipe, senha) VALUES (:nome, :usuario, :email, :cooperativa, :permissao, :equipe, :senha)";
+				
+				echo $query;
+								
+			} elseif ($acao == 'alterarsemsenha') {
+				$query = "UPDATE usuarios SET nome = :nome, usuario = :usuario, email = :email, cooperativa = :cooperativa, permissao = :permissao, equipe = :equipe WHERE id_usuario = :id_usuario";
+				
+				echo $query;
 							
-		} elseif ($acao == 'alterarsemsenha') {
-			$query = "UPDATE 
-						usuarios
-					SET
-						nome = :nome , login = :login, email = :email, cooperativa = :cooperativa, permissao = :permissao, equipe = :equipe
-					WHERE
-						id_usuario = :id_usuario";
-						
-		} elseif ($acao == 'alterarcomsenha') {
-			$query = "UPDATE 
-						usuarios
-					SET
-						nome = :nome , login = :login, email = :email, cooperativa = :cooperativa, permissao = :permissao, equipe = :equipe, senha = :senha
-					WHERE
-						id_usuario = :id_usuario";
-						
-		} elseif ($acao == 'deletar') {
-			$query = "DELETE FROM 
-						usuarios
-					WHERE
-						id_usuario = :id_usuario";
-						
-		}
+			} elseif ($acao == 'alterarcomsenha') {
+				$query = "UPDATE usuarios SET nome = :nome, usuario = :usuario, email = :email, cooperativa = :cooperativa, permissao = :permissao, equipe = :equipe, senha = :senha WHERE id_usuario = :id_usuario";
+				
+				echo $query;
+							
+			} elseif ($acao == 'deletar') {
+				$query = "DELETE FROM usuarios WHERE id_usuario = :id_usuario";
+				
+				echo $query;
+							
+			}
 
-		$stmt = $this->db->prepare($query);
-		if ($acao == 'alterar' || $acao == 'deletar') { 
-			$stmt->bindValue(':id_usuario', $this->__get('id_usuario')); 
-		}
+			$stmt = $this->db->prepare($query);
+			if ($acao == 'alterar' || $acao == 'deletar') { 
+				$stmt->bindValue(':id_usuario', $this->__get('id_usuario')); 
+			}
+			
+			if ($acao == 'inserir' || $acao == 'alterar') { 
+				$stmt->bindValue(':nome', $this->__get('nome'));
+				$stmt->bindValue(':usuario', $this->__get('usuario'));
+				$stmt->bindValue(':email', $this->__get('email'));
+				$stmt->bindValue(':cooperativa', $this->__get('cooperativa'));
+				$stmt->bindValue(':permissao', $this->__get('permissao'));
+				$stmt->bindValue(':equipe', $this->__get('equipe'));
+				$stmt->bindValue(':senha', $this->__get('senha'));
+			}
 		
-		if ($acao == 'inserir' || $acao == 'alterar') { 
-			$stmt->bindValue(':nome', $this->__get('nome'));
-			$stmt->bindValue(':login', $this->__get('login'));
-			$stmt->bindValue(':email', $this->__get('email'));
-			$stmt->bindValue(':cooperativa', $this->__get('cooperativa'));
-			$stmt->bindValue(':permissao', $this->__get('permissao'));
-			$stmt->bindValue(':equipe', $this->__get('equipe'));
-			$stmt->bindValue(':senha', $this->__get('senha'));
-		}
-	
-		$stmt->execute();
+			$stmt->execute();
 
-		return $this;
+			//return $this;
+
+			echo "<pre>";
+			print_r($this);
+			echo "</pre>";
+
+		} catch (PDOException $e) {
+
+		  echo "DataBase Error: The user could not be added.<br>".$e->getMessage();
+
+		} catch (Exception $e) {
+			
+		  echo "General Error: The user could not be added.<br>".$e->getMessage();
+
+		}
 	}
 
 	
@@ -190,9 +196,9 @@ class Usuario extends Model {
 	}
 
 	public function validaSenha() {
-		$query = "select count(*) as valida from usuarios where login = :login and senha = :senha";
+		$query = "select count(*) as valida from usuarios where usuario = :usuario and senha = :senha";
 		$stmt = $this->db->prepare($query);
-		$stmt->bindValue(':login', $this->__get('login'));
+		$stmt->bindValue(':usuario', $this->__get('usuario'));
 		$stmt->bindValue(':senha', $this->__get('senha'));
 		$stmt->execute();
 
@@ -203,9 +209,9 @@ class Usuario extends Model {
 	}
 
 	public function validaUsuario() {
-		$query = "select count(*) as usuario from usuarios where login = :login and email = :email";
+		$query = "SELECT COUNT(*) as usuario FROM usuarios WHERE usuario = :usuario AND email = :email";
 		$stmt = $this->db->prepare($query);
-		$stmt->bindValue(':login', $this->__get('login'));
+		$stmt->bindValue(':usuario', $this->__get('usuario'));
 		$stmt->bindValue(':email', $this->__get('email'));
 		$stmt->execute();
 
