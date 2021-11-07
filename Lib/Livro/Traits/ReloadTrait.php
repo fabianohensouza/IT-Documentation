@@ -46,7 +46,7 @@ trait ReloadTrait
         }
         catch (Exception $e)
         {
-            new Message($e->getMessage());
+            new Message('error', $e->getMessage());
         }
     }
 }

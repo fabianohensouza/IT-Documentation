@@ -18,7 +18,7 @@ use Livro\Widgets\Container\Panel;
 /**
  * Página de produtos
  */
-class ProdutosList extends Page
+class ServidoresFormList extends Page
 {
     private $form;
     private $datagrid;
@@ -40,38 +40,40 @@ class ProdutosList extends Page
         parent::__construct();
         
         // Define o Active Record
-        $this->activeRecord = 'Produto';
-        $this->connection   = 'livro';
+        $this->activeRecord = 'Servidores';
+        $this->connection   = 'db';
         
         // instancia um formulário
-        $this->form = new FormWrapper(new Form('form_busca_produtos'));
-        $this->form->setTitle('Produtos');
+        $this->form = new FormWrapper(new Form('form_busca_servidores'));
+        $this->form->setTitle('Servidores');
         
         // cria os campos do formulário
-        $descricao = new Entry('descricao');
+        $id = new Entry('id');
         
-        $this->form->addField('Descrição',   $descricao, '100%');
+        $this->form->addField('Servidor',   $id, '100%');
         $this->form->addAction('Buscar', new Action(array($this, 'onReload')));
-        $this->form->addAction('Cadastrar', new Action(array(new ProdutosForm, 'onEdit')));
+        $this->form->addAction('Cadastrar', new Action(array(new ServidoresForm, 'onEdit')));
         
         // instancia objeto Datagrid
         $this->datagrid = new DatagridWrapper(new Datagrid);
         
         // instancia as colunas da Datagrid
-        $codigo   = new DatagridColumn('id',             'Código',    'center',  '10%');
-        $descricao= new DatagridColumn('descricao',      'Descrição', 'left',   '30%');
-        $fabrica  = new DatagridColumn('nome_fabricante','Fabricante','left',   '30%');
-        $estoque  = new DatagridColumn('estoque',        'Estoq.',    'right',  '15%');
-        $preco    = new DatagridColumn('preco_venda',    'Venda',     'right',  '15%');
+        $id   = new DatagridColumn('id', 'ID',    'center',  '5%');
+        $cod_coop   = new DatagridColumn('cod_coop', 'Cooperativa',    'center',  '5%');
+        $nome= new DatagridColumn('nome', 'Nome', 'center',   '30%');
+        $so  = new DatagridColumn('so', 'Sistema Operacional','center',   '30%');
+        $ip_principal  = new DatagridColumn('ip_principal', 'IP','center',   '15%');
+        $servidor_status  = new DatagridColumn('servidor_status', 'Status',    'center',  '15%');
         
         // adiciona as colunas à Datagrid
-        $this->datagrid->addColumn($codigo);
-        $this->datagrid->addColumn($descricao);
-        $this->datagrid->addColumn($fabrica);
-        $this->datagrid->addColumn($estoque);
-        $this->datagrid->addColumn($preco);
+        $this->datagrid->addColumn($id);
+        $this->datagrid->addColumn($cod_coop);
+        $this->datagrid->addColumn($nome);
+        $this->datagrid->addColumn($so);
+        $this->datagrid->addColumn($ip_principal);
+        $this->datagrid->addColumn($servidor_status);
         
-        $this->datagrid->addAction( 'Editar',  new Action([new ProdutosForm, 'onEdit']), 'id', 'fa fa-edit fa-lg blue');
+        $this->datagrid->addAction( 'Editar',  new Action([new ServidoresForm, 'onEdit']), 'id', 'fa fa-edit fa-lg blue');
         $this->datagrid->addAction( 'Excluir', new Action([$this, 'onDelete']),          'id', 'fa fa-trash fa-lg red');
         
         // monta a página através de uma caixa
@@ -89,10 +91,10 @@ class ProdutosList extends Page
         $dados = $this->form->getData();
         
         // verifica se o usuário preencheu o formulário
-        if ($dados->descricao)
+        if ($dados->id)
         {
             // filtra pela descrição do produto
-            $this->filters[] = ['descricao', 'like', "%{$dados->descricao}%", 'and'];
+            $this->filters[] = ['id', 'like', "%{$dados->id}%", 'and'];
         }
         
         $this->onReloadTrait();   
