@@ -135,13 +135,11 @@ class DatagridWrapper
                 $label = $action['label'];
                 $image = $action['image'];
                 $field = $action['field'];
-                
-                // obtém o campo do objeto que será passado adiante
-                $key    = $item->$field;
+                $key = $action['key'];
                 
                 // cria um link
                 $link = new Element('a');
-                $link->href = "{$url}&key={$key}&{$field}={$key}";
+                $link->href = "{$url}&{$field}={$field}&key={$key}";
                 
                 // verifica se o link será com imagem ou com texto
                 if ($image)

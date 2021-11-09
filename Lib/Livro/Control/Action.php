@@ -27,6 +27,7 @@ class Action implements ActionInterface
     public function setParameter($param, $value)
     {
         $this->param[$param] = $value;
+        var_dump($this->param);die();
     }
     
     /**

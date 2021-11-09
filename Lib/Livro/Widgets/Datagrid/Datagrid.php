@@ -29,9 +29,9 @@ class Datagrid
      * @param $field  = campo
      * @param $image  = imagem
      */
-    public function addAction($label, ActionInterface $action, $field, $image = null)
+    public function addAction($label, ActionInterface $action, $field, $image = null, $key = '0')
     {
-        $this->actions[] = ['label' => $label, 'action'=> $action, 'field' => $field, 'image' => $image];
+        $this->actions[] = ['label' => $label, 'action'=> $action, 'field' => $field, 'image' => $image, 'key' => $key];
     }
     
     /**
