@@ -3,8 +3,10 @@ use Livro\Control\Page;
 use Livro\Control\Action;
 use Livro\Database\Criteria;
 use Livro\Database\Repository;
+use Livro\Widgets\Base\Element;
 use Livro\Widgets\Form\Form;
 use Livro\Widgets\Dialog\Message;
+use Livro\Widgets\Container\VBox;
 use Livro\Widgets\Form\Entry;
 use Livro\Widgets\Form\Email;
 use Livro\Widgets\Form\Date; 
@@ -19,6 +21,7 @@ use Livro\Widgets\Container\Panel;
 
 use Livro\Traits\SaveTrait;
 use Livro\Traits\EditTrait;
+use Livro\Widgets\Form\Button;
 
 /**
  * Cadastro de Produtos
@@ -26,11 +29,14 @@ use Livro\Traits\EditTrait;
 class ServidoresForm extends Page
 {
     private $form; // formulário
+    private $panel;
     private $connection;
     private $activeRecord;
     
     use SaveTrait;
-    use EditTrait;
+    use EditTrait {
+        onEdit as onEditTrait;
+    }
     
     /**
      * Construtor da página
@@ -38,13 +44,15 @@ class ServidoresForm extends Page
     public function __construct()
     {
         parent::__construct();
+        $coop = (isset($_GET['key']))? $_GET['key'] : NULL;
+        $server_id = (isset($_GET['id']))? $_GET['id'] : NULL;
 
         $this->activeRecord = 'Servidores';
         $this->connection   = 'db';
         
         // instancia um formulário
         $this->form = new FormWrapper(new Form('form_servidores'));
-        $this->form->setTitle('Servidores');
+        $this->form->setTitle('Cadastro de Servidor');
         
         // cria os campos do formulário
         $id      = new Entry('id');
@@ -67,26 +75,25 @@ class ServidoresForm extends Page
         
         // carrega os cidades do banco de dados
         Transaction::open('db');
+        
         $cod_coops = Cooperativas::all();
         $items = array();
         foreach ($cod_coops as $obj_cooperativa) {
             $items[$obj_cooperativa->id] = $obj_cooperativa->id;
         }
         $cod_coop->addItems($items);
-
-        $coop = $cod_coop->getValue();
-        if(!empty($coop)) {
-            $criteria = New Criteria();
-            $criteria->add('cod_coop', '=', $coop);
-            $hosts = new Repository('Servidores');
-            $lista_hosts = $hosts->load($criteria);
-            $items = array();
-            foreach ($lista_hosts as $obj_host) {
-                $items[$obj_host->nome] = $obj_host->nome;
-            }
-            $host_virtual->addItems($items);
+        
+        $criteria = new Criteria; 
+        $criteria->add('cod_coop', '=',  $coop);
+        $criteria->add('tipo', '=',  'Físico');
+        $hosts = new Repository('Servidores');
+        $hosts_coop = $hosts->load($criteria);
+        $items = array();
+        foreach ($hosts_coop as $obj_servidor) {
+            $items[$obj_servidor->nome] = $obj_servidor->nome;
         }
-
+        $host_virtual->addItems($items);
+        
         $sistemas = Sistemas::all();
         $items = array();
         foreach ($sistemas as $obj_sistema) {
@@ -133,6 +140,33 @@ class ServidoresForm extends Page
         $this->form->addAction('Salvar', new Action(array($this, 'onSave')));
         
         // adiciona o formulário na página
-        parent::add($this->form);
+        $box = new VBox;
+        $box->style = 'display:block';
+        $box->add($this->form);
+
+        if(!is_null($server_id)){
+            $this->panel = new Panel('Manutencões');
+
+            $action = new Action(array(new ManutencoesForm, 'onEdit'));
+            $action->setParameter('id', $server_id);
+            
+            $button = new Element('a');
+            $button->add('Registrar');
+            $button->class = 'btn btn-info';
+
+            $button->href = $action->serialize();
+
+            $box->add($this->panel);
+            $this->panel->add($button);
+            $this->panel->add(new Element('hr'));
+        }
+        
+        parent::add($box);
     }
+
+    function onEdit($param)
+    {
+        $object = $this->onEditTrait($param);
+    }
+
 }

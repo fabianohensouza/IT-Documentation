@@ -23,6 +23,8 @@ trait EditTrait
                 $object = $class::find($id); // instancia o Active Record
                 $this->form->setData($object); // lança os dados no formulário
                 Transaction::close(); // finaliza a transação
+
+                return $object;
             }
         }
         catch (Exception $e)

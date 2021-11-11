@@ -58,13 +58,13 @@ class ServidoresFormList extends Page
         $this->datagrid = new DatagridWrapper(new Datagrid);
         
         // instancia as colunas da Datagrid
-        $id   = new DatagridColumn('id', 'ID',    'center',  '5%');
-        $cod_coop   = new DatagridColumn('cod_coop', 'Cooperativa',    'center',  '5%');
+        $id   = new DatagridColumn('id', 'ID',    'center',  '3%');
+        $cod_coop   = new DatagridColumn('cod_coop', 'Cooperativa',    'center',  '8%');
         $nome= new DatagridColumn('nome', 'Nome', 'center',   '25%');
         $so  = new DatagridColumn('so', 'Sistema Operacional','center',   '25%');
         $serial  = new DatagridColumn('serial', 'Serial','center',   '10%');
         $ip_principal  = new DatagridColumn('ip_principal', 'IP','center',   '15%');
-        $servidor_status  = new DatagridColumn('servidor_status', 'Status',    'center',  '15%');
+        $servidor_status  = new DatagridColumn('servidor_status', 'Status',    'center',  '10%');
         
         // adiciona as colunas à Datagrid
         $this->datagrid->addColumn($id);
@@ -74,7 +74,7 @@ class ServidoresFormList extends Page
         $this->datagrid->addColumn($serial);
         $this->datagrid->addColumn($ip_principal);
         $this->datagrid->addColumn($servidor_status);
-        
+
         $this->datagrid->addAction( 'Editar',  new Action([new ServidoresForm, 'onEdit']), 'id', 'fa fa-edit fa-lg blue', 'cod_coop');
         $this->datagrid->addAction( 'Excluir', new Action([$this, 'onDelete']),          'id', 'fa fa-trash fa-lg red');
         
