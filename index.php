@@ -28,6 +28,7 @@ if (Session::getValue('logged'))
 }
 else
 {
+    //Redirecting to the login page
     $template = file_get_contents('App/Templates/login.html');
     $class = 'LoginForm';
 }
