@@ -33,7 +33,6 @@ class ServidoresForm extends Page
     private $connection;
     private $activeRecord;
     
-    use SaveTrait;
     use EditTrait {
         onEdit as onEditTrait;
     }
@@ -98,7 +97,6 @@ class ServidoresForm extends Page
         $items = array();
         foreach ($sistemas as $obj_sistema) {
             $items[$obj_sistema->nome] = $obj_sistema->nome;
-            $status[$obj_sistema->nome] = $obj_sistema->status;
         }
         $so->addItems($items);
 
@@ -168,6 +166,39 @@ class ServidoresForm extends Page
     function onEdit($param)
     {
         $object = $this->onEditTrait($param);
+    }
+    
+    function onSave()
+    {
+        try
+        {
+            Transaction::open( $this->connection );
+            
+            $class = $this->activeRecord;
+            $dados = $this->form->getData();
+            
+            $sistemas = Sistemas::all();
+            $items = array();
+            foreach ($sistemas as $obj_sistema) {
+                $status[$obj_sistema->nome] = $obj_sistema->status;
+            }
+            $dados->so_status = $status[$dados->so];
+            
+            $object = new $class; // instancia objeto
+            $object->fromArray( (array) $dados); // carrega os dados
+            $object->store(); // armazena o objeto
+            
+            $dados->id = $object->id;
+            $this->form->setData($dados);
+            
+            Transaction::close(); // finaliza a transação
+            new Message('info', 'Dados armazenados com sucesso');
+            
+        }
+        catch (Exception $e)
+        {
+            new Message('error', $e->getMessage());
+        }
     }
 
 }

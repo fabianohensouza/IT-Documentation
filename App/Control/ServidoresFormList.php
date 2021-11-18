@@ -59,17 +59,19 @@ class ServidoresFormList extends Page
         
         // instancia as colunas da Datagrid
         $id   = new DatagridColumn('id', 'ID',    'center',  '3%');
-        $cod_coop   = new DatagridColumn('cod_coop', 'Cooperativa',    'center',  '8%');
-        $nome= new DatagridColumn('nome', 'Nome', 'center',   '25%');
+        $cod_coop   = new DatagridColumn('cod_coop', 'Cooperativa',    'center',  '5%');
+        $nome= new DatagridColumn('nome', 'Nome', 'center',   '20%');
+        $tipo= new DatagridColumn('tipo', 'Tipo', 'center',   '8%');
         $so  = new DatagridColumn('so', 'Sistema Operacional','center',   '25%');
         $serial  = new DatagridColumn('serial', 'Serial','center',   '10%');
         $ip_principal  = new DatagridColumn('ip_principal', 'IP','center',   '15%');
-        $servidor_status  = new DatagridColumn('servidor_status', 'Status',    'center',  '10%');
+        $servidor_status  = new DatagridColumn('servidor_status', 'Status',    'center',  '15%');
         
         // adiciona as colunas à Datagrid
         $this->datagrid->addColumn($id);
         $this->datagrid->addColumn($cod_coop);
         $this->datagrid->addColumn($nome);
+        $this->datagrid->addColumn($tipo);
         $this->datagrid->addColumn($so);
         $this->datagrid->addColumn($serial);
         $this->datagrid->addColumn($ip_principal);
