@@ -98,6 +98,7 @@ class ServidoresForm extends Page
         $items = array();
         foreach ($sistemas as $obj_sistema) {
             $items[$obj_sistema->nome] = $obj_sistema->nome;
+            $status[$obj_sistema->nome] = $obj_sistema->status;
         }
         $so->addItems($items);
 
