@@ -4,6 +4,7 @@ use Livro\Control\Action;
 use Livro\Widgets\Form\Form;
 use Livro\Widgets\Dialog\Message;
 use Livro\Widgets\Form\Entry;
+use Livro\Widgets\Form\Hidden;
 use Livro\Widgets\Form\Email;
 use Livro\Widgets\Form\Date; 
 use Livro\Widgets\Form\Text;
@@ -46,9 +47,10 @@ class ManutencoesForm extends Page
         
         // cria os campos do formulário
         $servidor      = new Entry('servidor');
+        $servidor_id   = new Hidden('servidor_id');
         $data   = new Entry('data');
         $responsavel      = new Entry('responsavel');
-        $desc     = new Text('desc');
+        $descricao     = new Text('descricao');
 
         $servidor->setEditable(FALSE);
         $responsavel->setEditable(FALSE);
@@ -65,9 +67,10 @@ class ManutencoesForm extends Page
         $responsavel->setValue($_SESSION['nome']);
         
         $this->form->addField('Servidor', $servidor, '70%');
+        $this->form->addField('', $servidor_id, '0%');
         $this->form->addField('Data',   $data, '70%');
         $this->form->addField('Responsável',   $responsavel, '70%');
-        $this->form->addField('Descricão',   $desc, '70%');
+        $this->form->addField('Descricão',   $descricao, '70%');
         $this->form->addAction('Salvar', new Action(array($this, 'onSave')));
         
         // adiciona o formulário na página
