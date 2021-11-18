@@ -59,12 +59,13 @@ class ManutencoesForm extends Page
         // carrega os cidades do banco de dados
         Transaction::open('db');
         $obj_servidor = new Servidores;
-        $servidor_nome = $obj_servidor->load($_GET['id']);
-        $servidor->setValue($servidor_nome->nome);
+        $servidor_info = $obj_servidor->load($_GET['id']);
+        $servidor->setValue($servidor_info->nome);
+        $servidor_id->setValue($_GET['id']);
         Transaction::close();
 
         $data->setValue(date('d/m/Y'));
-        $responsavel->setValue($_SESSION['nome']);
+        $responsavel->setValue($_SESSION['user']);
         
         $this->form->addField('Servidor', $servidor, '70%');
         $this->form->addField('', $servidor_id, '0%');

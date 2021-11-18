@@ -37,6 +37,7 @@ class LoginForm extends Page
         if ($data->login == 'admin' AND $data->password == 'admin')
         {
             Session::setValue('logged', TRUE);
+            Session::setValue('user', 'Global Administrator');
             echo "<script> window.location = 'index.php'; </script>";
         }
     }
@@ -44,6 +45,7 @@ class LoginForm extends Page
     public function onLogout($param)
     {
         Session::setValue('logged', FALSE);
+        Session::setValue('user', '');
         echo "<script> window.location = 'index.php'; </script>";
     }
 }
