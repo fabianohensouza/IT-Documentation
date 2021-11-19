@@ -70,7 +70,7 @@ class ServidoresForm extends Page
         $acessormt_tipo   = new Combo('acessormt_tipo');
         $acessormt_endereco   = new Entry('acessormt_endereco');
         $hardware_status   = new Combo('hardware_status');
-        $obs   = new Text('obs');
+        $obs   = new Text('obs');   
         
         // carrega os cidades do banco de dados
         Transaction::open('db');
@@ -125,8 +125,8 @@ class ServidoresForm extends Page
         $this->form->addField('Modelo',   $modelo, '70%');
         $this->form->addField('Tipo',   $tipo, '70%');
         $this->form->addField('Tipo',   $tipo, '70%');
-        $this->form->addField('Serial',   $serial, '70%');
         $this->form->addField('Host de Virtualizacao',   $host_virtual, '70%');
+        $this->form->addField('Serial',   $serial, '70%');
         $this->form->addField('IP Principal',   $ip_principal, '70%');
         $this->form->addField('IP IDrac',   $ip_idrac, '70%');
         $this->form->addField('Sistema Operacional',   $so, '70%');
@@ -158,8 +158,23 @@ class ServidoresForm extends Page
             $box->add($this->panel);
             $this->panel->add($button);
             $this->panel->add(new Element('hr'));
+
+            /*Transaction::open('db');
+
+            $criteria2 = new Criteria; 
+            $criteria2->add('servidor_id', '=',  $server_id);
+            $manutencoes = new Repository('Manutencoes');
+            $server_mnt = $manutencoes->load($criteria2);
+            echo '<pre> Servidor ID: ' . $server_id . '<br>';print_r($server_mnt);die();
+            Transaction::close();/*
+            $items = array();
+            foreach ($hosts_coop as $obj_servidor) {
+                $items[$obj_servidor->nome] = $obj_servidor->nome;
+            }
+            $host_virtual->addItems($items);
+*/  
         }
-        
+      
         parent::add($box);
     }
 
