@@ -157,22 +157,32 @@ class ServidoresForm extends Page
 
             $box->add($this->panel);
             $this->panel->add($button);
-            $this->panel->add(new Element('hr'));
 
-            /*Transaction::open('db');
+            Transaction::open('db');
 
-            $criteria2 = new Criteria; 
-            $criteria2->add('servidor_id', '=',  $server_id);
-            $manutencoes = new Repository('Manutencoes');
-            $server_mnt = $manutencoes->load($criteria2);
-            echo '<pre> Servidor ID: ' . $server_id . '<br>';print_r($server_mnt);die();
-            Transaction::close();/*
-            $items = array();
-            foreach ($hosts_coop as $obj_servidor) {
-                $items[$obj_servidor->nome] = $obj_servidor->nome;
+            $pdo = Transaction::get();
+            $stmt = $pdo->prepare("SELECT * FROM manutencoes WHERE servidor_id=:servidor_id ORDER BY id DESC" );
+            $stmt->execute(['servidor_id' => $server_id]); 
+            $server_mnt = $stmt->fetchAll();
+            
+            foreach ($server_mnt as $mnt) {
+                $this->panel->add(new Element('hr'));
+
+                $data = date('d/m/Y',strtotime($mnt['data']));
+                $text = "{$data} - {$mnt['servidor']}<br>Responsavel:{$mnt['responsavel']}";
+                $info = new Element('p');
+                $info->style = "font-size:12px;margin:0px;padding:0px";
+                $info->add($text);
+
+                $descricao = new Element('p');
+                $descricao->style = "font-size:12px;margin:0px;padding:0px";
+                $descricao->add($mnt['descricao']);
+                
+                $this->panel->add($info);
+                $this->panel->add($descricao);
             }
-            $host_virtual->addItems($items);
-*/  
+
+            Transaction::close();
         }
       
         parent::add($box);

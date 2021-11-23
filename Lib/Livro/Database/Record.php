@@ -54,8 +54,7 @@ abstract class Record implements RecordInterface
                 unset($this->data[$prop]);
             }
             else
-            {
-                // atribui o valor da propriedade
+            { 
                 $this->data[$prop] = $value;
             }
         }

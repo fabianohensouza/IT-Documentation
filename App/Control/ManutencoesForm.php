@@ -28,8 +28,8 @@ class ManutencoesForm extends Page
     private $connection;
     private $activeRecord;
     
-    use SaveTrait;
-    use EditTrait;
+    //use SaveTrait;
+    //use EditTrait;
     
     /**
      * Construtor da página
@@ -56,15 +56,17 @@ class ManutencoesForm extends Page
         $responsavel->setEditable(FALSE);
         $data->setEditable(FALSE);
         
-        // carrega os cidades do banco de dados
-        Transaction::open('db');
-        $obj_servidor = new Servidores;
-        $servidor_info = $obj_servidor->load($_GET['id']);
-        $servidor->setValue($servidor_info->nome);
-        $servidor_id->setValue($_GET['id']);
-        Transaction::close();
+        // carrega dados dos servidores do banco de dados
+        if(isset($_GET['id'])){
+            Transaction::open('db');
+            $obj_servidor = new Servidores;
+            $servidor_info = $obj_servidor->load($_GET['id']);
+            $servidor->setValue($servidor_info->nome);
+            $servidor_id->setValue($_GET['id']);
+            Transaction::close();
+        }
 
-        $data->setValue(date('d/m/Y'));
+        $data->setValue(date('Y-m-d'));
         $responsavel->setValue($_SESSION['user']);
         
         $this->form->addField('Servidor', $servidor, '70%');
@@ -76,5 +78,38 @@ class ManutencoesForm extends Page
         
         // adiciona o formulário na página
         parent::add($this->form);
+    }
+
+    function onEdit($param) 
+    {
+            
+    }
+
+    function onSave()
+    {
+        try
+        {
+            Transaction::open( $this->connection );
+            
+            $class = $this->activeRecord;
+            $dados = $this->form->getData();
+            
+            
+            $object = new $class; // instancia objeto
+            $object->fromArray( (array) $dados); // carrega os dados
+            $object->store(); // armazena o objeto
+            
+            $dados->id = $object->id;
+            $dados->descricao = NULL;
+            $this->form->setData($dados);
+            
+            Transaction::close(); // finaliza a transação
+            new Message('info', 'Dados armazenados com sucesso');
+            
+        }
+        catch (Exception $e)
+        {
+            new Message('error', $e->getMessage());
+        }
     }
 }
