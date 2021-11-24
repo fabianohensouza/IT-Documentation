@@ -13,8 +13,10 @@ abstract class Field implements FormElementInterface
     protected $size;
     protected $value;
     protected $editable;
+    protected $required;
     protected $formLabel;
     protected $properties;
+    protected $attributes;
     
     /**
      * Instancia um campo do formulario
@@ -24,6 +26,8 @@ abstract class Field implements FormElementInterface
     {
         // define algumas características iniciais
         self::setEditable(true);
+        self::setRequired(true);
+        //self::setRequired(false);
         self::setName($name);
     }
     
@@ -109,7 +113,7 @@ abstract class Field implements FormElementInterface
      */
     public function setEditable($editable)
     {
-        $this->editable= $editable;
+        $this->editable = $editable;
     }
     
     /**
@@ -136,6 +140,23 @@ abstract class Field implements FormElementInterface
     public function getProperty($name)
     {
         return $this->properties[$name];
+    }
+    
+    /**
+     * Define uma propriedade para o campo
+     * @param $name = nome do atributo
+     */
+    public function setAttributes($name)
+    {
+        $this->attributes[$name] = $name;
+    }
+    
+    /**
+     * Retorna um atributo do campo
+     */
+    public function getAttributes($name)
+    {
+        return $this->attributes[$name];
     }
     
     /**

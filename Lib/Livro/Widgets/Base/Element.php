@@ -9,6 +9,7 @@ class Element
 {
     protected $tagname;       // nome da TAG
     protected $properties;    // propriedades da TAG
+    protected $attributes;    // atributos da TAG
     protected $children;
     
     /**
@@ -42,6 +43,12 @@ class Element
         return isset($this->properties[$name])? $this->properties[$name] : NULL;
     }
     
+
+    public function __setAttributes($name)
+    {
+        // armazena os valores atribuídos ao array properties
+        $this->attributes[$name] = $name;
+    }
     /**
      * Adiciona um elemento filho
      * @param $child = objeto filho

@@ -18,7 +18,7 @@ use Livro\Widgets\Container\Panel;
 /**
  * Página de produtos
  */
-class PessoasFormList extends Page
+class UsuariosFormList extends Page
 {
     private $form;
     private $datagrid;
@@ -40,38 +40,40 @@ class PessoasFormList extends Page
         parent::__construct();
         
         // Define o Active Record
-        $this->activeRecord = 'Pessoas';
+        $this->activeRecord = 'Usuarios';
         $this->connection   = 'db';
         
         // instancia um formulário
-        $this->form = new FormWrapper(new Form('form_busca_pessoas'));
-        $this->form->setTitle('Pessoas');
+        $this->form = new FormWrapper(new Form('form_busca_usuarios'));
+        $this->form->setTitle('Usuarios');
         
         // cria os campos do formulário
         $nome = new Entry('nome');
         
         $this->form->addField('Nome',   $nome, '100%');
         $this->form->addAction('Buscar', new Action(array($this, 'onReload')));
-        $this->form->addAction('Cadastrar', new Action(array(new PessoasForm, 'onEdit')));
+        $this->form->addAction('Cadastrar', new Action(array(new UsuariosForm, 'onEdit')));
         
         // instancia objeto Datagrid
         $this->datagrid = new DatagridWrapper(new Datagrid);
         
         // instancia as colunas da Datagrid
-        $id   = new DatagridColumn('id',             'ID',    'left',  '5%');
-        $nome= new DatagridColumn('nome', 'Nome', 'left',   '35%');
-        $cod_coop  = new DatagridColumn('cod_coop','Cooperativa','left',   '10%');
-        $cargo  = new DatagridColumn('cargo',        'Cargo',    'center',  '20%');
-        $contato    = new DatagridColumn('contato',    'Contato',     'center',  '20%');
+        $id   = new DatagridColumn('id',             'ID',    'center',  '5%');
+        $nome= new DatagridColumn('nome', 'Nome', 'center',   '35%');
+        $usuario  = new DatagridColumn('usuario','Usuario','center',   '10%');
+        $email  = new DatagridColumn('email',        'E-mail',    'center',  '20%');
+        $permissao    = new DatagridColumn('permissao',    'Permissao',     'center',  '10%');
+        $status    = new DatagridColumn('status',    'Status',     'center',  '10%');
         
         // adiciona as colunas à Datagrid
         $this->datagrid->addColumn($id);
         $this->datagrid->addColumn($nome);
-        $this->datagrid->addColumn($cod_coop);
-        $this->datagrid->addColumn($cargo);
-        $this->datagrid->addColumn($contato);
+        $this->datagrid->addColumn($usuario);
+        $this->datagrid->addColumn($email);
+        $this->datagrid->addColumn($permissao);
+        $this->datagrid->addColumn($status);
         
-        $this->datagrid->addAction( 'Editar',  new Action([new PessoasForm, 'onEdit']), 'id', 'fa fa-edit fa-lg blue');
+        $this->datagrid->addAction( 'Editar',  new Action([new UsuariosForm, 'onEdit']), 'id', 'fa fa-edit fa-lg blue');
         $this->datagrid->addAction( 'Excluir', new Action([$this, 'onDelete']),          'id', 'fa fa-trash fa-lg red');
         
         // monta a página através de uma caixa
