@@ -11,6 +11,8 @@ use Livro\Widgets\Form\Text;
 use Livro\Widgets\Form\Combo;
 use Livro\Widgets\Form\RadioGroup;
 use Livro\Database\Transaction;
+use Livro\Database\Criteria;
+use Livro\Database\Repository;
 
 use Livro\Widgets\Wrapper\DatagridWrapper;
 use Livro\Widgets\Wrapper\FormWrapper;
@@ -48,7 +50,7 @@ class UsuariosForm extends Page
         // cria os campos do formulário
         $id      = new Entry('id');
         $nome   = new Entry('nome');
-        $usuario   = new Entry('usuario');
+        $login   = new Entry('login');
         $email   = new Email('email');
         $permissao     = new Combo('permissao');
         $status     = new Combo('status');
@@ -61,15 +63,13 @@ class UsuariosForm extends Page
         $status->addItems(array( "Ativo" => "Ativo",
                               "Inativo" => "Inativo",
                               "Bloqueado" => "Bloqueado"));
-
-        $nome->setAttribute('required');
         
         // define alguns atributos para os campos do formulário
         $id->setEditable(FALSE);
         
         $this->form->addField('ID',    $id, '30%');
         $this->form->addField('Nome', $nome, '70%');
-        $this->form->addField('Usuario',   $usuario, '70%');
+        $this->form->addField('Login',   $login, '70%');
         $this->form->addField('E-mail',   $email, '70%');
         $this->form->addField('Permissao',   $permissao, '70%');
         $this->form->addField('Status',   $status, '70%');
@@ -92,8 +92,15 @@ class UsuariosForm extends Page
             
             if($dados->senha === $dados->valida_senha) 
             {
-                die();
+                $criteria = new Criteria; 
+                $criteria->add('login', '=',  $dados->login);
+                $usuario = new Repository('Usuarios');
+                $usuario_info = $usuario->count($criteria);
+
+                echo '<pre>';var_dump($usuario_info);die();
+
                 unset($dados->valida_senha);
+                $dados->senha = md5($dados->senha);
                 $object = new $class; // instancia objeto
                 $object->fromArray( (array) $dados); // carrega os dados
                 $object->store(); // armazena o objeto

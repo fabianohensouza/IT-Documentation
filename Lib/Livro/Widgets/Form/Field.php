@@ -16,7 +16,7 @@ abstract class Field implements FormElementInterface
     protected $required;
     protected $formLabel;
     protected $properties;
-    protected $attributes;
+    protected $attribute;
     
     /**
      * Instancia um campo do formulario
@@ -138,23 +138,6 @@ abstract class Field implements FormElementInterface
     public function getProperty($name)
     {
         return $this->properties[$name];
-    }
-    
-    /**
-     * Define uma propriedade para o campo
-     * @param $name = nome do atributo
-     */
-    public function setAttribute($name)
-    {
-        $this->attribute = $name;
-    }
-    
-    /**
-     * Retorna um atributo do campo
-     */
-    public function getAttribute()
-    {
-        return $this->attribute;
     }
     
     /**

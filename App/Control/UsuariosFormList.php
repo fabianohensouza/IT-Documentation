@@ -60,7 +60,7 @@ class UsuariosFormList extends Page
         // instancia as colunas da Datagrid
         $id   = new DatagridColumn('id',             'ID',    'center',  '5%');
         $nome= new DatagridColumn('nome', 'Nome', 'center',   '35%');
-        $usuario  = new DatagridColumn('usuario','Usuario','center',   '10%');
+        $login  = new DatagridColumn('login','Login','center',   '10%');
         $email  = new DatagridColumn('email',        'E-mail',    'center',  '20%');
         $permissao    = new DatagridColumn('permissao',    'Permissao',     'center',  '10%');
         $status    = new DatagridColumn('status',    'Status',     'center',  '10%');
@@ -68,7 +68,7 @@ class UsuariosFormList extends Page
         // adiciona as colunas à Datagrid
         $this->datagrid->addColumn($id);
         $this->datagrid->addColumn($nome);
-        $this->datagrid->addColumn($usuario);
+        $this->datagrid->addColumn($login);
         $this->datagrid->addColumn($email);
         $this->datagrid->addColumn($permissao);
         $this->datagrid->addColumn($status);

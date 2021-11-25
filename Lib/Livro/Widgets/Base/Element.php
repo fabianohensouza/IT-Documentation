@@ -42,25 +42,6 @@ class Element
         // retorna o valores atribuídos ao array properties
         return isset($this->properties[$name])? $this->properties[$name] : NULL;
     }
-    
-
-    public function __setAttributes($name)
-    {
-        // armazena os valores atribuídos ao array properties
-        $this->attributes[$name] = $name;
-    }
-
-    /*public function __getAttributes($name)
-    {
-        // retorna o valores atribuídos ao array properties
-        return isset($this->attributes[$name])? $this->attributes[$name] : NULL;
-    }*/
-
-    public function __getAttributes()
-    {
-        // retorna o valores atribuídos ao array properties
-        return $this->attributes;
-    }
 
     /**
      * Adiciona um elemento filho
@@ -78,7 +59,6 @@ class Element
     {
         // exibe a tag de abertura
         echo "<{$this->tagname}";
-        $attr = $this->__getAttributes();
 
         if ($this->properties)
         {
@@ -91,8 +71,7 @@ class Element
                 }
             }
         }        
-        echo " {$attr}";
-        //echo '>';
+        echo '>';
     }
     
     /**
