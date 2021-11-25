@@ -97,7 +97,10 @@ class UsuariosForm extends Page
                 $usuario = new Repository('Usuarios');
                 $usuario_info = $usuario->count($criteria);
 
-                echo '<pre>';var_dump($usuario_info);die();
+                if ($usuario_info == "1")
+                {
+                    throw new Exception("Usuário já cadastrado");
+                }
 
                 unset($dados->valida_senha);
                 $dados->senha = md5($dados->senha);
