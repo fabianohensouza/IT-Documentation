@@ -146,15 +146,15 @@ abstract class Field implements FormElementInterface
      */
     public function setAttribute($name)
     {
-        $this->attributes[$name] = $name;
+        $this->attribute = $name;
     }
     
     /**
      * Retorna um atributo do campo
      */
-    public function getAttribute($name)
+    public function getAttribute()
     {
-        return $this->attributes[$name];
+        return $this->attribute;
     }
     
     /**

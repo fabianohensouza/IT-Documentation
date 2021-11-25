@@ -76,9 +76,10 @@ class Element
      */
     private function open()
     {
-        echo '<pre>';print_r($this);
         // exibe a tag de abertura
         echo "<{$this->tagname}";
+        $attr = $this->__getAttributes();
+
         if ($this->properties)
         {
             // percorre as propriedades
@@ -89,23 +90,9 @@ class Element
                     echo " {$name}=\"{$value}\"";
                 }
             }
-        }
-
-        $attr = $this->__getAttributes();
-        echo '<hr>attr: ';print_r($attr);
-
-        if ($this->attributes)
-        {
-            // percorre as propriedades
-            foreach ($this->attributes as $name=>$value)
-            {
-                if (is_scalar($value))
-                {
-                    echo " " . $value;
-                }
-            }
-        }
-        echo '>';
+        }        
+        echo " {$attr}";
+        //echo '>';
     }
     
     /**
@@ -114,7 +101,7 @@ class Element
     public function show()
     {
         // abre a tag
-        $this->open();die();
+        $this->open();
         echo "\n";
         // se possui conteúdo
         if ($this->children)
