@@ -19,6 +19,7 @@ class FormWrapper
     public function __construct(Form $form)
     {
         $this->decorated = $form;
+        //echo '<pre>';var_dump($form);die();
     }
     
     /**

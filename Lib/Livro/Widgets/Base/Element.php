@@ -49,6 +49,19 @@ class Element
         // armazena os valores atribuídos ao array properties
         $this->attributes[$name] = $name;
     }
+
+    /*public function __getAttributes($name)
+    {
+        // retorna o valores atribuídos ao array properties
+        return isset($this->attributes[$name])? $this->attributes[$name] : NULL;
+    }*/
+
+    public function __getAttributes()
+    {
+        // retorna o valores atribuídos ao array properties
+        return $this->attributes;
+    }
+
     /**
      * Adiciona um elemento filho
      * @param $child = objeto filho
@@ -63,6 +76,7 @@ class Element
      */
     private function open()
     {
+        echo '<pre>';print_r($this);
         // exibe a tag de abertura
         echo "<{$this->tagname}";
         if ($this->properties)
@@ -76,6 +90,21 @@ class Element
                 }
             }
         }
+
+        $attr = $this->__getAttributes();
+        echo '<hr>attr: ';print_r($attr);
+
+        if ($this->attributes)
+        {
+            // percorre as propriedades
+            foreach ($this->attributes as $name=>$value)
+            {
+                if (is_scalar($value))
+                {
+                    echo " " . $value;
+                }
+            }
+        }
         echo '>';
     }
     
@@ -85,7 +114,7 @@ class Element
     public function show()
     {
         // abre a tag
-        $this->open();
+        $this->open();die();
         echo "\n";
         // se possui conteúdo
         if ($this->children)

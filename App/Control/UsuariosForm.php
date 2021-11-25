@@ -61,6 +61,8 @@ class UsuariosForm extends Page
         $status->addItems(array( "Ativo" => "Ativo",
                               "Inativo" => "Inativo",
                               "Bloqueado" => "Bloqueado"));
+
+        $nome->setAttribute('required');
         
         // define alguns atributos para os campos do formulário
         $id->setEditable(FALSE);
