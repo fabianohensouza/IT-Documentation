@@ -58,8 +58,8 @@ class CooperativaServicesForm extends Page
                     
                 $button[$key] = new Element('a');
                 $button[$key]->add($value);
-                $button[$key]->style = 'width: 120px;';
-                $button[$key]->class = 'btn btn-info';
+                $button[$key]->style = 'width: 120px; margin-right: 8px';
+                $button[$key]->class = 'btn btn-success';
                 $button[$key]->href = $action[$key]->serialize();
 
                 $this->panel->add($button[$key]);
