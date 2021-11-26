@@ -46,10 +46,10 @@ class CooperativasServicesForm extends Page
         
         // instancia um formulário
         $this->form = new FormWrapper(new Form('form_services_cooperativas'));
-        $this->form->setTitle('Selecione a cooperativas');
+        $this->form->setTitle('Cooperativas - Serviços e Aplicações');
         
         // cria os campos do formulário
-        $coop = new Combo('coop');
+        $coop = new Combo('cod_coop');
 
         Transaction::open('db');
         $cod_coops = Cooperativas::all();
@@ -61,9 +61,8 @@ class CooperativasServicesForm extends Page
 
         Transaction::close();
         
-        $this->form->addField('Cooperativa',   $coop, '100%');
-        //$this->form->addAction('Buscar', new Action(array($this, 'onReload')));
-        //$this->form->addAction('Cadastrar', new Action(array(new CooperativasServicesForm, 'onEdit')));
+        $this->form->addField('Selecione',   $coop, '70%');
+        $this->form->addAction('Acessar', new Action(array(new CooperativaServicesForm, 'onReload')));
         
         // monta a página através de uma caixa
         $box = new VBox;
@@ -71,68 +70,13 @@ class CooperativasServicesForm extends Page
         $box->add($this->form);
         
         parent::add($box);
-        
-        /*// instancia objeto Datagrid
-        $this->datagrid = new DatagridWrapper(new Datagrid);
-        
-        // instancia as colunas da Datagrid
-        $id   = new DatagridColumn('id',             'Código',    'center',  '10%');
-        $nome= new DatagridColumn('nome',      'Nome', 'left',   '30%');
-        $cidade  = new DatagridColumn('cidade','Cidade','left',   '30%');
-        $ic  = new DatagridColumn('ic',        'InfraCredis.',    'right',  '15%');
-        $qt_equip    = new DatagridColumn('qt_equip',    'Equipamentos',     'right',  '15%');
-        
-        // adiciona as colunas à Datagrid
-        $this->datagrid->addColumn($id);
-        $this->datagrid->addColumn($nome);
-        $this->datagrid->addColumn($cidade);
-        $this->datagrid->addColumn($ic);
-        $this->datagrid->addColumn($qt_equip);
-        
-        $this->datagrid->addAction( 'Editar',  new Action([new CooperativasForm, 'onEdit']), 'id', 'fa fa-edit fa-lg blue');
-        $this->datagrid->addAction( 'Excluir', new Action([$this, 'onDelete']),          'id', 'fa fa-trash fa-lg red');
-        
-        // monta a página através de uma caixa
-        $box = new VBox;
-        $box->style = 'display:block';
-        $box->add($this->form);
-        $box->add($this->datagrid);
-        
-        parent::add($box);*/
     }
-
-    /*public function onReload()
-    { 
-        $this->loaded = true;
-        echo '<pre>';print_r($_REQUEST);die();
-    }
-    
-    public function onReload()
-    {
-        // obtém os dados do formulário de buscas
-        $dados = $this->form->getData();
-        
-        // verifica se o usuário preencheu o formulário
-        if ($dados->id)
-        {
-            // filtra pela descrição do produto
-            $this->filters[] = ['id', 'like', "%{$dados->id}%", 'and'];
-        }
-        
-        $this->onReloadTrait();   
-        $this->loaded = true;
-    }/*
     
     /**
      * Exibe a página
      */
     public function show()
     {
-         // se a listagem ainda não foi carregada
-         /*if (!$this->loaded)
-         {
-	        $this->onReload();
-         }*/
          parent::show();
     }
 }
