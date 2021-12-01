@@ -107,11 +107,16 @@ class AdForm extends Page
         $this->form->addField('Servidor WSUS',   $wsus, '70%');
         $this->form->addField('Observações',   $obs, '70%');
         $this->form->addAction('Salvar', new Action(array($this, 'onSave')));
-        
+
+        $action = new Action(array("CooperativaServicesForm", 'onReload'));
+        $action->setParameter('id', $coop);
+        $this->form->addAction('Retornar', $action);
+
         // adiciona o formulário na página
         $box = new VBox;
         $box->style = 'display:block';
         $box->add($this->form);
+        //$box->add($button);
       
         parent::add($box);
     }

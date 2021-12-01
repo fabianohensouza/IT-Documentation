@@ -40,9 +40,9 @@ class CooperativaServicesForm extends Page
             $this->panel = new Panel("{$_REQUEST['cod_coop']} - Serviços e Aplicações");
 
             $apps = [   "AdForm" => "Domínio AD",
+                        "AntivirusForm" => "Antivírus",
                         "ArquivosForm" => "Arquivos",
                         "BackupForm" => "Backup",
-                        "AntivirusForm" => "Antivírus",
                         "ContentfilterForm" => "CFS",
                         "DomwebForm" => "Domínio WEB",
                         "AplicacoesFormList" => "Aplicações"];
@@ -52,9 +52,7 @@ class CooperativaServicesForm extends Page
 
             foreach($apps as $key => $value)
             {
-                //$class = "ManutencoesForm";
-                //$class = ucfirst($key) . "Form";
-                $action[$key] = new Action(array(new $key, 'onEdit'));
+                $action[$key] = new Action(array($key, 'onEdit'));
                 $action[$key]->setParameter('id', $_REQUEST['cod_coop']);
                     
                 $button[$key] = new Element('a');

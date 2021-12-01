@@ -62,7 +62,7 @@ class CooperativasServicesForm extends Page
         Transaction::close();
         
         $this->form->addField('Selecione',   $coop, '70%');
-        $this->form->addAction('Acessar', new Action(array(new CooperativaServicesForm, 'onReload')));
+        $this->form->addAction('Acessar', new Action(array("CooperativaServicesForm", 'onReload')));
         
         // monta a página através de uma caixa
         $box = new VBox;
