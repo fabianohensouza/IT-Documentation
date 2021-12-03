@@ -1,40 +1,35 @@
 <?php
 use Livro\Control\Page;
 use Livro\Control\Action;
-use Livro\Database\Criteria;
-use Livro\Database\Repository;
-use Livro\Widgets\Base\Element;
 use Livro\Widgets\Form\Form;
-use Livro\Widgets\Dialog\Message;
-use Livro\Widgets\Container\VBox;
 use Livro\Widgets\Form\Entry;
-use Livro\Widgets\Form\Email;
-use Livro\Widgets\Form\Date; 
-use Livro\Widgets\Form\Text;
-use Livro\Widgets\Form\Combo;
-use Livro\Widgets\Form\RadioGroup;
+use Livro\Widgets\Container\VBox;
+use Livro\Widgets\Datagrid\Datagrid;
+use Livro\Widgets\Datagrid\DatagridColumn;
 use Livro\Database\Transaction;
+
+use Livro\Traits\DeleteTrait;
+use Livro\Traits\ReloadTrait;
 
 use Livro\Widgets\Wrapper\DatagridWrapper;
 use Livro\Widgets\Wrapper\FormWrapper;
 use Livro\Widgets\Container\Panel;
 
-use Livro\Traits\SaveTrait;
-use Livro\Traits\EditTrait;
-use Livro\Widgets\Form\Button;
-
 /**
- * Cadastro de Produtos
+ * Página de produtos
  */
 class AplicacoesFormList extends Page
 {
-    private $form; // formulário
-    private $panel;
+    private $form;
+    private $datagrid;
+    private $loaded;
     private $connection;
     private $activeRecord;
+    private $filters;
     
-    use EditTrait {
-        onEdit as onEditTrait;
+    use DeleteTrait;
+    use ReloadTrait {
+        onReload as onReloadTrait;
     }
     
     /**
@@ -43,187 +38,84 @@ class AplicacoesFormList extends Page
     public function __construct()
     {
         parent::__construct();
-        $coop = (isset($_GET['key']))? $_GET['key'] : NULL;
-        $server_id = (isset($_GET['id']))? $_GET['id'] : NULL;
-
-        $this->activeRecord = 'Servidores';
+        $coop = (isset($_GET['id']))? $_GET['id'] : NULL;
+        
+        // Define o Active Record
+        $this->activeRecord = 'Aplicacoes';
         $this->connection   = 'db';
         
         // instancia um formulário
-        $this->form = new FormWrapper(new Form('form_servidores'));
-        $this->form->setTitle('Cadastro de Servidor');
+        $this->form = new FormWrapper(new Form('form_busca_aplicacoes'));
+        $this->form->setTitle("{$coop} - Aplicações");
         
         // cria os campos do formulário
-        $id      = new Entry('id');
-        $nome   = new Entry('nome');
-        $cod_coop     = new Combo('cod_coop');
-        $servidor_status     = new Combo('servidor_status');
-        $modelo   = new Entry('modelo');
-        $serial   = new Entry('serial');
-        $tipo = new Combo('tipo');
-        $host_virtual   = new Combo('host_virtual');
-        $ip_principal   = new Entry('ip_principal');
-        $ip_idrac   = new Entry('ip_idrac');
-        $so   = new Combo('so');
-        $so_status   = new Entry('so_status');
-        $garantia   = new Date('garantia');
-        $acessormt_tipo   = new Combo('acessormt_tipo');
-        $acessormt_endereco   = new Entry('acessormt_endereco');
-        $hardware_status   = new Combo('hardware_status');
-        $obs   = new Text('obs');   
+        $nome = new Entry('$nome');
         
-        // carrega os cidades do banco de dados
-        Transaction::open('db');
+        $this->form->addField('Nome',   $nome, '100%');
+        $this->form->addAction('Buscar', new Action(array($this, 'onReload')));
+        $this->form->addAction('Cadastrar', new Action(array(new ServidoresForm, 'onEdit')));
         
-        $cod_coops = Cooperativas::all();
-        $items = array();
-        foreach ($cod_coops as $obj_cooperativa) {
-            $items[$obj_cooperativa->id] = $obj_cooperativa->id;
-        }
-        $cod_coop->addItems($items);
+        // instancia objeto Datagrid
+        $this->datagrid = new DatagridWrapper(new Datagrid);
         
-        $criteria = new Criteria; 
-        $criteria->add('cod_coop', '=',  $coop);
-        $criteria->add('tipo', '=',  'Físico');
-        $hosts = new Repository('Servidores');
-        $hosts_coop = $hosts->load($criteria);
-        $items = array();
-        foreach ($hosts_coop as $obj_servidor) {
-            $items[$obj_servidor->nome] = $obj_servidor->nome;
-        }
-        $host_virtual->addItems($items);
+        // instancia as colunas da Datagrid
+        $id   = new DatagridColumn('id', 'ID',    'center',  '3%');
+        $cod_coop   = new DatagridColumn('cod_coop', 'Cooperativa',    'center',  '5%');
+        $nome= new DatagridColumn('nome', 'Nome', 'center',   '20%');
+        $tipo= new DatagridColumn('tipo', 'Tipo', 'center',   '8%');
+        $so  = new DatagridColumn('so', 'Sistema Operacional','center',   '25%');
+        $serial  = new DatagridColumn('serial', 'Serial','center',   '10%');
+        $ip_principal  = new DatagridColumn('ip_principal', 'IP','center',   '15%');
+        $servidor_status  = new DatagridColumn('servidor_status', 'Status',    'center',  '15%');
         
-        $sistemas = Sistemas::all();
-        $items = array();
-        foreach ($sistemas as $obj_sistema) {
-            $items[$obj_sistema->nome] = $obj_sistema->nome;
-        }
-        $so->addItems($items);
+        // adiciona as colunas à Datagrid
+        $this->datagrid->addColumn($id);
+        $this->datagrid->addColumn($cod_coop);
+        $this->datagrid->addColumn($nome);
+        $this->datagrid->addColumn($tipo);
+        $this->datagrid->addColumn($so);
+        $this->datagrid->addColumn($serial);
+        $this->datagrid->addColumn($ip_principal);
+        $this->datagrid->addColumn($servidor_status);
 
-        $servidor_status->addItems(array( "Reserva Técnica" => "Reserva Tecnica",
-                                          "Em Producao" => "Em Producao",
-                                          "Desativado" => "Desativado"));
-        $tipo->addItems(array( "Físico" => "Físico",
-                              "Virtual" => "Virtual"));
-        $acessormt_tipo->addItems(array( "SSH" => "SSH",
-                               "RDP" => "RDP",
-                               "VNC" => "VNC"));
-        $hardware_status->addItems(array( "Adequado" => "Adequado",
-                               "Desatualizado - Requer Upgrade" => "Desatualizado - Requer Upgrade",
-                               "Obsoleto - Deve ser desativado" => "Obsoleto - Deve ser desativado"));
-
-        Transaction::close();
+        $this->datagrid->addAction( 'Editar',  new Action([new ServidoresForm, 'onEdit']), 'id', 'fa fa-edit fa-lg blue');
+        $this->datagrid->addAction( 'Excluir', new Action([$this, 'onDelete']),          'id', 'fa fa-trash fa-lg red');
         
-        // define alguns atributos para os campos do formulário
-        $id->setEditable(FALSE);
-        $so_status->setEditable(FALSE);
-        
-        $this->form->addField('ID',    $id, '30%');
-        $this->form->addField('Nome', $nome, '70%');
-        $this->form->addField('Cooperativa',   $cod_coop, '70%');
-        $this->form->addField('Status do Servidor',   $servidor_status, '70%');
-        $this->form->addField('Modelo',   $modelo, '70%');
-        $this->form->addField('Tipo',   $tipo, '70%');
-        $this->form->addField('Tipo',   $tipo, '70%');
-        $this->form->addField('Host de Virtualizacao',   $host_virtual, '70%');
-        $this->form->addField('Serial',   $serial, '70%');
-        $this->form->addField('IP Principal',   $ip_principal, '70%');
-        $this->form->addField('IP IDrac',   $ip_idrac, '70%');
-        $this->form->addField('Sistema Operacional',   $so, '70%');
-        $this->form->addField('',   $so_status, '70%');
-        $this->form->addField('Garantia',    $garantia, '30%');
-        $this->form->addField('Acesso Remoto - Tipo',   $acessormt_tipo, '70%');
-        $this->form->addField('Endereco Remoto',   $acessormt_endereco, '70%');
-        $this->form->addField('Status de Hardware',   $hardware_status, '70%');
-        $this->form->addField('Observacões',   $obs, '70%');
-        $this->form->addAction('Salvar', new Action(array($this, 'onSave')));
-        
-        // adiciona o formulário na página
+        // monta a página através de uma caixa
         $box = new VBox;
         $box->style = 'display:block';
         $box->add($this->form);
-
-        if(!is_null($server_id)){
-            $this->panel = new Panel('Manutencões');
-
-            $action = new Action(array(new ManutencoesForm, 'onEdit'));
-            $action->setParameter('id', $server_id);
-            
-            $button = new Element('a');
-            $button->add('Registrar');
-            $button->class = 'btn btn-info';
-
-            $button->href = $action->serialize();
-
-            $box->add($this->panel);
-            $this->panel->add($button);
-
-            Transaction::open('db');
-
-            $pdo = Transaction::get();
-            $stmt = $pdo->prepare("SELECT * FROM manutencoes WHERE servidor_id=:servidor_id ORDER BY id DESC" );
-            $stmt->execute(['servidor_id' => $server_id]); 
-            $server_mnt = $stmt->fetchAll();
-            
-            foreach ($server_mnt as $mnt) {
-                $this->panel->add(new Element('hr'));
-
-                $data = date('d/m/Y',strtotime($mnt['data']));
-                $text = "{$data} - {$mnt['servidor']}<br>Responsavel:{$mnt['responsavel']}";
-                $info = new Element('p');
-                $info->style = "font-size:12px;margin:0px;padding:0px";
-                $info->add($text);
-
-                $descricao = new Element('p');
-                $descricao->style = "font-size:12px;margin:0px;padding:0px";
-                $descricao->add($mnt['descricao']);
-                
-                $this->panel->add($info);
-                $this->panel->add($descricao);
-            }
-
-            Transaction::close();
-        }
-      
+        $box->add($this->datagrid);
+        
         parent::add($box);
     }
-
-    function onEdit($param)
+    
+    public function onReload()
     {
-        $object = $this->onEditTrait($param);
+        // obtém os dados do formulário de buscas
+        $dados = $this->form->getData();
+        
+        // verifica se o usuário preencheu o formulário
+        if ($dados->id)
+        {
+            // filtra pela descrição do produto
+            $this->filters[] = ['id', 'like', "%{$dados->id}%", 'and'];
+        }
+        
+        $this->onReloadTrait();   
+        $this->loaded = true;
     }
     
-    function onSave()
+    /**
+     * Exibe a página
+     */
+    public function show()
     {
-        try
-        {
-            Transaction::open( $this->connection );
-            
-            $class = $this->activeRecord;
-            $dados = $this->form->getData();
-            
-            $sistemas = Sistemas::all();
-            $items = array();
-            foreach ($sistemas as $obj_sistema) {
-                $status[$obj_sistema->nome] = $obj_sistema->status;
-            }
-            $dados->so_status = $status[$dados->so];
-            
-            $object = new $class; // instancia objeto
-            $object->fromArray( (array) $dados); // carrega os dados
-            $object->store(); // armazena o objeto
-            
-            $dados->id = $object->id;
-            $this->form->setData($dados);
-            
-            Transaction::close(); // finaliza a transação
-            new Message('info', 'Dados armazenados com sucesso');
-            
-        }
-        catch (Exception $e)
-        {
-            new Message('error', $e->getMessage());
-        }
+         // se a listagem ainda não foi carregada
+         if (!$this->loaded)
+         {
+	        $this->onReload();
+         }
+         parent::show();
     }
-
 }

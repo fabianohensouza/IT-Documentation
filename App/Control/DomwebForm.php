@@ -71,7 +71,7 @@ class DomwebForm extends Page
         
         $this->form->addField('',    $id, '30%');
         $this->form->addField('Cooperativa',   $cod_coop, '70%');
-        $this->form->addField('Dominio',   $dominio, '70%');
+        $this->form->addField('Domínio',   $dominio, '70%');
         $this->form->addField('Expiração',   $expiracao, '70%');
         $this->form->addField('Observações',   $obs, '70%');
         $this->form->addAction('Salvar', new Action(array($this, 'onSave')));
