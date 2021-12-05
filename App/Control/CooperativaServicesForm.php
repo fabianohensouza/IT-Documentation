@@ -52,7 +52,7 @@ class CooperativaServicesForm extends Page
 
             foreach($apps as $key => $value)
             {
-                $action[$key] = new Action(array(new $key, 'onEdit'));
+                $action[$key] = new Action(array($key, 'onEdit'));
                 $action[$key]->setParameter('id', $_REQUEST['cod_coop']);
                     
                 $button[$key] = new Element('a');

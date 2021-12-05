@@ -55,11 +55,11 @@ class ContentfilterForm extends Page
         $this->form->setTitle("{$coop} - WEB Content Filter");
         
         // cria os campos do formulário
-        $id              = new Hidden('id');
-        $cod_coop       = new Entry('cod_coop');
-        $licencas           = new Number('licencas');
-        $expiracao           = new Date('expiracao');
-        $obs            = new Text('obs');   
+        $id         = new Hidden('id');
+        $cod_coop   = new Entry('cod_coop');
+        $licencas   = new Number('licencas');
+        $expiracao  = new Date('expiracao');
+        $obs        = new Text('obs');   
         
         $id->setValue($coop);
         $cod_coop->setValue($coop);

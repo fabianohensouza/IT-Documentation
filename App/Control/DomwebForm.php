@@ -51,33 +51,33 @@ class DomwebForm extends Page
         $this->connection   = 'db';
         
         // instancia um formulário
-        $this->form = new FormWrapper(new Form('form_DomwebForm'));
+        $this->form = new FormWrapper(new Form('form_domweb'));
         $this->form->setTitle("{$coop} - Domínio de Internet");
         
         // cria os campos do formulário
-        $id      = new Hidden('id');
-        $cod_coop     = new Entry('cod_coop');
-        $dominio     = new Entry('licencas');
-        $expiracao     = new Date('expiracao');
-        $obs   = new Text('obs');   
-
+        $id         = new Hidden('id');
+        $cod_coop   = new Entry('cod_coop');
+        $dominio    = new Entry('dominio');
+        $expiracao  = new Date('expiracao');
+        $obs        = new Text('obs');   
+        
         $id->setValue($coop);
         $cod_coop->setValue($coop);
         
         // define alguns atributos para os campos do formulário
         $id->setEditable(FALSE);
         $cod_coop->setEditable(FALSE);
-        $dominio->placeholder = 'Informe o domínio de internet da Cooperativa';
+
+        $dominio->placeholder = "Informe o nome do domínio de internet";
+        
+        $action = new Action(array('CooperativaServicesForm', 'onReload'));
         
         $this->form->addField('',    $id, '30%');
         $this->form->addField('Cooperativa',   $cod_coop, '70%');
         $this->form->addField('Domínio',   $dominio, '70%');
-        $this->form->addField('Expiração',   $expiracao, '70%');
-        $this->form->addField('Observações',   $obs, '70%');
+        $this->form->addField('Expiracão',   $expiracao, '70%');
+        $this->form->addField('Observacões',   $obs, '70%');
         $this->form->addAction('Salvar', new Action(array($this, 'onSave')));
-
-        $action = new Action(array("CooperativaServicesForm", 'onReload'));
-        $action->setParameter('id', $coop);
         $this->form->addAction('Retornar', $action);
         
         // adiciona o formulário na página
