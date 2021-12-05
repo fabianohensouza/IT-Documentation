@@ -7,9 +7,11 @@ use Livro\Widgets\Base\Element;
 use Livro\Widgets\Form\Form;
 use Livro\Widgets\Dialog\Message;
 use Livro\Widgets\Container\VBox;
+use Livro\Widgets\Form\Hidden;
 use Livro\Widgets\Form\Entry;
 use Livro\Widgets\Form\Email;
 use Livro\Widgets\Form\Date; 
+use Livro\Widgets\Form\Number; 
 use Livro\Widgets\Form\Text;
 use Livro\Widgets\Form\Combo;
 use Livro\Widgets\Form\RadioGroup;
@@ -43,25 +45,26 @@ class AntivirusForm extends Page
     public function __construct()
     {
         parent::__construct();
-        $coop = (isset($_GET['cod_coop']))? $_GET['cod_coop'] : NULL;
+        $coop = (isset($_GET['id']))? $_GET['id'] : NULL;
 
         $this->activeRecord = 'Antivirus';
         $this->connection   = 'db';
         
         // instancia um formulário
-        $this->form = new FormWrapper(new Form('form_activedirectory'));
-        $this->form->setTitle("{$coop} - Domínio Active Directory");
+        $this->form = new FormWrapper(new Form('form_antivirus'));
+        $this->form->setTitle("{$coop} - Console de Antivírus");
         
         // cria os campos do formulário
-        $id              = new Entry('id');
+        $id              = new Hidden('id');
         $cod_coop       = new Entry('cod_coop');
-        $dominio        = new Entry('dominio');
-        $abrangencia    = new Combo('abrangencia');
-        $dc_primario    = new Combo('dc_primario');
-        $dc_secundario  = new Combo('dc_secundario');
-        $dns_primario   = new Combo('dns_primario');
-        $dns_secundario = new Combo('dns_secundario');
-        $wsus           = new Combo('wsus');
+        $servidor        = new Combo('servidor');
+        $produto    = new Combo('produto');
+        $outro_produto    = new Entry('outro_produto');
+        $tipo_console  = new Combo('tipo_console');
+        $patch   = new Entry('patch');
+        $url = new Entry('url');
+        $licencas           = new Number('licencas');
+        $expiracao           = new Date('expiracao');
         $obs            = new Text('obs');   
         
         // carrega os servidores do banco de dados
@@ -76,35 +79,43 @@ class AntivirusForm extends Page
             $items[$obj_servidor->nome] = $obj_servidor->nome;
         }
 
+        $items[' - '] = ' - ';
+
         Transaction::close();
         
+        $id->setValue($coop);
         $cod_coop->setValue($coop);
 
-        $dc_primario->addItems($items);
-        $dc_secundario->addItems($items);
-        $dns_primario->addItems($items);
-        $dns_secundario->addItems($items);
-        $wsus->addItems($items);
-
-        $abrangencia->addItems(array(   "Matriz e PAs" => "Matriz e PAs",
-                                        "Matriz expandindo aos PAs" => "Matriz expandindo aos PAs",
-                                        "Apenas Matriz" => "Apenas Matriz"));
+        $servidor->addItems($items);
+        $produto->addItems(array(   "Trend - Smart Protection" => "Trend - Smart Protection",
+                                    "Trend - Enterprise Protection" => "Trend - Enterprise Protection",
+                                    "Outro produto" => "Outro produto"));
+        $tipo_console->addItems(array(  "OnPremisse" => "OnPremisse",
+                                        "Cloud" => "Cloud"));
+        
+        $outro_produto->placeholder = "Informe o nome do produto caso não esteja listado acima";
+        $patch->placeholder = "Informe a versão do ultimo patch aplicado";
+        $url->placeholder = "Informe o endereco de acesso ao console";
         
         // define alguns atributos para os campos do formulário
         $id->setEditable(FALSE);
         $cod_coop->setEditable(FALSE);
         
-        $this->form->addField('ID',    $id, '30%');
+        $action = new Action(array('CooperativaServicesForm', 'onReload'));
+        
+        $this->form->addField('',    $id, '30%');
         $this->form->addField('Cooperativa',   $cod_coop, '70%');
-        $this->form->addField('Nome do Domínio', $dominio, '70%');
-        $this->form->addField('Abrangência',   $abrangencia, '70%');
-        $this->form->addField('DC Primário',   $dc_primario, '70%');
-        $this->form->addField('DC Secundário',   $dc_secundario, '70%');
-        $this->form->addField('DNS Primário',   $dns_primario, '70%');
-        $this->form->addField('DNS Secundário',   $dns_secundario, '70%');
-        $this->form->addField('Servidor WSUS',   $wsus, '70%');
+        $this->form->addField('Servidor do Console', $servidor, '70%');
+        $this->form->addField('Produto',   $produto, '70%');
+        $this->form->addField('Outro produto',   $outro_produto, '70%');
+        $this->form->addField('Tipo de Console',   $tipo_console, '70%');
+        $this->form->addField('Patch de seguranca',   $patch, '70%');
+        $this->form->addField('Endereco de acesso',   $url, '70%');
+        $this->form->addField('N. de licencas',   $licencas, '70%');
+        $this->form->addField('Expiracão',   $expiracao, '70%');
         $this->form->addField('Observacões',   $obs, '70%');
         $this->form->addAction('Salvar', new Action(array($this, 'onSave')));
+        $this->form->addAction('Retornar', $action);
         
         // adiciona o formulário na página
         $box = new VBox;
@@ -127,13 +138,8 @@ class AntivirusForm extends Page
             
             $class = $this->activeRecord;
             $dados = $this->form->getData();
-            
-            $sistemas = Sistemas::all();
-            $items = array();
-            foreach ($sistemas as $obj_sistema) {
-                $status[$obj_sistema->nome] = $obj_sistema->status;
-            }
-            $dados->so_status = $status[$dados->so];
+
+            $dados->servidor = ($dados->tipo_console == "Cloud") ? ' - ' : $dados->servidor;
             
             $object = new $class; // instancia objeto
             $object->fromArray( (array) $dados); // carrega os dados
