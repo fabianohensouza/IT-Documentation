@@ -4,7 +4,7 @@ namespace Livro\Widgets\Form;
 use Livro\Widgets\Base\Element;
 
 /**
- * classe Entry
+ * classe Number
  * classe para construção de caixas de texto
  * @author Pablo Dall'Oglio
  */

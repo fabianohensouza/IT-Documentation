@@ -10,8 +10,8 @@ use Livro\Widgets\Container\VBox;
 use Livro\Widgets\Form\Hidden;
 use Livro\Widgets\Form\Entry;
 use Livro\Widgets\Form\Email;
+use Livro\Widgets\Form\Number;
 use Livro\Widgets\Form\Date; 
-use Livro\Widgets\Form\Number; 
 use Livro\Widgets\Form\Text;
 use Livro\Widgets\Form\Combo;
 use Livro\Widgets\Form\RadioGroup;
@@ -105,6 +105,7 @@ class ContentfilterForm extends Page
             $object->store(); // armazena o objeto
             
             $dados->id = $object->id;
+            $dados->coop = $object->id;
             $this->form->setData($dados);
             
             Transaction::close(); // finaliza a transação
