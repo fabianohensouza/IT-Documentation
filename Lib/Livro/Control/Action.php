@@ -14,7 +14,8 @@ class Action implements ActionInterface
      * Instancia uma nova ação
      * @param $action = método a ser executado
      */
-    public function __construct(Callable $action)
+    //public function __construct(Callable $action)
+    public function __construct($action)
     {
         $this->action = $action;
     }

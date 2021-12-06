@@ -51,9 +51,12 @@ class AplicacoesFormList extends Page
         // cria os campos do formulário
         $nome = new Entry('$nome');
         
+        $action = new Action(array('AplicacoesForm', 'onReload'));
+        $action->setParameter('id', $coop);
+
         $this->form->addField('Nome',   $nome, '100%');
         $this->form->addAction('Buscar', new Action(array($this, 'onReload')));
-        $this->form->addAction('Cadastrar', new Action(array(new ServidoresForm, 'onEdit')));
+        $this->form->addAction('Cadastrar', $action);
         
         // instancia objeto Datagrid
         $this->datagrid = new DatagridWrapper(new Datagrid);
