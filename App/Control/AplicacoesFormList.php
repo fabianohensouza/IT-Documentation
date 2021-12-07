@@ -9,6 +9,7 @@ use Livro\Widgets\Datagrid\DatagridColumn;
 use Livro\Database\Transaction;
 use Livro\Database\Repository;
 use Livro\Database\Criteria;
+use Livro\Session\Session;
 
 use Livro\Traits\DeleteTrait;
 use Livro\Traits\ReloadTrait;
@@ -40,7 +41,12 @@ class AplicacoesFormList extends Page
     public function __construct()
     {
         parent::__construct();
+
+        // instancia nova seção
+        new Session;
+        
         $coop = (isset($_GET['id']))? $_GET['id'] : NULL;
+        Session::setValue('coop', $coop);
         
         // Define o Active Record
         $this->activeRecord = 'Aplicacoes';

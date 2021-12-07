@@ -14,6 +14,7 @@ use Livro\Widgets\Form\Text;
 use Livro\Widgets\Form\Combo;
 use Livro\Widgets\Form\RadioGroup;
 use Livro\Database\Transaction;
+use Livro\Session\Session;
 
 use Livro\Widgets\Wrapper\DatagridWrapper;
 use Livro\Widgets\Wrapper\FormWrapper;
@@ -44,7 +45,12 @@ class AplicacoesForm extends Page
     public function __construct()
     {
         parent::__construct();
-        $this->coop = (isset($_GET['key']))? $_GET['key'] : NULL;
+
+        // instancia nova seção
+        new Session;
+
+        $this->coop = (isset($_SESSION['coop']))? $_SESSION['coop'] : NULL;
+        $this->coop = (isset($_GET['key']))? $_GET['key'] : $this->coop;
         $this->coop = (isset($_GET['cod_coop']))? $_GET['cod_coop'] : $this->coop;
 
         $this->activeRecord = 'Aplicacoes';
@@ -96,6 +102,9 @@ class AplicacoesForm extends Page
             $id->setValue($_GET['id']);
         }
 
+        $action = new Action(array('AplicacoesFormList', 'onEdit'));
+        $action->setParameter('id', $this->coop);
+
         $this->form->addField('ID',    $id, '30%');
         $this->form->addField('Cooperativa',   $cod_coop, '70%');
         $this->form->addField('Nome', $nome, '70%');
@@ -106,6 +115,7 @@ class AplicacoesForm extends Page
         $this->form->addField('Detalhes da aplicação',   $detalhes, '70%');
         $this->form->addField('Observacões',   $obs, '70%');
         $this->form->addAction('Salvar', new Action(array($this, 'onSave')));
+        $this->form->addAction('Retornar', $action);
         
         // adiciona o formulário na página
         $box = new VBox;
