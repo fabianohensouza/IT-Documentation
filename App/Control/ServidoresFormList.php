@@ -3,6 +3,7 @@ use Livro\Control\Page;
 use Livro\Control\Action;
 use Livro\Widgets\Form\Form;
 use Livro\Widgets\Form\Entry;
+use Livro\Widgets\Form\Combo;
 use Livro\Widgets\Container\VBox;
 use Livro\Widgets\Datagrid\Datagrid;
 use Livro\Widgets\Datagrid\DatagridColumn;
@@ -48,11 +49,25 @@ class ServidoresFormList extends Page
         $this->form->setTitle('Servidores');
         
         // cria os campos do formulário
-        $id = new Entry('id');
+        $cod_coop = new Combo('cod_coop');
+
+        // carrega as cooperativas do banco de dados
+        Transaction::open('db');
+        $cod_coops = Cooperativas::all();
+        $items = array();
+        foreach ($cod_coops as $obj_cooperativa) {
+            $items[$obj_cooperativa->id] = $obj_cooperativa->id;
+        }
+        Transaction::close();
         
-        $this->form->addField('Servidor',   $id, '100%');
+        $cod_coop->addItems($items);
+
+        $action = new Action(array('ServidoresFormList', 'onReload'));
+        
+        $this->form->addField('Cooperativa',   $cod_coop, '40%');
         $this->form->addAction('Buscar', new Action(array($this, 'onReload')));
-        $this->form->addAction('Cadastrar', new Action(array(new ServidoresForm, 'onEdit')));
+        $this->form->addAction('Limpar Busca', $action);
+        $this->form->addAction('Cadastrar Novo', new Action(array(new ServidoresForm, 'onEdit')));
         
         // instancia objeto Datagrid
         $this->datagrid = new DatagridWrapper(new Datagrid);
@@ -95,10 +110,10 @@ class ServidoresFormList extends Page
         $dados = $this->form->getData();
         
         // verifica se o usuário preencheu o formulário
-        if ($dados->id)
+        if ($dados->cod_coop)
         {
             // filtra pela descrição do produto
-            $this->filters[] = ['id', 'like', "%{$dados->id}%", 'and'];
+            $this->filters[] = ['cod_coop', 'like', "%{$dados->cod_coop}%", 'and'];
         }
         
         $this->onReloadTrait();   

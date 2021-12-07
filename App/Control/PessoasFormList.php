@@ -49,10 +49,13 @@ class PessoasFormList extends Page
         
         // cria os campos do formulário
         $nome = new Entry('nome');
+
+        $action = new Action(array('PessoasFormList', 'onReload'));
         
         $this->form->addField('Nome',   $nome, '100%');
         $this->form->addAction('Buscar', new Action(array($this, 'onReload')));
-        $this->form->addAction('Cadastrar', new Action(array(new PessoasForm, 'onEdit')));
+        $this->form->addAction('Limpar Busca', $action);
+        $this->form->addAction('Cadastrar Novo', new Action(array(new PessoasForm, 'onEdit')));
         
         // instancia objeto Datagrid
         $this->datagrid = new DatagridWrapper(new Datagrid);

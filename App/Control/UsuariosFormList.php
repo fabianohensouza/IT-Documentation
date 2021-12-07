@@ -49,19 +49,22 @@ class UsuariosFormList extends Page
         
         // cria os campos do formulário
         $nome = new Entry('nome');
+
+        $action = new Action(array('UsuariosFormList', 'onReload'));
         
         $this->form->addField('Nome',   $nome, '100%');
         $this->form->addAction('Buscar', new Action(array($this, 'onReload')));
-        $this->form->addAction('Cadastrar', new Action(array(new UsuariosForm, 'onEdit')));
+        $this->form->addAction('Limpar Busca', $action);
+        $this->form->addAction('Cadastrar Novo', new Action(array(new UsuariosForm, 'onEdit')));
         
         // instancia objeto Datagrid
         $this->datagrid = new DatagridWrapper(new Datagrid);
         
         // instancia as colunas da Datagrid
         $id   = new DatagridColumn('id',             'ID',    'center',  '5%');
-        $nome= new DatagridColumn('nome', 'Nome', 'center',   '35%');
+        $nome= new DatagridColumn('nome', 'Nome', 'center',   '30%');
         $login  = new DatagridColumn('login','Login','center',   '10%');
-        $email  = new DatagridColumn('email',        'E-mail',    'center',  '20%');
+        $email  = new DatagridColumn('email',        'E-mail',    'center',  '25%');
         $permissao    = new DatagridColumn('permissao',    'Permissao',     'center',  '10%');
         $status    = new DatagridColumn('status',    'Status',     'center',  '10%');
         
@@ -75,6 +78,7 @@ class UsuariosFormList extends Page
         
         $this->datagrid->addAction( 'Editar',  new Action([new UsuariosForm, 'onEdit']), 'id', 'fa fa-edit fa-lg blue');
         $this->datagrid->addAction( 'Excluir', new Action([$this, 'onDelete']),          'id', 'fa fa-trash fa-lg red');
+        $this->datagrid->addAction( 'Excluir', new Action([new SenhaForm, 'onEdit']),          'id', 'fas fa-key fa-lg');
         
         // monta a página através de uma caixa
         $box = new VBox;

@@ -56,11 +56,15 @@ class CooperativasForm extends Page
         
         // carrega os cidades do banco de dados
         Transaction::open('db');
+
         $cidades = Cidades::all();
         $items = array();
         foreach ($cidades as $obj_cidade) {
             $items[$obj_cidade->nome] = $obj_cidade->nome;
         }
+
+        Transaction::close();
+
         $cidade->addItems($items);
         $uar->addItems(array( 1 => "1",
                               2 => "2",
@@ -72,7 +76,7 @@ class CooperativasForm extends Page
                               8 => "8"));
         $ic->addItems(array("Sim" => "Sim", "Nao" => "Nao"));
 
-        Transaction::close();
+        $action = new Action(array('CooperativasFormList', 'onReload'));
         
         $this->form->addField('Código',    $id, '30%');
         $this->form->addField('Nome', $nome, '70%');
@@ -84,6 +88,7 @@ class CooperativasForm extends Page
         $this->form->addField('Rescisão',   $dt_rescisao, '70%');
         $this->form->addField('Observacões',   $obs, '70%');
         $this->form->addAction('Salvar', new Action(array($this, 'onSave')));
+        $this->form->addAction('Retornar', $action);
         
         // adiciona o formulário na página
         parent::add($this->form);

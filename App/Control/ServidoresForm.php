@@ -117,6 +117,8 @@ class ServidoresForm extends Page
         // define alguns atributos para os campos do formulário
         $id->setEditable(FALSE);
         $so_status->setEditable(FALSE);
+
+        $action = new Action(array('ServidoresFormList', 'onReload'));
         
         $this->form->addField('ID',    $id, '30%');
         $this->form->addField('Nome', $nome, '70%');
@@ -137,6 +139,7 @@ class ServidoresForm extends Page
         $this->form->addField('Status de Hardware',   $hardware_status, '70%');
         $this->form->addField('Observacões',   $obs, '70%');
         $this->form->addAction('Salvar', new Action(array($this, 'onSave')));
+        $this->form->addAction('Retornar', $action);
         
         // adiciona o formulário na página
         $box = new VBox;
