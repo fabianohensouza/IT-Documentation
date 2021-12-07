@@ -7,6 +7,8 @@ use Livro\Widgets\Container\VBox;
 use Livro\Widgets\Datagrid\Datagrid;
 use Livro\Widgets\Datagrid\DatagridColumn;
 use Livro\Database\Transaction;
+use Livro\Database\Repository;
+use Livro\Database\Criteria;
 
 use Livro\Traits\DeleteTrait;
 use Livro\Traits\ReloadTrait;
@@ -28,9 +30,9 @@ class AplicacoesFormList extends Page
     private $filters;
     
     use DeleteTrait;
-    use ReloadTrait {
+    /*use ReloadTrait {
         onReload as onReloadTrait;
-    }
+    }*/
     
     /**
      * Construtor da página
@@ -52,36 +54,35 @@ class AplicacoesFormList extends Page
         $nome = new Entry('$nome');
         
         $action = new Action(array('AplicacoesForm', 'onReload'));
-        $action->setParameter('id', $coop);
+        $action->setParameter('cod_coop', $coop);
+        $action2 = new Action(array('CooperativaServicesForm', 'onReload'));
+        $action2->setParameter('cod_coop', $coop);
 
         $this->form->addField('Nome',   $nome, '100%');
         $this->form->addAction('Buscar', new Action(array($this, 'onReload')));
         $this->form->addAction('Cadastrar', $action);
+        $this->form->addAction('Retornar', $action2);
         
         // instancia objeto Datagrid
         $this->datagrid = new DatagridWrapper(new Datagrid);
         
         // instancia as colunas da Datagrid
-        $id   = new DatagridColumn('id', 'ID',    'center',  '3%');
-        $cod_coop   = new DatagridColumn('cod_coop', 'Cooperativa',    'center',  '5%');
-        $nome= new DatagridColumn('nome', 'Nome', 'center',   '20%');
-        $tipo= new DatagridColumn('tipo', 'Tipo', 'center',   '8%');
-        $so  = new DatagridColumn('so', 'Sistema Operacional','center',   '25%');
-        $serial  = new DatagridColumn('serial', 'Serial','center',   '10%');
-        $ip_principal  = new DatagridColumn('ip_principal', 'IP','center',   '15%');
-        $servidor_status  = new DatagridColumn('servidor_status', 'Status',    'center',  '15%');
+        $id                 = new DatagridColumn('id', 'ID',    'center',  '5%');
+        $cod_coop           = new DatagridColumn('cod_coop', 'Cooperativa', 'center',   '10%');
+        $nome               = new DatagridColumn('nome', 'Nome', 'center',   '20%');
+        $desenvolvedor      = new DatagridColumn('desenvolvedor', 'Desenvolvedor', 'center',   '20%');
+        $tipo_hospedagem    = new DatagridColumn('tipo_hospedagem', 'Tipo de hospedagem','center',   '20%');
+        $endereco           = new DatagridColumn('endereco', 'Endereço de acesso','center',   '25%');
         
         // adiciona as colunas à Datagrid
         $this->datagrid->addColumn($id);
         $this->datagrid->addColumn($cod_coop);
         $this->datagrid->addColumn($nome);
-        $this->datagrid->addColumn($tipo);
-        $this->datagrid->addColumn($so);
-        $this->datagrid->addColumn($serial);
-        $this->datagrid->addColumn($ip_principal);
-        $this->datagrid->addColumn($servidor_status);
+        $this->datagrid->addColumn($desenvolvedor);
+        $this->datagrid->addColumn($tipo_hospedagem);
+        $this->datagrid->addColumn($endereco);
 
-        $this->datagrid->addAction( 'Editar',  new Action([new ServidoresForm, 'onEdit']), 'id', 'fa fa-edit fa-lg blue');
+        $this->datagrid->addAction( 'Editar',  new Action([new AplicacoesForm, 'onEdit']), 'id', 'fa fa-edit fa-lg blue', 'cod_coop');
         $this->datagrid->addAction( 'Excluir', new Action([$this, 'onDelete']),          'id', 'fa fa-trash fa-lg red');
         
         // monta a página através de uma caixa
@@ -99,13 +100,42 @@ class AplicacoesFormList extends Page
         $dados = $this->form->getData();
         
         // verifica se o usuário preencheu o formulário
-        if ($dados->id)
+        if (isset($dados->nome))
         {
             // filtra pela descrição do produto
-            $this->filters[] = ['id', 'like', "%{$dados->id}%", 'and'];
+            $this->filters[] = ['nome', 'like', "%{$dados->nome}%", 'and'];
+        }
+
+        try
+        {
+            Transaction::open( $this->connection );
+
+            $repository = new Repository( $this->activeRecord );
+
+            // cria um critério de seleção de dados
+            $criteria = new Criteria;
+            $criteria->add('cod_coop', '=',  $_GET['id']);
+            $criteria->setProperty('order', 'id');
+            $objects = $repository->load($criteria);
+            
+            $this->datagrid->clear();
+            if ($objects)
+            {
+                foreach ($objects as $object)
+                {
+                    // adiciona o objeto na DataGrid
+                    $this->datagrid->addItem($object);
+                }
+            }
+
+            Transaction::close();
+        }
+        catch (Exception $e)
+        {
+            new Message('error', $e->getMessage());
         }
         
-        $this->onReloadTrait();   
+        //$this->onReloadTrait();   
         $this->loaded = true;
     }
     
