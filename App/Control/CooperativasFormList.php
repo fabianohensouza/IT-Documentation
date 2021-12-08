@@ -88,7 +88,7 @@ class CooperativasFormList extends Page
         
         $this->datagrid->addAction( 'Editar',  new Action([new CooperativasForm, 'onEdit']), 'id', 'fa fa-edit fa-lg blue');
         $this->datagrid->addAction( 'Excluir', new Action([$this, 'onDelete']),          'id', 'fa fa-trash fa-lg red');
-        $this->datagrid->addAction( 'Documentação de Infraestrutura', new Action([$this, 'onDelete']),          'id', 'far fa-file-alt fa-lg');
+        $this->datagrid->addAction( 'Documentação de Infraestrutura', new Action([new DocumentacaoReport, '']),          'id', 'far fa-file-alt fa-lg');
         
         // monta a página através de uma caixa
         $box = new VBox;

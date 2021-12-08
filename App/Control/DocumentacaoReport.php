@@ -12,13 +12,10 @@ use Livro\Database\Criteria;
 use Livro\Widgets\Wrapper\FormWrapper;
 use Livro\Widgets\Container\Panel;
 
-use Dompdf\Dompdf;
-use Dompdf\Options;
-
 /**
- * Relatório de contas
+ * Relatório de vendas
  */
-class ContasReport extends Page
+class DocumentacaoReport extends Page
 {
     private $form;   // formulário de entrada
 
@@ -28,30 +25,24 @@ class ContasReport extends Page
     public function __construct()
     {
         parent::__construct();
-
-        $cod_coop = $_REQUEST['id'];
+        $cod_coop = (isset($_REQUEST['id'])) ? $_REQUEST['id'] : '';
 
         Transaction::open('db');
         $coop = Cooperativas::find($cod_coop);
-        $items = array();
-        foreach ($coop as $obj_cooperativa) {
-            $items[$obj_cooperativa->id] = $obj_cooperativa->id;
-        }
         Transaction::close();
         echo '<pre>';print_r($coop);die();
 
         // instancia um formulário
-        $this->form = new FormWrapper(new Form('form_relat_contas'));
-        $this->form->setTitle('Relatório de contas');
+        $this->form = new FormWrapper(new Form('form_relat_vendas'));
+        $this->form->setTitle('Relatório de vendas');
         
         // cria os campos do formulário
         $data_ini = new Date('data_ini');
         $data_fim = new Date('data_fim');
         
-        $this->form->addField('Vencimento Inicial', $data_ini, '50%');
-        $this->form->addField('Vencimento Final', $data_fim, '50%');
+        $this->form->addField('Data Inicial', $data_ini, '50%');
+        $this->form->addField('Data Final', $data_fim, '50%');
         $this->form->addAction('Gerar', new Action(array($this, 'onGera')));
-        $this->form->addAction('PDF', new Action(array($this, 'onGeraPDF')));
         
         parent::add($this->form);
     }
@@ -63,7 +54,7 @@ class ContasReport extends Page
     {
         $loader = new Twig_Loader_Filesystem('App/Resources');
         $twig = new Twig_Environment($loader);
-        $template = $twig->loadTemplate('contas_report.html');
+        $template = $twig->loadTemplate('vendas_report.html');
         
         // obtém os dados do formulário
         $dados = $this->form->getData();
@@ -85,28 +76,38 @@ class ContasReport extends Page
             // inicia transação com o banco 'livro'
             Transaction::open('livro');
 
-            // instancia um repositório da classe Conta
-            $repositorio = new Repository('Conta');
+            // instancia um repositório da classe Venda
+            $repositorio = new Repository('Venda');
 
             // cria um critério de seleção por intervalo de datas
             $criterio = new Criteria;
-            $criterio->setProperty('order', 'dt_vencimento');
+            $criterio->setProperty('order', 'data_venda');
             
             if ($dados->data_ini)
-                $criterio->add('dt_vencimento', '>=', $data_ini);
+                $criterio->add('data_venda', '>=', $data_ini);
             if ($dados->data_fim)
-                $criterio->add('dt_vencimento', '<=', $data_fim);
+                $criterio->add('data_venda', '<=', $data_fim);
             
-            // lê todas contas que satisfazem ao critério
-            $contas = $repositorio->load($criterio);
+            // lê todas vendas que satisfazem ao critério
+            $vendas = $repositorio->load($criterio);
             
-            if ($contas)
+            if ($vendas)
             {
-                foreach ($contas as $conta)
+                foreach ($vendas as $venda)
                 {
-                    $conta_array = $conta->toArray();
-                    $conta_array['nome_cliente'] = $conta->cliente->nome;
-                    $replaces['contas'][] = $conta_array;
+                    $venda_array = $venda->toArray();
+                    $venda_array['nome_cliente'] = $venda->cliente->nome;
+                    $itens = $venda->itens;
+                    if ($itens)
+                    {
+                        foreach ($itens as $item)
+                        {
+                            $item_array = $item->toArray();
+                            $item_array['descricao'] = $item->produto->descricao;
+                            $venda_array['itens'][] = $item_array;
+                        }
+                    }
+                    $replaces['vendas'][] = $venda_array;
                 }
             }
             // finaliza a transação
@@ -119,7 +120,7 @@ class ContasReport extends Page
         }
         $content = $template->render($replaces);
         
-        $title = 'Contas';
+        $title = 'Vendas';
         $title.= (!empty($dados->data_ini)) ? ' de '  . $dados->data_ini : '';
         $title.= (!empty($dados->data_fim)) ? ' até ' . $dados->data_fim : '';
         
@@ -128,38 +129,5 @@ class ContasReport extends Page
         $panel->add($content);
         
         parent::add($panel);
-        
-        return $content;
-    }
-    
-    /**
-     * Gera o relatório em PDF, baseado nos parâmetros do formulário
-     */
-    public function onGeraPDF($param)
-    {
-        // gera o relatório em HTML primeiro
-        $html = $this->onGera($param);
-        
-        $options = new Options();
-        $options->set('dpi', '128');
-
-        // DomPDF converte o HTML para PDF
-        $dompdf = new Dompdf($options);
-        $dompdf->loadHtml($html);
-        $dompdf->setPaper('A4', 'portrait');
-        $dompdf->render();
-        $date = date("YmdHis");
-        
-        // Escreve o arquivo e abre em tela
-        $filename = "tmp/contas_{$date}.pdf";
-        if (is_writable('tmp'))
-        {
-            file_put_contents($filename, $dompdf->output());
-            echo "<script>window.open('{$filename}');</script>";
-        }
-        else
-        {
-            new Message('error', 'Permissão negada em: ' . $filename);
-        }
     }
 }

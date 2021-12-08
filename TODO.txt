@@ -1,0 +1,13 @@
+echo '<pre>';print_r($);die();
+
+
+cooperativas	
+pessoas
+servidores
+ad
+antivirus
+arquivos
+backup
+contentfilter
+domweb
+aplicacoes
