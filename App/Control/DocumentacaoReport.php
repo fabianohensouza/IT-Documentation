@@ -30,7 +30,8 @@ class DocumentacaoReport extends Page
         Transaction::open('db');
         $coop = Cooperativas::find($cod_coop);
         Transaction::close();
-        echo '<pre>';print_r($coop);die();
+        
+        $coop = $coop->toArray();
 
         // instancia um formulário
         $this->form = new FormWrapper(new Form('form_relat_vendas'));
