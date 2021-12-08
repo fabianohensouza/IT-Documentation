@@ -29,17 +29,6 @@ class ContasReport extends Page
     {
         parent::__construct();
 
-        $cod_coop = $_REQUEST['id'];
-
-        Transaction::open('db');
-        $coop = Cooperativas::find($cod_coop);
-        $items = array();
-        foreach ($coop as $obj_cooperativa) {
-            $items[$obj_cooperativa->id] = $obj_cooperativa->id;
-        }
-        Transaction::close();
-        echo '<pre>';print_r($coop);die();
-
         // instancia um formulário
         $this->form = new FormWrapper(new Form('form_relat_contas'));
         $this->form->setTitle('Relatório de contas');
