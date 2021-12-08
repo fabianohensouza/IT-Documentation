@@ -17,7 +17,7 @@ use Livro\Widgets\Container\Panel;
  */
 class DocumentacaoReport extends Page
 {
-    private $form;   // formulário de entrada
+    private $info;
 
     /**
      * método construtor
@@ -27,11 +27,39 @@ class DocumentacaoReport extends Page
         parent::__construct();
         $cod_coop = (isset($_REQUEST['id'])) ? $_REQUEST['id'] : '';
 
+        $this->info = array();
+        $tabelas = array(   "Pessoas" => "pessoas",
+                            "Servidores" => "servidores",
+                            "Ad" => "ad",
+                            "Antivirus" => "antivirus",
+                            "Arquivos" => "arquivos",
+                            "Backup" => "backup",
+                            "Contentfilter" => "contentfilter",
+                            "Domweb" => "domweb",
+                            "Aplicacoes" => "aplicacoes");
+
         Transaction::open('db');
-        $coop = Cooperativas::find($cod_coop);
+        $this->info['coop'] = Cooperativas::find($cod_coop);
+        $this->info['coop'] = $this->info['coop']->toArray();
+
+        foreach($tabelas as $obj => $name)
+        {
+            $criteria = new Criteria; 
+            $criteria->add('cod_coop', '=',  $cod_coop);
+            $info = new Repository($obj);
+            $this->info[$name] = $info->load($criteria);
+
+            foreach($this->info[$name] as $key => $value){
+                $this->info[$name][$key] = $value->toArray();
+            }
+        }
+
         Transaction::close();
         
-        $coop = $coop->toArray();
+        echo '<pre>';
+        print_r($this->info);
+        die();
+        
 
         // instancia um formulário
         $this->form = new FormWrapper(new Form('form_relat_vendas'));
@@ -41,8 +69,8 @@ class DocumentacaoReport extends Page
         $data_ini = new Date('data_ini');
         $data_fim = new Date('data_fim');
         
-        $this->form->addField('Data Inicial', $data_ini, '50%');
-        $this->form->addField('Data Final', $data_fim, '50%');
+        $this->form->addField('Data Inicial', $data_ini, '50 => ');
+        $this->form->addField('Data Final', $data_fim, '50 => ');
         $this->form->addAction('Gerar', new Action(array($this, 'onGera')));
         
         parent::add($this->form);

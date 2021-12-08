@@ -1,7 +1,7 @@
 echo '<pre>';print_r($);die();
 
 
-cooperativas	
+cooperativas
 pessoas
 servidores
 ad
@@ -11,3 +11,14 @@ backup
 contentfilter
 domweb
 aplicacoes
+
+
+"Pessoas"%”pessoas"
+"Servidores"%”servidores"
+"Ad"%”ad"
+"Antivirus"%”antivirus"
+"Arquivos"%”arquivos"
+"Backup"%”backup"
+"Contentfilter"%”contentfilter"
+"Domweb"%”domweb"
+"Aplicacoes"%”aplicacoes"
