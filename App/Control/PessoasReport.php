@@ -40,7 +40,7 @@ class PessoasReport extends Page
         
         // cria um painél para conter o formulário
         $panel = new Panel('Pessoas');
-        $panel->add($content);
+        //$panel->add($content);
         
         parent::add($panel);
     }

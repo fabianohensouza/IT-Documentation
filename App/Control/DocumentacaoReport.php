@@ -17,7 +17,7 @@ use Livro\Widgets\Container\Panel;
  */
 class DocumentacaoReport extends Page
 {
-    private $info;
+    private $replaces;
 
     /**
      * método construtor
@@ -25,138 +25,60 @@ class DocumentacaoReport extends Page
     public function __construct()
     {
         parent::__construct();
-        $cod_coop = (isset($_REQUEST['id'])) ? $_REQUEST['id'] : '';
 
-        $this->info = array();
-        $tabelas = array(   "Pessoas" => "pessoas",
-                            "Servidores" => "servidores",
-                            "Ad" => "ad",
-                            "Antivirus" => "antivirus",
-                            "Arquivos" => "arquivos",
-                            "Backup" => "backup",
-                            "Contentfilter" => "contentfilter",
-                            "Domweb" => "domweb",
-                            "Aplicacoes" => "aplicacoes");
-
-        Transaction::open('db');
-        $this->info['coop'] = Cooperativas::find($cod_coop);
-        $this->info['coop'] = $this->info['coop']->toArray();
-
-        foreach($tabelas as $obj => $name)
-        {
-            $criteria = new Criteria; 
-            $criteria->add('cod_coop', '=',  $cod_coop);
-            $info = new Repository($obj);
-            $this->info[$name] = $info->load($criteria);
-
-            foreach($this->info[$name] as $key => $value){
-                $this->info[$name][$key] = $value->toArray();
-            }
-        }
-
-        Transaction::close();
-        
-        echo '<pre>';
-        print_r($this->info);
-        die();
-        
-
-        // instancia um formulário
-        $this->form = new FormWrapper(new Form('form_relat_vendas'));
-        $this->form->setTitle('Relatório de vendas');
-        
-        // cria os campos do formulário
-        $data_ini = new Date('data_ini');
-        $data_fim = new Date('data_fim');
-        
-        $this->form->addField('Data Inicial', $data_ini, '50 => ');
-        $this->form->addField('Data Final', $data_fim, '50 => ');
-        $this->form->addAction('Gerar', new Action(array($this, 'onGera')));
-        
-        parent::add($this->form);
-    }
-
-    /**
-     * Gera o relatório, baseado nos parâmetros do formulário
-     */
-    public function onGera()
-    {
         $loader = new Twig_Loader_Filesystem('App/Resources');
         $twig = new Twig_Environment($loader);
-        $template = $twig->loadTemplate('vendas_report.html');
-        
-        // obtém os dados do formulário
-        $dados = $this->form->getData();
+        $template = $twig->loadTemplate('doc_infra.html');
 
-        // joga os dados de volta ao formulário
-        $this->form->setData($dados);
-        
-        // lê os campos do formulário, converte para o padrão americano
-        $data_ini = $dados->data_ini;
-        $data_fim = $dados->data_fim;
-        
-        // vetor de parâmetros para o template
-        $replaces = array();
-        $replaces['data_ini'] = $dados->data_ini;
-        $replaces['data_fim'] = $dados->data_fim;
-        
-        try
+
+        if(isset($_REQUEST['id']))
         {
-            // inicia transação com o banco 'livro'
-            Transaction::open('livro');
-
-            // instancia um repositório da classe Venda
-            $repositorio = new Repository('Venda');
-
-            // cria um critério de seleção por intervalo de datas
-            $criterio = new Criteria;
-            $criterio->setProperty('order', 'data_venda');
-            
-            if ($dados->data_ini)
-                $criterio->add('data_venda', '>=', $data_ini);
-            if ($dados->data_fim)
-                $criterio->add('data_venda', '<=', $data_fim);
-            
-            // lê todas vendas que satisfazem ao critério
-            $vendas = $repositorio->load($criterio);
-            
-            if ($vendas)
+            $cod_coop = $_REQUEST['id'];
+            $this->replaces = array();
+            $tabelas = array(   "Pessoas" => "pessoas",
+                                "Servidores" => "servidores",
+                                "Ad" => "ad",
+                                "Antivirus" => "antivirus",
+                                "Arquivos" => "arquivos",
+                                "Backup" => "backup",
+                                "Contentfilter" => "contentfilter",
+                                "Domweb" => "domweb",
+                                "Aplicacoes" => "aplicacoes");
+            try
             {
-                foreach ($vendas as $venda)
+                Transaction::open('db');
+                $this->replaces['coop'] = Cooperativas::find($cod_coop);
+                $this->replaces['coop'] = $this->replaces['coop']->toArray();
+
+                foreach($tabelas as $obj => $name)
                 {
-                    $venda_array = $venda->toArray();
-                    $venda_array['nome_cliente'] = $venda->cliente->nome;
-                    $itens = $venda->itens;
-                    if ($itens)
-                    {
-                        foreach ($itens as $item)
-                        {
-                            $item_array = $item->toArray();
-                            $item_array['descricao'] = $item->produto->descricao;
-                            $venda_array['itens'][] = $item_array;
-                        }
+                    $criteria = new Criteria; 
+                    $criteria->add('cod_coop', '=',  $cod_coop);
+                    $info = new Repository($obj);
+                    $this->replaces[$name] = $info->load($criteria);
+
+                    foreach($this->replaces[$name] as $key => $value){
+                        $this->replaces[$name][$key] = $value->toArray();
                     }
-                    $replaces['vendas'][] = $venda_array;
                 }
+
+                Transaction::close();
             }
-            // finaliza a transação
-            Transaction::close();
+            catch (Exception $e)
+            {
+                new Message('error', $e->getMessage());
+                Transaction::rollback();
+            }
+            
+            //$content = $template->render($this->replaces);
+            
+            // cria um painél para conter o formulário
+            $panel = new Panel("Documentacão de Infraestrutura <br><br> {$this->replaces['coop']['id']} - {$this->replaces['coop']['nome']}");
+            //$panel->add($content);
+            //$panel->add($this->replaces);
+            
+            parent::add($panel);
+            
         }
-        catch (Exception $e)
-        {
-            new Message('error', $e->getMessage());
-            Transaction::rollback();
-        }
-        $content = $template->render($replaces);
-        
-        $title = 'Vendas';
-        $title.= (!empty($dados->data_ini)) ? ' de '  . $dados->data_ini : '';
-        $title.= (!empty($dados->data_fim)) ? ' até ' . $dados->data_fim : '';
-        
-        // cria um painél para conter o formulário
-        $panel = new Panel($title);
-        $panel->add($content);
-        
-        parent::add($panel);
     }
 }
