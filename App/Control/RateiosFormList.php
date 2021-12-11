@@ -19,7 +19,7 @@ use Livro\Widgets\Container\Panel;
 /**
  * Página de produtos
  */
-class RateiosForm extends Page
+class RateiosFormList extends Page
 {
     private $form;
     private $datagrid;
@@ -41,65 +41,51 @@ class RateiosForm extends Page
         parent::__construct();
         
         // Define o Active Record
-        $this->activeRecord = 'Cooperativas';
+        $this->activeRecord = 'Rateios';
         $this->connection   = 'db';
-
-        // carrega as cooperativas do banco de dados
-        Transaction::open('db');
-        $coops = Cooperativas::all();
-        Transaction::close();
-        
-        // instancia objeto Datagrid
-        $this->datagrid = new DatagridWrapper(new Datagrid);
-        
-        // instancia as colunas da Datagrid
-        $id   = new DatagridColumn('id',             'Código',    'center',  '10%');
-        $nome= new DatagridColumn('nome',      'Nome', 'center',   '30%');
-        $cidade  = new DatagridColumn('cidade','Cidade','center',   '30%');
-        $ic  = new DatagridColumn('ic',        'InfraCredis.',    'center',  '15%');
-        $qt_equip    = new DatagridColumn('qt_equip',    'Equipamentos',     'center',  '15%');
-        
-        // adiciona as colunas à Datagrid
-        $this->datagrid->addColumn($id);
-        $this->datagrid->addColumn($nome);
-        $this->datagrid->addColumn($cidade);
-        $this->datagrid->addColumn($ic);
-        $this->datagrid->addColumn($qt_equip);
-
-        echo '<pre>';print_r($coops);die();
         
         // instancia um formulário
-        $this->form = new FormWrapper(new Form('form_busca_cooperativas'));
-        $this->form->setTitle('Cooperativas');
+        $this->form = new FormWrapper(new Form('form_busca_rateios'));
+        $this->form->setTitle('Rateios');
         
         // cria os campos do formulário
-        $id = new Combo('id');
+        $periodo = new Combo('periodo');
+
+        // carrega todos os rateios do banco de dados
+        Transaction::open('db');
+        $rateios = Rateios::all();
+        $items = array();
+        foreach ($rateios as $obj_rateio) {
+            $items[$obj_rateio->periodo] = $obj_rateio->periodo;
+        }
+        Transaction::close();
         
-        //$id->addItems($items);
+        $periodo->addItems($items);
 
         $action = new Action(array('CooperativasFormList', 'onReload'));
         
-        $this->form->addField('Código',   $id, '40%');
+        $this->form->addField('Período',   $periodo, '40%');
         $this->form->addAction('Buscar', new Action(array($this, 'onReload')));
         $this->form->addAction('Limpar Busca', $action);
         $this->form->addAction('Cadastrar Novo', new Action(array(new CooperativasForm, 'onEdit')));
+        //$this->form->addAction('Cadastrar Novo', new Action(array(new RateiosForm, 'onEdit')));
         
         // instancia objeto Datagrid
         $this->datagrid = new DatagridWrapper(new Datagrid);
         
         // instancia as colunas da Datagrid
         $id   = new DatagridColumn('id',             'Código',    'center',  '10%');
-        $nome= new DatagridColumn('nome',      'Nome', 'center',   '30%');
-        $cidade  = new DatagridColumn('cidade','Cidade','center',   '30%');
-        $ic  = new DatagridColumn('ic',        'InfraCredis.',    'center',  '15%');
-        $qt_equip    = new DatagridColumn('qt_equip',    'Equipamentos',     'center',  '15%');
+        $periodo= new DatagridColumn('periodo',      'Período', 'center',   '30%');
+        $valor_ic  = new DatagridColumn('valor_ic','Valor IC','center',   '30%');
+        $valor_total  = new DatagridColumn('valor_total',        'Valor Total.',    'center',  '15%');
+        $equipamentos    = new DatagridColumn('equipamentos',    'Equipamentos',     'center',  '15%');
         
         // adiciona as colunas à Datagrid
         $this->datagrid->addColumn($id);
-        $this->datagrid->addColumn($nome);
-        $this->datagrid->addColumn($cidade);
-        $this->datagrid->addColumn($ic);
-        $this->datagrid->addColumn($qt_equip);
+        $this->datagrid->addColumn($periodo);
+        $this->datagrid->addColumn($valor_ic);
+        $this->datagrid->addColumn($valor_total);
+        $this->datagrid->addColumn($equipamentos);
         
         $this->datagrid->addAction( 'Editar',  new Action([new CooperativasForm, 'onEdit']), 'id', 'fa fa-edit fa-lg blue');
         $this->datagrid->addAction( 'Excluir', new Action([$this, 'onDelete']),          'id', 'fa fa-trash fa-lg red');
@@ -120,10 +106,10 @@ class RateiosForm extends Page
         $dados = $this->form->getData();
         
         // verifica se o usuário preencheu o formulário
-        if ($dados->id)
+        if ($dados->periodo)
         {
             // filtra pela descrição do produto
-            $this->filters[] = ['id', 'like', "%{$dados->id}%", 'and'];
+            $this->filters[] = ['periodo', 'like', "%{$dados->periodo}%", 'and'];
         }
         
         $this->onReloadTrait();   
