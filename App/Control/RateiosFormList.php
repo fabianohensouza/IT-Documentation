@@ -67,8 +67,7 @@ class RateiosFormList extends Page
         $this->form->addField('Período',   $periodo, '40%');
         $this->form->addAction('Buscar', new Action(array($this, 'onReload')));
         $this->form->addAction('Limpar Busca', $action);
-        $this->form->addAction('Cadastrar Novo', new Action(array(new CooperativasForm, 'onEdit')));
-        //$this->form->addAction('Cadastrar Novo', new Action(array(new RateiosForm, 'onEdit')));
+        $this->form->addAction('Cadastrar Novo', new Action(array(new RateiosForm, 'onEdit')));
         
         // instancia objeto Datagrid
         $this->datagrid = new DatagridWrapper(new Datagrid);

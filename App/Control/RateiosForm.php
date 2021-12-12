@@ -2,36 +2,32 @@
 use Livro\Control\Page;
 use Livro\Control\Action;
 use Livro\Widgets\Form\Form;
+use Livro\Widgets\Dialog\Message;
 use Livro\Widgets\Form\Entry;
+use Livro\Widgets\Form\Hidden;
+use Livro\Widgets\Form\Number;
+use Livro\Widgets\Form\Month;
+use Livro\Widgets\Form\Date; 
+use Livro\Widgets\Form\Text;
 use Livro\Widgets\Form\Combo;
-use Livro\Widgets\Container\VBox;
-use Livro\Widgets\Datagrid\Datagrid;
-use Livro\Widgets\Datagrid\DatagridColumn;
+use Livro\Widgets\Form\RadioGroup;
 use Livro\Database\Transaction;
-
-use Livro\Traits\DeleteTrait;
-use Livro\Traits\ReloadTrait;
 
 use Livro\Widgets\Wrapper\DatagridWrapper;
 use Livro\Widgets\Wrapper\FormWrapper;
 use Livro\Widgets\Container\Panel;
 
+use Livro\Traits\SaveTrait;
+use Livro\Traits\EditTrait;
+
 /**
- * Página de produtos
+ * Cadastro de Produtos
  */
 class RateiosForm extends Page
 {
-    private $form;
-    private $datagrid;
-    private $loaded;
+    private $form; // formulário
     private $connection;
     private $activeRecord;
-    private $filters;
-    
-    use DeleteTrait;
-    use ReloadTrait {
-        onReload as onReloadTrait;
-    }
     
     /**
      * Construtor da página
@@ -39,107 +35,161 @@ class RateiosForm extends Page
     public function __construct()
     {
         parent::__construct();
-        
-        // Define o Active Record
-        $this->activeRecord = 'Cooperativas';
-        $this->connection   = 'db';
 
-        // carrega as cooperativas do banco de dados
+        $this->activeRecord = 'Rateios';
+        $this->connection   = 'db';
+        
+        // carrega as Cooperativas do banco de dados
         Transaction::open('db');
-        $coops = Cooperativas::all();
+        $cooperativas = Cooperativas::all();
         Transaction::close();
         
-        // instancia objeto Datagrid
-        $this->datagrid = new DatagridWrapper(new Datagrid);
-        
-        // instancia as colunas da Datagrid
-        $id   = new DatagridColumn('id',             'Código',    'center',  '10%');
-        $nome= new DatagridColumn('nome',      'Nome', 'center',   '30%');
-        $cidade  = new DatagridColumn('cidade','Cidade','center',   '30%');
-        $ic  = new DatagridColumn('ic',        'InfraCredis.',    'center',  '15%');
-        $qt_equip    = new DatagridColumn('qt_equip',    'Equipamentos',     'center',  '15%');
-        
-        // adiciona as colunas à Datagrid
-        $this->datagrid->addColumn($id);
-        $this->datagrid->addColumn($nome);
-        $this->datagrid->addColumn($cidade);
-        $this->datagrid->addColumn($ic);
-        $this->datagrid->addColumn($qt_equip);
-
-        echo '<pre>';print_r($coops);die();
-        
         // instancia um formulário
-        $this->form = new FormWrapper(new Form('form_busca_cooperativas'));
-        $this->form->setTitle('Cooperativas');
+        $this->form = new FormWrapper(new Form('form_rateios'));
+        $this->form->setTitle('Rateios');
         
         // cria os campos do formulário
-        $id = new Combo('id');
+        $id      = new Entry('id');
+        $periodo   = new Month('periodo');
+        $data     = new Entry('data');
+        $valor_ic = new Number('valor_ic');
+        $valor_total = new Number('valor_total');
+        $equipamentos  = new Number('equipamentos');
         
-        //$id->addItems($items);
-
-        $action = new Action(array('CooperativasFormList', 'onReload'));
-        
-        $this->form->addField('Código',   $id, '40%');
-        $this->form->addAction('Buscar', new Action(array($this, 'onReload')));
-        $this->form->addAction('Limpar Busca', $action);
-        $this->form->addAction('Cadastrar Novo', new Action(array(new CooperativasForm, 'onEdit')));
-        
-        // instancia objeto Datagrid
-        $this->datagrid = new DatagridWrapper(new Datagrid);
-        
-        // instancia as colunas da Datagrid
-        $id   = new DatagridColumn('id',             'Código',    'center',  '10%');
-        $nome= new DatagridColumn('nome',      'Nome', 'center',   '30%');
-        $cidade  = new DatagridColumn('cidade','Cidade','center',   '30%');
-        $ic  = new DatagridColumn('ic',        'InfraCredis.',    'center',  '15%');
-        $qt_equip    = new DatagridColumn('qt_equip',    'Equipamentos',     'center',  '15%');
-        
-        // adiciona as colunas à Datagrid
-        $this->datagrid->addColumn($id);
-        $this->datagrid->addColumn($nome);
-        $this->datagrid->addColumn($cidade);
-        $this->datagrid->addColumn($ic);
-        $this->datagrid->addColumn($qt_equip);
-        
-        $this->datagrid->addAction( 'Editar',  new Action([new CooperativasForm, 'onEdit']), 'id', 'fa fa-edit fa-lg blue');
-        $this->datagrid->addAction( 'Excluir', new Action([$this, 'onDelete']),          'id', 'fa fa-trash fa-lg red');
-        $this->datagrid->addAction( 'Documentação de Infraestrutura', new Action([new DocumentacaoReport, '']),          'id', 'far fa-file-alt fa-lg');
-        
-        // monta a página através de uma caixa
-        $box = new VBox;
-        $box->style = 'display:block';
-        $box->add($this->form);
-        $box->add($this->datagrid);
-        
-        parent::add($box);
-    }
-    
-    public function onReload()
-    {
-        // obtém os dados do formulário de buscas
-        $dados = $this->form->getData();
-        
-        // verifica se o usuário preencheu o formulário
-        if ($dados->id)
+        $coop_info = [];
+        foreach($cooperativas as $info)
         {
-            // filtra pela descrição do produto
-            $this->filters[] = ['id', 'like', "%{$dados->id}%", 'and'];
+            $coop_info["ic_{$info->id}"]  = new Hidden("ic[{$info->id}]");
+            $coop_info["equipamentos_{$info->id}"]  = new Hidden("equipamentos[{$info->id}]");
+            $coop_info["minutos_{$info->id}"]  = new Number("minutos[{$info->id}]");
+
+            $coop_info["ic_{$info->id}"]->setValue($info->ic);
+            $coop_info["equipamentos_{$info->id}"]->setValue($info->qt_equip);
+            $coop_info["minutos_{$info->id}"]->setValue(0);
         }
+
+        $id->setEditable(FALSE);
+        $data->setEditable(FALSE);
+        $valor_ic->setEditable(FALSE);
+        $equipamentos->setEditable(FALSE);
+
+        $valor_total->min="0.00";
+        $valor_total->max="10000.00";
+        $valor_total->step="0.01";
+
+        $data->setValue(date("d/m/Y"));
+
+        $action = new Action(array('RateiosFormList', 'onReload'));
         
-        $this->onReloadTrait();   
-        $this->loaded = true;
+        $this->form->addField('ID',    $id, '30%');
+        $this->form->addField('Período', $periodo, '70%');
+        $this->form->addField('Data do cálculo',   $data, '70%');
+        $this->form->addField('Valor IC',   $valor_ic, '70%');
+        $this->form->addField('Valor Total',   $valor_total, '70%');
+        $this->form->addField('Equipamentos',   $equipamentos, '70%');
+
+
+        foreach($cooperativas as $info)
+        {
+            $this->form->addField("",   $coop_info["ic_{$info->id}"], '30%');
+            $this->form->addField("",   $coop_info["equipamentos_{$info->id}"], '30%');
+            $this->form->addField(" {$info->id} - Minutos:",   $coop_info["minutos_{$info->id}"], '10%');
+        }
+
+        $this->form->addAction('Salvar', new Action(array($this, 'onSave')));
+        $this->form->addAction('Retornar', $action);
+        
+        // adiciona o formulário na página
+        parent::add($this->form);
     }
-    
-    /**
-     * Exibe a página
-     */
-    public function show()
+
+    function onSave()
     {
-         // se a listagem ainda não foi carregada
-         if (!$this->loaded)
-         {
-	        $this->onReload();
-         }
-         parent::show();
+        $dados = $_REQUEST;
+        $rateio['qtd_equip'] = $rateio['minutos_total'] = $rateio['minutos_ic'] = $rateio['valor_total'] = 0;
+         
+        foreach($dados['equipamentos'] as $key => $value)
+        {
+            $rateio['minutos_total'] += $dados['minutos'][$key];
+
+            if($dados['ic'][$key] == 'Sim')
+            {
+                $rateio['minutos_ic'] += $dados['minutos'][$key];
+                $rateio['qtd_equip'] += $value;
+            }           
+        }
+
+        $dados['total_equip'] = $rateio['qtd_equip'];
+
+        $rateio['minutos_nao_ic']   = $rateio['minutos_total'] - $rateio['minutos_ic'];        
+        $rateio['valor_minuto']     = $dados['valor_total'] / $rateio['minutos_total'];
+        $rateio['valor_nao_ic']     =  $rateio['valor_minuto'] * $rateio['minutos_nao_ic'];
+        $rateio['valor_ic']         =  $dados['valor_total'] - $rateio['valor_nao_ic'];
+
+        $rateio['valor_minuto_ic']  = ( $rateio['valor_ic'] / 2 ) / $rateio['minutos_total'];
+        $rateio['valor_equip_ic']   = ( $rateio['valor_ic'] / 2 ) / $rateio['qtd_equip'];
+
+        foreach($dados['ic'] as $key => $value)
+        {
+            if($value == 'Sim')
+            {
+                $rateio['ic'][$key]['minutos']      = $dados['minutos'][$key] * $rateio['valor_minuto_ic'];
+                $rateio['ic'][$key]['equipamentos'] = $dados['equipamentos'][$key] * $rateio['valor_equip_ic'];
+                $rateio['ic'][$key]['total']        = $rateio['ic'][$key]['minutos'] + $rateio['ic'][$key]['equipamentos'];
+                $rateio['valor_total']             += $rateio['ic'][$key]['total'];
+            }
+            else
+            {
+                $rateio['nao_ic'][$key]['total'] = $dados['minutos'][$key] * $rateio['minutos_nao_ic'];
+                $rateio['valor_total']          += $rateio['nao_ic'][$key]['total'];
+            }           
+        }
+
+        unset($dados['equipamentos']);
+        unset($dados['ic']);
+        unset($dados['minutos']);
+
+        $dados['rateio'] = serialize($rateio);
+
+        echo '<pre>'; print_r($dados);echo '<hr>'; print_r($rateio);die();
+        try
+        {
+            Transaction::open( $this->connection );
+            
+            $class = $this->activeRecord;
+            $dados = $this->form->getData();
+            
+            
+            $object = new $class; // instancia objeto
+            $object->fromArray( (array) $dados); // carrega os dados
+            $object->store(); // armazena o objeto
+            
+            $dados->id = $object->id;
+            $this->form->setData($dados);
+            
+            Transaction::close(); // finaliza a transação
+            new Message('info', 'Dados armazenados com sucesso');
+            
+        }
+        catch (Exception $e)
+        {
+            new Message('error', $e->getMessage());
+        }
     }
 }
+
+
+
+/*
+        
+<div class="form-group">
+    <label class="col-sm-4 control-label">ID</label>
+    <div class="col-sm-2">
+        <input class="form-control" name="id" type="text" style="width:100%" readonly="1">
+    </div>
+    <div class="col-sm-2">
+        <input class="form-control" name="id" type="text" style="width:100%">
+    </div>
+</div>
+
+*/
