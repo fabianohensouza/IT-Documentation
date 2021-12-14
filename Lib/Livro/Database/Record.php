@@ -263,10 +263,49 @@ abstract class Record implements RecordInterface
      * Retorna todos objetos
      */
     public static function all()
-    {
+    {   
         $classname = get_called_class();
         $rep = new Repository($classname);
         return $rep->load(new Criteria);
+    }
+    
+    /**
+     * Retorna todos objetos
+     */
+    public static function getAll($order = "id")
+    {   
+        $classname = get_called_class();
+        $sql = "SELECT * FROM " . constant($classname.'::TABLENAME');
+        $sql .= ' ORDER BY ' . $order;
+
+        if ($conn = Transaction::get())
+        {
+            // registra mensagem de log
+            Transaction::log($sql);
+            
+            // executa a consulta no banco de dados
+            $result= $conn->query($sql);
+            $results = array();
+            
+            if ($result)
+            {
+                // percorre os resultados da consulta, retornando um objeto
+                while ($row = $result->fetchObject())
+                {
+                    // armazena no array $results;
+                    $results[] = $row;
+                }
+            }
+            return $results;
+        }
+        else
+        {
+            // se não tiver transação, retorna uma exceção
+            throw new Exception('Não há transação ativa!!');
+        }
+
+        //$rep = new Repository($classname);
+        //return $rep->load(new Criteria);
     }
     
     /**

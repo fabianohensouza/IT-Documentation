@@ -52,17 +52,15 @@ class RateiosFormList extends Page
         $periodo = new Combo('periodo');
 
         // carrega todos os rateios do banco de dados
-        Transaction::open('db');
-        $rateios = Rateios::all();
+        $rateios = $this->load();
         $items = array();
         foreach ($rateios as $obj_rateio) {
             $items[$obj_rateio->periodo] = $obj_rateio->periodo;
-        }
-        Transaction::close();
-        
+        }//echo '<pre>';print_r($rateios);print_r($items);die();
+
         $periodo->addItems($items);
 
-        $action = new Action(array('CooperativasFormList', 'onReload'));
+        $action = new Action(array('RateiosFormList', 'onReload'));
         
         $this->form->addField('Período',   $periodo, '40%');
         $this->form->addAction('Buscar', new Action(array($this, 'onReload')));
@@ -73,11 +71,11 @@ class RateiosFormList extends Page
         $this->datagrid = new DatagridWrapper(new Datagrid);
         
         // instancia as colunas da Datagrid
-        $id   = new DatagridColumn('id',             'Código',    'center',  '10%');
+        $id   = new DatagridColumn('id',             'ID',    'center',  '10%');
         $periodo= new DatagridColumn('periodo',      'Período', 'center',   '30%');
         $valor_ic  = new DatagridColumn('valor_ic','Valor IC','center',   '30%');
         $valor_total  = new DatagridColumn('valor_total',        'Valor Total.',    'center',  '15%');
-        $equipamentos    = new DatagridColumn('equipamentos',    'Equipamentos',     'center',  '15%');
+        $equipamentos    = new DatagridColumn('total_equip',    'Equipamentos',     'center',  '15%');
         
         // adiciona as colunas à Datagrid
         $this->datagrid->addColumn($id);
@@ -111,7 +109,49 @@ class RateiosFormList extends Page
             $this->filters[] = ['periodo', 'like', "%{$dados->periodo}%", 'and'];
         }
         
-        $this->onReloadTrait();   
+        try
+        {
+            /*Transaction::open( $this->connection );
+            $repository = new Repository( $this->activeRecord );
+            // cria um critério de seleção de dados
+            $criteria = new Criteria;
+            $criteria->setProperty('order', 'id');
+            
+            if (isset($this->filters))
+            {
+                foreach ($this->filters as $filter)
+                {
+                    $criteria->add($filter[0], $filter[1], $filter[2], $filter[3]);
+                }
+            }
+            
+            // carreta os objetos que satisfazem o critério
+            $objects = $repository->load($criteria);*/
+            if ($dados->periodo)
+            {
+                $objects = $this->load($dados->periodo);                
+            }
+            else
+            {
+                $objects = $this->load();                
+            }
+            
+            $this->datagrid->clear();
+            if ($objects)
+            {
+                foreach ($objects as $object)
+                {   
+                    // adiciona o objeto na DataGrid
+                    $this->datagrid->addItem($object);
+                }
+            }
+            Transaction::close();
+        }
+        catch (Exception $e)
+        {
+            new Message('error', $e->getMessage());
+        }
+           
         $this->loaded = true;
     }
     
@@ -126,5 +166,16 @@ class RateiosFormList extends Page
 	        $this->onReload();
          }
          parent::show();
+    }
+    
+    /**
+     * Exibe a página
+     */
+    public function load()
+    {         
+        Transaction::open('db');
+        $obj = Rateios::getAll();
+        Transaction::close();
+        return $obj;
     }
 }

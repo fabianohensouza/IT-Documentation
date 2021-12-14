@@ -154,16 +154,18 @@ class RateiosForm extends Page
         unset($dados['equipamentos']);
         unset($dados['ic']);
         unset($dados['minutos']);
+        unset($dados['class']);
+        unset($dados['method']);
 
         $dados['rateio'] = serialize($rateio);
 
-        echo '<pre>';print_r($dados);die();
+        //echo '<pre>';var_dump($dados);die();
         try
         {
             Transaction::open( $this->connection );
             
             $class = $this->activeRecord;
-            $dados = $this->form->getData();
+            //$dados = $this->form->getData();
             
             
             $object = new $class; // instancia objeto
@@ -171,7 +173,7 @@ class RateiosForm extends Page
             $object->store(); // armazena o objeto
             
             $dados->id = $object->id;
-            $this->form->setData($dados);
+            //$this->form->setData($dados);
             
             Transaction::close(); // finaliza a transação
             new Message('info', 'Dados armazenados com sucesso');
