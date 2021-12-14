@@ -106,7 +106,6 @@ class RateiosForm extends Page
     function onSave()
     {
         $dados = $_REQUEST;
-        echo '<pre>';print_r($dados);
         $rateio['qtd_equip'] = $rateio['minutos_total'] = $rateio['minutos_ic'] = $rateio['valor_total'] = 0;
          
         foreach($dados['equipamentos'] as $key => $value)
@@ -158,11 +157,7 @@ class RateiosForm extends Page
 
         $dados['rateio'] = serialize($rateio);
 
-        //print_r($dados);
-        echo '<hr>';
-        print_r($rateio);
-        echo '<hr>';
-        print_r($dados);die();
+        echo '<pre>';print_r($dados);die();
         try
         {
             Transaction::open( $this->connection );
