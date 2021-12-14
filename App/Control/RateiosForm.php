@@ -106,6 +106,7 @@ class RateiosForm extends Page
     function onSave()
     {
         $dados = $_REQUEST;
+        echo '<pre>';print_r($dados);
         $rateio['qtd_equip'] = $rateio['minutos_total'] = $rateio['minutos_ic'] = $rateio['valor_total'] = 0;
          
         foreach($dados['equipamentos'] as $key => $value)
@@ -126,24 +127,30 @@ class RateiosForm extends Page
         $rateio['valor_nao_ic']     =  $rateio['valor_minuto'] * $rateio['minutos_nao_ic'];
         $rateio['valor_ic']         =  $dados['valor_total'] - $rateio['valor_nao_ic'];
 
-        $rateio['valor_minuto_ic']  = ( $rateio['valor_ic'] / 2 ) / $rateio['minutos_total'];
+        $rateio['valor_minuto_ic']  = ( $rateio['valor_ic'] / 2 ) / $rateio['minutos_ic'];
         $rateio['valor_equip_ic']   = ( $rateio['valor_ic'] / 2 ) / $rateio['qtd_equip'];
 
         foreach($dados['ic'] as $key => $value)
         {
             if($value == 'Sim')
             {
-                $rateio['ic'][$key]['minutos']      = $dados['minutos'][$key] * $rateio['valor_minuto_ic'];
-                $rateio['ic'][$key]['equipamentos'] = $dados['equipamentos'][$key] * $rateio['valor_equip_ic'];
-                $rateio['ic'][$key]['total']        = $rateio['ic'][$key]['minutos'] + $rateio['ic'][$key]['equipamentos'];
-                $rateio['valor_total']             += $rateio['ic'][$key]['total'];
+                $rateio['ic'][$key]['minutos']              = $dados['minutos'][$key];
+                $rateio['ic'][$key]['equipamentos']         = $dados['equipamentos'][$key];
+                $rateio['ic'][$key]['valor_minutos']        = $dados['minutos'][$key] * $rateio['valor_minuto_ic'];
+                $rateio['ic'][$key]['valor_equipamentos']   = $dados['equipamentos'][$key] * $rateio['valor_equip_ic'];
+                $rateio['ic'][$key]['valor_coop']           = $rateio['ic'][$key]['valor_minutos'] + $rateio['ic'][$key]['valor_equipamentos'];
+                $rateio['valor_total']                     += $rateio['ic'][$key]['valor_coop'];
             }
             else
-            {
-                $rateio['nao_ic'][$key]['total'] = $dados['minutos'][$key] * $rateio['minutos_nao_ic'];
-                $rateio['valor_total']          += $rateio['nao_ic'][$key]['total'];
+            {   
+                $rateio['nao_ic'][$key]['minutos']  = $dados['minutos'][$key];
+                $rateio['nao_ic'][$key]['total']    = $dados['minutos'][$key] * $rateio['valor_minuto'];
+                $rateio['valor_total']             += $rateio['nao_ic'][$key]['total'];
             }           
         }
+
+        $dados['valor_ic'] = $rateio['valor_ic'];
+        $dados['valor_nao_ic'] = $rateio['valor_nao_ic'];
 
         unset($dados['equipamentos']);
         unset($dados['ic']);
@@ -151,7 +158,11 @@ class RateiosForm extends Page
 
         $dados['rateio'] = serialize($rateio);
 
-        echo '<pre>'; print_r($dados);echo '<hr>'; print_r($rateio);die();
+        //print_r($dados);
+        echo '<hr>';
+        print_r($rateio);
+        echo '<hr>';
+        print_r($dados);die();
         try
         {
             Transaction::open( $this->connection );
