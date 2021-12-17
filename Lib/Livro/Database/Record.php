@@ -50,11 +50,11 @@ abstract class Record implements RecordInterface
         else
         {
             if ($value === NULL)
-            {
+            {   
                 unset($this->data[$prop]);
             }
             else
-            { 
+            {   
                 $this->data[$prop] = $value;
             }
         }

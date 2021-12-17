@@ -68,12 +68,19 @@ final class Repository
             if ($result)
             {
                 // percorre os resultados da consulta, retornando um objeto
-                while ($row = $result->fetchObject($this->activeRecord))
+                //while ($row = $result->fetchObject($this->activeRecord))
+                while ($row = $result->fetchObject())
                 {
                     // armazena no array $results;
                     $results[] = $row;
+                    
+                    echo '<pre>';var_dump($row);echo '<hr>';
+                    foreach($row as $key => $value) {
+                        //$this->activeRecord->$key = $value;
+                        print "$key => $value\n";echo '<hr>';
+                    }
                 }
-            }
+            }var_dump($this->activeRecord);die();
             return $results;
         }
         else
