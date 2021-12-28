@@ -28,6 +28,7 @@ class RateiosForm extends Page
     private $form; // formulário
     private $connection;
     private $activeRecord;
+    private $cooperativas;
     
     /**
      * Construtor da página
@@ -41,7 +42,7 @@ class RateiosForm extends Page
         
         // carrega as Cooperativas do banco de dados
         Transaction::open('db');
-        $cooperativas = Cooperativas::all();
+        $this->cooperativas = Cooperativas::all();
         Transaction::close();
         
         // instancia um formulário
@@ -52,26 +53,23 @@ class RateiosForm extends Page
         $id      = new Entry('id');
         $periodo   = new Month('periodo');
         $data     = new Entry('data');
-        $valor_ic = new Number('valor_ic');
         $valor_total = new Number('valor_total');
-        $equipamentos  = new Number('equipamentos');
+        $valor_ic = new Number('valor_ic');
+        $valor_nao_ic = new Number('valor_nao_ic');
+        $total_equip  = new Number('total_equip');
         
         $coop_info = [];
-        foreach($cooperativas as $info)
+        foreach($this->cooperativas as $info)
         {
-            $coop_info["ic_{$info->id}"]  = new Hidden("ic[{$info->id}]");
-            $coop_info["equipamentos_{$info->id}"]  = new Hidden("equipamentos[{$info->id}]");
-            $coop_info["minutos_{$info->id}"]  = new Number("minutos[{$info->id}]");
-
-            $coop_info["ic_{$info->id}"]->setValue($info->ic);
-            $coop_info["equipamentos_{$info->id}"]->setValue($info->qt_equip);
+            $coop_info["minutos_{$info->id}"]  = new Number("info[{$info->id}][minutos]");
             $coop_info["minutos_{$info->id}"]->setValue(0);
         }
 
         $id->setEditable(FALSE);
         $data->setEditable(FALSE);
         $valor_ic->setEditable(FALSE);
-        $equipamentos->setEditable(FALSE);
+        $valor_nao_ic->setEditable(FALSE);
+        $total_equip->setEditable(FALSE);
 
         $valor_total->min="0.00";
         $valor_total->max="10000.00";
@@ -84,15 +82,14 @@ class RateiosForm extends Page
         $this->form->addField('ID',    $id, '30%');
         $this->form->addField('Período', $periodo, '70%');
         $this->form->addField('Data do cálculo',   $data, '70%');
-        $this->form->addField('Valor IC',   $valor_ic, '70%');
         $this->form->addField('Valor Total',   $valor_total, '70%');
-        $this->form->addField('Equipamentos',   $equipamentos, '70%');
+        $this->form->addField('Valor IC',   $valor_ic, '70%');
+        $this->form->addField('Valor Não IC',   $valor_nao_ic, '70%');
+        $this->form->addField('Equipamentos',   $total_equip, '70%');
 
 
-        foreach($cooperativas as $info)
+        foreach($this->cooperativas as $info)
         {
-            $this->form->addField("",   $coop_info["ic_{$info->id}"], '30%');
-            $this->form->addField("",   $coop_info["equipamentos_{$info->id}"], '30%');
             $this->form->addField(" {$info->id} - Minutos:",   $coop_info["minutos_{$info->id}"], '10%');
         }
 
@@ -105,18 +102,25 @@ class RateiosForm extends Page
 
     function onSave()
     {
-        $dados = $_REQUEST;
+        $dados = $_REQUEST;        
+        
+        foreach ($this->cooperativas as $coop) {
+            $dados['info'][$coop->id]['qt_equip'] = $coop->qt_equip;
+            $dados['info'][$coop->id]['ic'] = $coop->ic;
+
+        }
+        
         $rateio['qtd_equip'] = $rateio['minutos_total'] = $rateio['minutos_ic'] = $rateio['valor_total'] = 0;
          
-        foreach($dados['equipamentos'] as $key => $value)
-        {
-            $rateio['minutos_total'] += $dados['minutos'][$key];
+        foreach($dados['info'] as $key => $value)
+        {   
+            $rateio['minutos_total'] += $value['minutos'];
 
-            if($dados['ic'][$key] == 'Sim')
+            if($value['ic'] == 'Sim')
             {
-                $rateio['minutos_ic'] += $dados['minutos'][$key];
-                $rateio['qtd_equip'] += $value;
-            }           
+                $rateio['minutos_ic'] += $value['minutos'];
+                $rateio['qtd_equip'] += $value['qt_equip'];
+            }         
         }
 
         $dados['total_equip'] = $rateio['qtd_equip'];
@@ -128,53 +132,51 @@ class RateiosForm extends Page
 
         $rateio['valor_minuto_ic']  = ( $rateio['valor_ic'] / 2 ) / $rateio['minutos_ic'];
         $rateio['valor_equip_ic']   = ( $rateio['valor_ic'] / 2 ) / $rateio['qtd_equip'];
+        echo '<pre>';print_r($_REQUEST);
 
-        foreach($dados['ic'] as $key => $value)
+        foreach($dados['info'] as $key => $value)
         {
-            if($value == 'Sim')
+            if($value['ic'] == 'Sim')
             {
-                $rateio['ic'][$key]['minutos']              = $dados['minutos'][$key];
-                $rateio['ic'][$key]['equipamentos']         = $dados['equipamentos'][$key];
-                $rateio['ic'][$key]['valor_minutos']        = $dados['minutos'][$key] * $rateio['valor_minuto_ic'];
-                $rateio['ic'][$key]['valor_equipamentos']   = $dados['equipamentos'][$key] * $rateio['valor_equip_ic'];
+                $rateio['ic'][$key]['minutos']              = $value['minutos'];
+                $rateio['ic'][$key]['equipamentos']         = $value['qt_equip'];
+                $rateio['ic'][$key]['valor_minutos']        = $value['minutos'] * $rateio['valor_minuto_ic'];
+                $rateio['ic'][$key]['valor_equipamentos']   = $value['qt_equip'] * $rateio['valor_equip_ic'];
                 $rateio['ic'][$key]['valor_coop']           = $rateio['ic'][$key]['valor_minutos'] + $rateio['ic'][$key]['valor_equipamentos'];
                 $rateio['valor_total']                     += $rateio['ic'][$key]['valor_coop'];
             }
             else
             {   
-                $rateio['nao_ic'][$key]['minutos']  = $dados['minutos'][$key];
-                $rateio['nao_ic'][$key]['total']    = $dados['minutos'][$key] * $rateio['valor_minuto'];
+                $rateio['nao_ic'][$key]['minutos']  = $value['minutos'];
+                $rateio['nao_ic'][$key]['total']    = $value['minutos'] * $rateio['valor_minuto'];
                 $rateio['valor_total']             += $rateio['nao_ic'][$key]['total'];
             }           
         }
 
         $dados['valor_ic'] = $rateio['valor_ic'];
         $dados['valor_nao_ic'] = $rateio['valor_nao_ic'];
-
-        unset($dados['equipamentos']);
-        unset($dados['ic']);
-        unset($dados['minutos']);
+        
+        unset($dados['info']);
         unset($dados['class']);
         unset($dados['method']);
 
         $dados['id'] = str_replace('-', '', $dados['periodo']);
         $dados['rateio'] = serialize($rateio);
-
         
         try
         {
             Transaction::open( $this->connection );
             
             $class = $this->activeRecord;
-            //$dados = $this->form->getData();
-            echo '<pre>';print_r($dados);echo '<hr>';print_r($this->form->getData());die();
+            echo '<hr>';print_r($this->formatData($dados));
+            die();
             
             $object = new $class; // instancia objeto
             $object->fromArray( (array) $dados); // carrega os dados
             $object->store(); // armazena o objeto
             
             $dados->id = $object->id;
-            //$this->form->setData($dados);
+            //$this->form->setData($this->formatData($dados));
             
             Transaction::close(); // finaliza a transação
             new Message('info', 'Dados armazenados com sucesso');
@@ -184,6 +186,20 @@ class RateiosForm extends Page
         {
             new Message('error', $e->getMessage());
         }
+    }
+
+    function formatData($data)
+    {
+        $unserialized = unserialize($data['rateio']);
+        $info = $unserialized['ic'] + $unserialized['nao_ic'];
+        ksort($info);
+        unset($data['rateio']);
+
+        foreach ($info as $key => $value) {
+            $data['info'][$key]['minutos'] = $value['minutos'];
+        }
+        
+        return $data;
     }
 }
 

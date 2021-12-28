@@ -43,7 +43,7 @@ class RateiosFormList extends Page
         // Define o Active Record
         $this->activeRecord = 'Rateios';
         $this->connection   = 'db';
-        error_reporting(0);
+        //error_reporting(0);
         
         // instancia um formulário
         $this->form = new FormWrapper(new Form('form_busca_rateios'));
