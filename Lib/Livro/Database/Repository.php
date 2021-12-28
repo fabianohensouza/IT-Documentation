@@ -74,14 +74,14 @@ final class Repository
                     // armazena no array $results;
                     $results[] = $row;
                     
-                    echo '<pre>';var_dump($row);echo '<hr>';
+                    /*echo '<pre>';var_dump($row);echo '<hr>';
                     foreach($row as $key => $value) {
                         //$this->activeRecord->__set($key, $value);
                         var_dump(get_class_methods($this->activeRecord));
                         print "$key => $value\n";echo '<hr>';
-                    }
+                    }*/
                 }
-            }var_dump($this->activeRecord);die();
+            }//var_dump($this->activeRecord);die();
             return $results;
         }
         else
