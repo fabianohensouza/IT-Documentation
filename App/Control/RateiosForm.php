@@ -157,16 +157,17 @@ class RateiosForm extends Page
         unset($dados['class']);
         unset($dados['method']);
 
+        $dados['id'] = str_replace('-', '', $dados['periodo']);
         $dados['rateio'] = serialize($rateio);
 
-        //echo '<pre>';var_dump($dados);die();
+        
         try
         {
             Transaction::open( $this->connection );
             
             $class = $this->activeRecord;
             //$dados = $this->form->getData();
-            
+            echo '<pre>';print_r($dados);echo '<hr>';print_r($this->form->getData());die();
             
             $object = new $class; // instancia objeto
             $object->fromArray( (array) $dados); // carrega os dados
